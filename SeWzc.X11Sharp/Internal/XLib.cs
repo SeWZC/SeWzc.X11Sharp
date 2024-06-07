@@ -14,7 +14,7 @@ internal static unsafe partial class XLib
     public static partial XDisplay* XOpenDisplay(string? displayName);
 
     [LibraryImport(libX11)]
-    public static partial int XCloseDisplay(in XDisplay display);
+    public static partial int XCloseDisplay(XDisplay* display);
 
     // [LibraryImport(libX11)]
     // public static extern IntPtr XCreateWindow(in XDisplay display, IntPtr parent, int x, int y, int width, int height,

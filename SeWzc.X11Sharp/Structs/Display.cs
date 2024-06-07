@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using SeWzc.X11Sharp.Internal;
 
 namespace SeWzc.X11Sharp.Structs;
@@ -7,12 +6,15 @@ namespace SeWzc.X11Sharp.Structs;
 /// <summary>
 /// 与 X 服务器的连接。
 /// </summary>
-public readonly unsafe ref struct Display
+public unsafe class Display : IDisposable
 {
-    private readonly ref XDisplay _display;
+    private readonly XDisplay* _display;
 
-    private Display(ref XDisplay display)
+    private Display(XDisplay* display)
     {
+        if (display is null)
+            throw new ArgumentNullException(nameof(display));
+
         _display = display;
     }
 
@@ -24,14 +26,36 @@ public readonly unsafe ref struct Display
     [MustDisposeResource]
     public static Display Open(string? displayName = null)
     {
-        return new Display(ref Unsafe.AsRef<XDisplay>(XLib.XOpenDisplay(displayName)));
+        return new Display(XLib.XOpenDisplay(displayName));
     }
+
+    #region 运算符重载
+
+    public static explicit operator IntPtr(Display display)
+    {
+        return new IntPtr(display._display);
+    }
+
+    public static explicit operator Display(IntPtr display)
+    {
+        return new Display((XDisplay*)display.ToPointer());
+    }
+
+    #endregion
+
+    #region 处置模式
+
+    private bool _disposed;
 
     /// <summary>
     /// 关闭连接。和 <see cref="Dispose" /> 等价。
     /// </summary>
-    public void Close()
+    private void Close()
     {
+        if (_disposed)
+            return;
+
+        _disposed = true;
         _ = XLib.XCloseDisplay(_display);
     }
 
@@ -40,16 +64,14 @@ public readonly unsafe ref struct Display
     /// </summary>
     public void Dispose()
     {
-        _ = XLib.XCloseDisplay(_display);
+        Close();
+        GC.SuppressFinalize(this);
     }
 
-    public static explicit operator IntPtr(Display display)
+    ~Display()
     {
-        return new IntPtr(Unsafe.AsPointer(ref display._display));
+        Close();
     }
 
-    public static explicit operator Display(IntPtr display)
-    {
-        return new Display(ref Unsafe.AsRef<XDisplay>(display.ToPointer()));
-    }
+    #endregion
 }
