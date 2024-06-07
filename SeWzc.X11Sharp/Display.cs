@@ -1,7 +1,7 @@
 ﻿using JetBrains.Annotations;
 using SeWzc.X11Sharp.Internal;
 
-namespace SeWzc.X11Sharp.Structs;
+namespace SeWzc.X11Sharp;
 
 /// <summary>
 /// 与 X 服务器的连接。

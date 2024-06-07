@@ -1,5 +1,4 @@
 ﻿using JetBrains.Annotations;
-using SeWzc.X11Sharp.Structs;
 
 namespace SeWzc.X11Sharp;
 
