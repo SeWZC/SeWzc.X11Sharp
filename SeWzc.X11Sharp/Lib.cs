@@ -4,16 +4,21 @@ namespace SeWzc.X11Sharp;
 
 public static class Lib
 {
-    /// <summary>
-    /// 连接到 X 服务器。
-    /// </summary>
-    /// <param name="displayName">显示器名称。如果为 <see langword="null" />，则默认为 DISPLAY 环境变量。</param>
-    /// <returns></returns>
+    /// <inheritdoc cref="Display.Open" />
     /// <seealso cref="Display.Open" />
     /// <seealso href="https://www.x.org/releases/current/doc/libX11/libX11/libX11.html#XOpenDisplay" />
     [MustDisposeResource]
     public static Display OpenDisplay(string? displayName = null)
     {
         return Display.Open(displayName);
+    }
+
+    /// <inheritdoc cref="Window.Create" />
+    /// <seealso cref="Window.Create" />
+    /// <seealso href="https://www.x.org/releases/current/doc/libX11/libX11/libX11.html#XOpenDisplay" />
+    public static Window CreateWindow(Display display, Window parent, Point location, Size size, uint borderWidth, int depth,
+        WindowClasses windowClass = WindowClasses.CopyFromParent, SetWindowAttributes? attributes = null)
+    {
+        return Window.Create(display, parent, location, size, borderWidth, depth, windowClass, attributes);
     }
 }

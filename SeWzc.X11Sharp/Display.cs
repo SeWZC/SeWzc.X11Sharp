@@ -6,16 +6,16 @@ namespace SeWzc.X11Sharp;
 /// <summary>
 /// 与 X 服务器的连接。
 /// </summary>
-public unsafe class Display : IDisposable
+public sealed class Display : IDisposable
 {
-    private readonly XDisplay* _display;
+    internal readonly DisplayPtr XDisplay;
 
-    private Display(XDisplay* display)
+    private Display(DisplayPtr xDisplay)
     {
-        if (display is null)
-            throw new ArgumentNullException(nameof(display));
+        if (xDisplay == default)
+            throw new ArgumentNullException(nameof(xDisplay));
 
-        _display = display;
+        XDisplay = xDisplay;
     }
 
     /// <summary>
@@ -26,19 +26,22 @@ public unsafe class Display : IDisposable
     [MustDisposeResource]
     public static Display Open(string? displayName = null)
     {
-        return new Display(XLib.XOpenDisplay(displayName));
+        var display = XLib.XOpenDisplay(displayName);
+        if (display == default)
+            throw new InvalidOperationException("连接到 X 服务器失败。");
+        return new Display(display);
     }
 
     #region 运算符重载
 
-    public static explicit operator IntPtr(Display display)
+    public static explicit operator nint(Display display)
     {
-        return new IntPtr(display._display);
+        return display.XDisplay.Ptr;
     }
 
-    public static explicit operator Display(IntPtr display)
+    public static explicit operator Display(nint display)
     {
-        return new Display((XDisplay*)display.ToPointer());
+        return new Display(new DisplayPtr(display));
     }
 
     #endregion
@@ -56,7 +59,7 @@ public unsafe class Display : IDisposable
             return;
 
         _disposed = true;
-        _ = XLib.XCloseDisplay(_display);
+        _ = XLib.XCloseDisplay(XDisplay);
     }
 
     /// <summary>
