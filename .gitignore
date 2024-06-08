@@ -1,7 +1,5 @@
 bin/
 obj/
-/packages/
-riderModule.iml
-/_ReSharper.Caches/
-/.vs/SeWzc.X11Sharp
 *.user
+.vs
+.idea
