@@ -1,13 +1,14 @@
 ﻿using SeWzc.X11Sharp.Internal;
+using SeWzc.X11Sharp.Structs;
 
 namespace SeWzc.X11Sharp;
 
-public sealed unsafe class Window : IDisposable
+public sealed class Window : IDisposable
 {
     private readonly Display _display;
-    private readonly InternalWindow _window;
+    private readonly WindowHandle _window;
 
-    private Window(Display display, InternalWindow window)
+    internal Window(Display display, WindowHandle window)
     {
         _display = display;
         _window = window;
@@ -28,18 +29,21 @@ public sealed unsafe class Window : IDisposable
     public static Window Create(Display display, Window parent, Point location, Size size, uint borderWidth, int depth,
         WindowClasses windowClass = WindowClasses.CopyFromParent, SetWindowAttributes? attributes = null)
     {
-        var valueMask = attributes?.GetValueMask() ?? 0;
-        var windowAttributes = attributes?.ToXSetWindowAttributes() ?? default;
-        var window = XLib.XCreateWindow(display.XDisplay, parent._window,
-            location.X, location.Y,
-            size.Width, size.Height,
-            borderWidth,
-            depth,
-            windowClass,
-            null, // 暂未实现
-            valueMask,
-            &windowAttributes);
-        return new Window(display, window);
+        unsafe
+        {
+            var valueMask = attributes?.GetValueMask() ?? 0;
+            var windowAttributes = attributes?.ToXSetWindowAttributes() ?? default;
+            var window = XLib.XCreateWindow(display.XDisplay, parent._window,
+                location.X, location.Y,
+                size.Width, size.Height,
+                borderWidth,
+                depth,
+                windowClass,
+                null, // 暂未实现
+                valueMask,
+                &windowAttributes);
+            return new Window(display, window);
+        }
     }
 
     public void Dispose()

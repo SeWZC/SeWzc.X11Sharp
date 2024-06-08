@@ -1,4 +1,5 @@
 ﻿using JetBrains.Annotations;
+using SeWzc.X11Sharp.Structs;
 
 namespace SeWzc.X11Sharp;
 
@@ -6,7 +7,6 @@ public static class Lib
 {
     /// <inheritdoc cref="Display.Open" />
     /// <seealso cref="Display.Open" />
-    /// <seealso href="https://www.x.org/releases/current/doc/libX11/libX11/libX11.html#XOpenDisplay" />
     [MustDisposeResource]
     public static Display OpenDisplay(string? displayName = null)
     {
@@ -15,7 +15,6 @@ public static class Lib
 
     /// <inheritdoc cref="Window.Create" />
     /// <seealso cref="Window.Create" />
-    /// <seealso href="https://www.x.org/releases/current/doc/libX11/libX11/libX11.html#XOpenDisplay" />
     public static Window CreateWindow(Display display, Window parent, Point location, Size size, uint borderWidth, int depth,
         WindowClasses windowClass = WindowClasses.CopyFromParent, SetWindowAttributes? attributes = null)
     {

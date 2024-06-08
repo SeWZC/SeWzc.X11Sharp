@@ -19,13 +19,13 @@ internal interface IXid<T> where T : unmanaged, IXid<T>
     }
 }
 
-internal readonly record struct InternalWindow(nint Handle) : IXid<InternalWindow>;
+internal readonly record struct WindowHandle(nint Handle) : IXid<WindowHandle>;
 
-internal readonly record struct InternalPixmap(nint Handle) : IXid<InternalWindow>;
+internal readonly record struct PixmapHandle(nint Handle) : IXid<WindowHandle>;
 
-internal readonly record struct InternalColormap(nint Handle) : IXid<InternalWindow>;
+internal readonly record struct ColormapHandle(nint Handle) : IXid<WindowHandle>;
 
-internal readonly record struct InternalCursor(nint Handle) : IXid<InternalWindow>;
+internal readonly record struct CursorHandle(nint Handle) : IXid<WindowHandle>;
 
 #endregion
 
@@ -40,9 +40,9 @@ internal readonly struct XVisual
 [StructLayout(LayoutKind.Sequential)]
 internal struct XSetWindowAttributes
 {
-    internal InternalPixmap background_pixmap;
+    internal PixmapHandle background_pixmap;
     internal nuint background_pixel;
-    internal InternalPixmap border_pixmap;
+    internal PixmapHandle border_pixmap;
     internal nuint border_pixel;
     internal Gravity bit_gravity;
     internal Gravity win_gravity;
@@ -53,6 +53,6 @@ internal struct XSetWindowAttributes
     internal long event_mask;
     internal long do_not_propagate_mask;
     internal bool override_redirect;
-    internal InternalColormap colormap;
-    internal InternalCursor cursor;
+    internal ColormapHandle colormap;
+    internal CursorHandle cursor;
 }

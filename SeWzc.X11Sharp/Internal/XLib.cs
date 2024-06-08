@@ -1,11 +1,16 @@
 ﻿using System.Runtime.InteropServices;
+using SeWzc.X11Sharp.Structs;
+
+// ReSharper disable UnusedMember.Local
+// ReSharper disable InconsistentNaming
 
 namespace SeWzc.X11Sharp.Internal;
 
-// ReSharper disable InconsistentNaming
 internal static unsafe partial class XLib
 {
     private const string libX11 = "libX11.so.6";
+
+    // ReSharper disable once IdentifierTypo
     private const string libX11Randr = "libXrandr.so.2";
     private const string libX11Ext = "libXext.so.6";
     private const string libXInput = "libXi.so.6";
@@ -18,13 +23,19 @@ internal static unsafe partial class XLib
     public static partial int XCloseDisplay(DisplayPtr display);
 
     [LibraryImport(libX11)]
-    public static partial nuint XWhitePixel(DisplayPtr display, int screen_number);
+    public static partial Pixel XWhitePixel(DisplayPtr display, int screen_number);
 
     [LibraryImport(libX11)]
-    public static partial nuint XBlackPixel(DisplayPtr display, int screen_number);
+    public static partial Pixel XBlackPixel(DisplayPtr display, int screen_number);
 
     [LibraryImport(libX11)]
-    public static partial InternalWindow XCreateWindow(DisplayPtr display, InternalWindow parent,
+    public static partial int XConnectionNumber(DisplayPtr display);
+
+    [LibraryImport(libX11)]
+    public static partial ColormapHandle XDefaultColormap(DisplayPtr display, int screen_number);
+
+    [LibraryImport(libX11)]
+    public static partial WindowHandle XCreateWindow(DisplayPtr display, WindowHandle parent,
         int x, int y,
         uint width, uint height,
         uint border_width,
@@ -35,5 +46,8 @@ internal static unsafe partial class XLib
         XSetWindowAttributes* attributes);
 
     [LibraryImport(libX11)]
-    public static partial int XDestroyWindow(DisplayPtr display, InternalWindow window);
+    public static partial int XDestroyWindow(DisplayPtr display, WindowHandle window);
+
+    [LibraryImport(libX11)]
+    public static partial WindowHandle XDefaultRootWindow(DisplayPtr display);
 }
