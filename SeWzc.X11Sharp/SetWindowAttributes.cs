@@ -4,6 +4,7 @@ namespace SeWzc.X11Sharp;
 
 public sealed class SetWindowAttributes
 {
+    //
     public Pixmap? BackgroundPixmap {get; set;}
     public nuint? BackgroundPixel {get; set;}
     public Pixmap? BorderPixmap {get; set;}

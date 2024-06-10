@@ -37,7 +37,25 @@ public sealed class Window
             windowClass,
             null, // TODO 暂未实现
             valueMask,
-            in windowAttributes);
+            &windowAttributes);
         return new Window(window);
+    }
+
+    /// <summary>
+    /// 销毁窗口。
+    /// </summary>
+    /// <param name="display">与 X 服务的连接。</param>
+    public void Destroy(Display display)
+    {
+        _ = XLib.XDestroyWindow(display.XDisplay, _window);
+    }
+
+    /// <summary>
+    /// 映射窗口。
+    /// </summary>
+    /// <param name="display">与 X 服务的连接。</param>
+    public void Map(Display display)
+    {
+        _ = XLib.XMapWindow(display.XDisplay, _window);
     }
 }

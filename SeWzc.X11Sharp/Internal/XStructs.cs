@@ -56,6 +56,8 @@ internal unsafe struct XExtData
 
 internal unsafe delegate void XConnectionWatchProc(DisplayPtr display, XPointer client_data, int fd, bool opening, XPointer* watch_data);
 
+internal readonly record struct XVisualId(nuint Value);
+
 [StructLayout(LayoutKind.Sequential)]
 internal unsafe struct XVisual
 {

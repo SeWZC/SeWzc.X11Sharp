@@ -16,22 +16,6 @@ internal static unsafe partial class XLib
     // private const string libXInput = "libXi.so.6";
     // private const string libXCursor = "libXcursor.so.1";
 
-
-
-    [DllImport(libX11)]
-    public static extern WindowHandle XCreateWindow(DisplayPtr display, WindowHandle parent,
-        int x, int y,
-        uint width, uint height,
-        uint border_width,
-        int depth,
-        WindowClasses @class,
-        XVisual* visual,
-        WindowAttributeValueMask valuemask,
-        in XSetWindowAttributes attributes);
-
-    [LibraryImport(libX11)]
-    public static partial int XDestroyWindow(DisplayPtr display, WindowHandle window);
-
     #region Display Functions
 
     #region Opening the Display
@@ -367,6 +351,90 @@ internal static unsafe partial class XLib
     // Status XInternalConnectionNumbers(Display *display, int ** fd, int * count_return);
     [LibraryImport(libX11)]
     public static partial int XInternalConnectionNumbers(DisplayPtr display, int** fd, out int count_return);
+
+    #endregion
+
+    #endregion
+
+    #region Window Functions
+
+    #region Visual Types
+
+    // TODO 暂未使用
+    // VisualID XVisualIDFromVisual(Visual *visual);
+    [LibraryImport(libX11)]
+    public static partial XVisualId XVisualIDFromVisual(XVisual* visual);
+
+    #endregion
+
+    #region Creating Windows
+
+    // Window XCreateWindow(Display *display, Window parent, int x, int y, unsigned int width, unsigned int height, unsigned int border_width, int depth, unsigned int class, Visual *visual, unsigned long valuemask, XSetWindowAttributes *attributes);
+    [LibraryImport(libX11)]
+    public static partial WindowHandle XCreateWindow(DisplayPtr display, WindowHandle parent,
+        int x, int y,
+        uint width, uint height,
+        uint border_width,
+        int depth,
+        WindowClasses @class,
+        XVisual* visual,
+        WindowAttributeValueMask valuemask,
+        XSetWindowAttributes* attributes);
+
+    // TODO 暂未使用
+    // Window XCreateSimpleWindow(Display *display, Window parent, int x, int y, unsigned int width, unsigned int height, unsigned int border_width, unsigned long border, unsigned long background);
+    [LibraryImport(libX11)]
+    public static partial WindowHandle XCreateSimpleWindow(DisplayPtr display, WindowHandle parent,
+        int x, int y,
+        uint width, uint height,
+        uint border_width,
+        Pixel border,
+        Pixel background);
+
+    #endregion
+
+    #region Destroying Windows
+
+    // XDestroyWindow(Display *display, Window w);
+    [LibraryImport(libX11)]
+    public static partial int XDestroyWindow(DisplayPtr display, WindowHandle window);
+
+    // TODO 暂未使用
+    // XDestroySubwindows(Display *display, Window w);
+    [LibraryImport(libX11)]
+    public static partial int XDestroySubwindows(DisplayPtr display, WindowHandle window);
+
+    #endregion
+
+    #region Mapping Windows
+
+    // XMapWindow(Display *display, Window w);
+    [LibraryImport(libX11)]
+    public static partial int XMapWindow(DisplayPtr display, WindowHandle window);
+
+    // TODO 暂未使用
+    // XMapRaised(Display *display, Window w);
+    [LibraryImport(libX11)]
+    public static partial int XMapRaised(DisplayPtr display, WindowHandle window);
+
+    // TODO 暂未使用
+    // XMapSubwindows(Display *display, Window w);
+    [LibraryImport(libX11)]
+    public static partial int XMapSubwindows(DisplayPtr display, WindowHandle window);
+
+    #endregion
+
+    #region Unmapping Windows
+
+    // TODO 暂未使用
+    // XUnmapWindow(Display *display, Window w);
+    [LibraryImport(libX11)]
+    public static partial int XUnmapWindow(DisplayPtr display, WindowHandle window);
+
+    // TODO 暂未使用
+    // XUnmapSubwindows(Display *display, Window w);
+    [LibraryImport(libX11)]
+    public static partial int XUnmapSubwindows(DisplayPtr display, WindowHandle window);
 
     #endregion
 
