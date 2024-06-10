@@ -2,7 +2,7 @@ using SeWzc.X11Sharp.Internal;
 
 namespace SeWzc.X11Sharp;
 
-public class ColorMap
+public sealed class ColorMap
 {
     internal readonly ColormapHandle Handle;
 
@@ -13,7 +13,7 @@ public class ColorMap
 
     public static explicit operator IntPtr(ColorMap colormap)
     {
-        return colormap.Handle.Handle;
+        return colormap.Handle.Value;
     }
 
     public static explicit operator ColorMap(IntPtr handle)

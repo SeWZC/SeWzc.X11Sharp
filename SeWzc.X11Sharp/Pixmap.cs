@@ -2,7 +2,7 @@ using SeWzc.X11Sharp.Internal;
 
 namespace SeWzc.X11Sharp;
 
-public class Pixmap
+public sealed class Pixmap
 {
     internal readonly PixmapHandle Handle;
 
@@ -13,7 +13,7 @@ public class Pixmap
 
     public static explicit operator IntPtr(Pixmap pixmap)
     {
-        return pixmap.Handle.Handle;
+        return pixmap.Handle.Value;
     }
 
     public static explicit operator Pixmap(IntPtr handle)

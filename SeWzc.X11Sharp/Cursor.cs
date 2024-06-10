@@ -2,7 +2,7 @@ using SeWzc.X11Sharp.Internal;
 
 namespace SeWzc.X11Sharp;
 
-public class Cursor
+public sealed class Cursor
 {
     internal readonly CursorHandle Handle;
 
@@ -13,7 +13,7 @@ public class Cursor
 
     public static explicit operator IntPtr(Cursor cursor)
     {
-        return cursor.Handle.Handle;
+        return cursor.Handle.Value;
     }
 
     public static explicit operator Cursor(IntPtr cursor)

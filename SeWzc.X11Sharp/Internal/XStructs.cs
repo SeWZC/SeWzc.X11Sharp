@@ -2,15 +2,13 @@
 
 namespace SeWzc.X11Sharp.Internal;
 
-#region XID
-
-internal interface IXid<T> where T : unmanaged, IXid<T>
+internal interface IIntPtrRole<T> where T : unmanaged, IIntPtrRole<T>, IEquatable<T>
 {
-    nint Handle { get; }
+    nint Value { get; }
 
     public static virtual implicit operator nint(T xid)
     {
-        return xid.Handle;
+        return xid.Value;
     }
 
     public static virtual unsafe implicit operator T(nint handle)
@@ -19,40 +17,107 @@ internal interface IXid<T> where T : unmanaged, IXid<T>
     }
 }
 
-internal readonly record struct WindowHandle(nint Handle) : IXid<WindowHandle>;
+internal readonly record struct WindowHandle(nint Value) : IIntPtrRole<WindowHandle>;
 
-internal readonly record struct PixmapHandle(nint Handle) : IXid<WindowHandle>;
+internal readonly record struct PixmapHandle(nint Value) : IIntPtrRole<PixmapHandle>;
 
-internal readonly record struct ColormapHandle(nint Handle) : IXid<WindowHandle>;
+internal readonly record struct ColormapHandle(nint Value) : IIntPtrRole<ColormapHandle>;
 
-internal readonly record struct CursorHandle(nint Handle) : IXid<WindowHandle>;
+internal readonly record struct CursorHandle(nint Value) : IIntPtrRole<CursorHandle>;
 
-#endregion
+internal readonly record struct DisplayPtr(nint Value) : IIntPtrRole<DisplayPtr>
+{
+    public static implicit operator Display(DisplayPtr ptr)
+    {
+        return (Display)ptr.Value;
+    }
 
-internal readonly record struct DisplayPtr(nint Ptr);
+    public static implicit operator DisplayPtr(Display display)
+    {
+        return new DisplayPtr((IntPtr)display);
+    }
+}
+
+internal readonly record struct GCPtr(nint Value) : IIntPtrRole<GCPtr>;
+
+internal unsafe struct XPointer(byte* value)
+{
+    public byte* Value = value;
+}
 
 [StructLayout(LayoutKind.Sequential)]
-internal readonly struct XVisual
+internal unsafe struct XExtData
 {
-    // 暂不实现
+    public int number;
+    public XExtData* next;
+    public delegate*<int> free_private;
+    public XPointer private_data;
+}
+
+internal unsafe delegate void XConnectionWatchProc(DisplayPtr display, XPointer client_data, int fd, bool opening, XPointer* watch_data);
+
+[StructLayout(LayoutKind.Sequential)]
+internal unsafe struct XVisual
+{
+    public XExtData* ext_data;
+    public nuint visualid;
+    public int c_class; // TODO 待确定类型
+    public nuint red_mask;
+    public nuint green_mask;
+    public nuint blue_mask;
+    public int bits_per_rgb;
+    public int map_entries;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+internal unsafe struct XScreen
+{
+    public XExtData* ext_data;
+    public DisplayPtr display;
+    public WindowHandle root;
+    public int width;
+    public int height;
+    public int mwidth;
+    public int mheight;
+    public int ndepths;
+    public int* depths;
+    public int root_depth;
+    public XVisual* root_visual;
+    public GCPtr default_gc;
+    public ColormapHandle cmap;
+    public nint white_pixel;
+    public nint black_pixel;
+    public int max_maps;
+    public int min_maps;
+    public int backing_store;
+    public bool save_unders;
+    public nint root_input_mask;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+internal struct XPixmapFormatValues
+{
+    int depth;
+    int bits_per_pixel;
+    int scanline_pad;
 }
 
 [StructLayout(LayoutKind.Sequential)]
 internal struct XSetWindowAttributes
 {
-    internal PixmapHandle background_pixmap;
-    internal nuint background_pixel;
-    internal PixmapHandle border_pixmap;
-    internal nuint border_pixel;
-    internal Gravity bit_gravity;
-    internal Gravity win_gravity;
-    internal int backing_store;
-    internal nuint backing_planes;
-    internal nuint backing_pixel;
-    internal bool save_under;
-    internal long event_mask;
-    internal long do_not_propagate_mask;
-    internal bool override_redirect;
-    internal ColormapHandle colormap;
-    internal CursorHandle cursor;
+    public PixmapHandle background_pixmap;
+    public nuint background_pixel;
+    public PixmapHandle border_pixmap;
+    public nuint border_pixel;
+    public Gravity bit_gravity;
+    public Gravity win_gravity;
+    public int backing_store;
+    public nuint backing_planes;
+    public nuint backing_pixel;
+    public bool save_under;
+    public long event_mask;
+    public long do_not_propagate_mask;
+    public bool override_redirect;
+    public ColormapHandle colormap;
+    public CursorHandle cursor;
 }

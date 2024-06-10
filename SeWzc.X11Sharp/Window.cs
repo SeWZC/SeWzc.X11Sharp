@@ -3,14 +3,12 @@ using SeWzc.X11Sharp.Structs;
 
 namespace SeWzc.X11Sharp;
 
-public sealed class Window : IDisposable
+public sealed class Window
 {
-    private readonly Display _display;
     private readonly WindowHandle _window;
 
-    internal Window(Display display, WindowHandle window)
+    internal Window(WindowHandle window)
     {
-        _display = display;
         _window = window;
     }
 
@@ -26,28 +24,20 @@ public sealed class Window : IDisposable
     /// <param name="windowClass">窗口的类别。</param>
     /// <param name="attributes">窗口的 Attributes。</param>
     /// <returns></returns>
-    public static Window Create(Display display, Window parent, Point location, Size size, uint borderWidth, int depth,
+    public static unsafe Window Create(Display display, Window parent, Point location, Size size, uint borderWidth, int depth,
         WindowClasses windowClass = WindowClasses.CopyFromParent, SetWindowAttributes? attributes = null)
     {
-        unsafe
-        {
-            var valueMask = attributes?.GetValueMask() ?? 0;
-            var windowAttributes = attributes?.ToXSetWindowAttributes() ?? default;
-            var window = XLib.XCreateWindow(display.XDisplay, parent._window,
-                location.X, location.Y,
-                size.Width, size.Height,
-                borderWidth,
-                depth,
-                windowClass,
-                null, // 暂未实现
-                valueMask,
-                &windowAttributes);
-            return new Window(display, window);
-        }
-    }
-
-    public void Dispose()
-    {
-        XLib.XDestroyWindow(_display.XDisplay, _window);
+        var valueMask = attributes?.GetValueMask() ?? 0;
+        var windowAttributes = attributes?.ToXSetWindowAttributes() ?? default;
+        var window = XLib.XCreateWindow(display.XDisplay, parent._window,
+            location.X, location.Y,
+            size.Width, size.Height,
+            borderWidth,
+            depth,
+            windowClass,
+            null, // TODO 暂未实现
+            valueMask,
+            in windowAttributes);
+        return new Window(window);
     }
 }
