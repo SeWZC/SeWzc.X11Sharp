@@ -11,13 +11,15 @@ public sealed class ColorMap
         Handle = handle;
     }
 
-    public static explicit operator IntPtr(ColorMap colormap)
+    private static WeakReferenceValueDictionary<nint, ColorMap> Cache { get; } = new();
+
+    public static explicit operator nint(ColorMap colormap)
     {
         return colormap.Handle.Value;
     }
 
-    public static explicit operator ColorMap(IntPtr handle)
+    public static explicit operator ColorMap(nint handle)
     {
-        return new ColorMap(new ColormapHandle(handle));
+        return Cache.GetOrAdd(handle, static handle => new ColorMap(new ColormapHandle(handle)));
     }
 }

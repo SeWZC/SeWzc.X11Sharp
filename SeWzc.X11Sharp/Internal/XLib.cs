@@ -399,7 +399,6 @@ internal static unsafe partial class XLib
     [LibraryImport(libX11)]
     public static partial int XDestroyWindow(DisplayPtr display, WindowHandle window);
 
-    // TODO 暂未使用
     // XDestroySubwindows(Display *display, Window w);
     [LibraryImport(libX11)]
     public static partial int XDestroySubwindows(DisplayPtr display, WindowHandle window);
@@ -412,12 +411,10 @@ internal static unsafe partial class XLib
     [LibraryImport(libX11)]
     public static partial int XMapWindow(DisplayPtr display, WindowHandle window);
 
-    // TODO 暂未使用
     // XMapRaised(Display *display, Window w);
     [LibraryImport(libX11)]
     public static partial int XMapRaised(DisplayPtr display, WindowHandle window);
 
-    // TODO 暂未使用
     // XMapSubwindows(Display *display, Window w);
     [LibraryImport(libX11)]
     public static partial int XMapSubwindows(DisplayPtr display, WindowHandle window);
@@ -426,15 +423,110 @@ internal static unsafe partial class XLib
 
     #region Unmapping Windows
 
-    // TODO 暂未使用
     // XUnmapWindow(Display *display, Window w);
     [LibraryImport(libX11)]
     public static partial int XUnmapWindow(DisplayPtr display, WindowHandle window);
 
-    // TODO 暂未使用
     // XUnmapSubwindows(Display *display, Window w);
     [LibraryImport(libX11)]
     public static partial int XUnmapSubwindows(DisplayPtr display, WindowHandle window);
+
+    #endregion
+
+    #region Configuring Windows
+
+    // XConfigureWindow(Display *display, Window w, unsigned int value_mask, XWindowChanges *values);
+    [LibraryImport(libX11)]
+    public static partial int XConfigureWindow(DisplayPtr display, WindowHandle window, WindowChangeMask value_mask, XWindowChanges* values);
+
+    // XMoveWindow(Display *display, Window w, int x, int y);
+    [LibraryImport(libX11)]
+    public static partial int XMoveWindow(DisplayPtr display, WindowHandle window, int x, int y);
+
+    // XResizeWindow(Display *display, Window w, unsigned int width, unsigned int height);
+    [LibraryImport(libX11)]
+    public static partial int XResizeWindow(DisplayPtr display, WindowHandle window, uint width, uint height);
+
+    // XMoveResizeWindow(Display *display, Window w, int x, int y, unsigned int width, unsigned int height);
+    [LibraryImport(libX11)]
+    public static partial int XMoveResizeWindow(DisplayPtr display, WindowHandle window, int x, int y, uint width, uint height);
+    
+    // XSetWindowBorderWidth(Display *display, Window w, unsigned int width);
+    [LibraryImport(libX11)]
+    public static partial int XSetWindowBorderWidth(DisplayPtr display, WindowHandle window, uint width);
+
+    #endregion
+
+    #region Changing Window Stacking Order
+
+    // XRaiseWindow(Display *display, Window w);
+    [LibraryImport(libX11)]
+    public static partial int XRaiseWindow(DisplayPtr display, WindowHandle window);
+
+    // XLowerWindow(Display *display, Window w);
+    [LibraryImport(libX11)]
+    public static partial int XLowerWindow(DisplayPtr display, WindowHandle window);
+
+    // TODO 暂未使用
+    // XCirculateSubwindows(Display *display, Window w, int direction);
+    [LibraryImport(libX11)]
+    public static partial int XCirculateSubwindows(DisplayPtr display, WindowHandle window, CirculationDirection direction);
+
+    // TODO 暂未使用
+    // XCirculateSubwindowsUp(Display *display, Window w);
+    [LibraryImport(libX11)]
+    public static partial int XCirculateSubwindowsUp(DisplayPtr display, WindowHandle window);
+
+    // TODO 暂未使用
+    // XCirculateSubwindowsDown(Display *display, Window w);
+    [LibraryImport(libX11)]
+    public static partial int XCirculateSubwindowsDown(DisplayPtr display, WindowHandle window);
+
+    // TODO 暂未使用
+    // XRestackWindows(Display *display, Window windows[], int nwindows);
+    [LibraryImport(libX11)]
+    public static partial int XRestackWindows(DisplayPtr display, WindowHandle[] windows, int nwindows);
+
+    #endregion
+
+    #region Changing Window Attributes
+
+    // XChangeWindowAttributes(Display *display, Window w, unsigned long valuemask, XSetWindowAttributes *attributes);
+    [LibraryImport(libX11)]
+    public static partial int XChangeWindowAttributes(DisplayPtr display, WindowHandle window, WindowAttributeValueMask valuemask, XSetWindowAttributes* attributes);
+
+    // XSetWindowBackground(Display *display, Window w, unsigned long background_pixel);
+    [LibraryImport(libX11)]
+    public static partial int XSetWindowBackground(DisplayPtr display, WindowHandle window, Pixel background_pixel);
+
+    // TODO 暂未使用
+    // XSetWindowBackgroundPixmap(Display *display, Window w, Pixmap background_pixmap);
+    [LibraryImport(libX11)]
+    public static partial int XSetWindowBackgroundPixmap(DisplayPtr display, WindowHandle window, PixmapHandle background_pixmap);
+
+    // XSetWindowBorder(Display *display, Window w, unsigned long border_pixel);
+    [LibraryImport(libX11)]
+    public static partial int XSetWindowBorder(DisplayPtr display, WindowHandle window, Pixel border_pixel);
+
+    // TODO 暂未使用
+    // XSetWindowBorderPixmap(Display *display, Window w, Pixmap border_pixmap);
+    [LibraryImport(libX11)]
+    public static partial int XSetWindowBorderPixmap(DisplayPtr display, WindowHandle window, PixmapHandle border_pixmap);
+
+    // TODO 暂未使用
+    // XSetWindowColormap(Display *display, Window w, Colormap colormap);
+    [LibraryImport(libX11)]
+    public static partial int XSetWindowColormap(DisplayPtr display, WindowHandle window, ColormapHandle colormap);
+
+    // TODO 暂未使用
+    // XDefineCursor(Display *display, Window w, Cursor cursor);
+    [LibraryImport(libX11)]
+    public static partial int XDefineCursor(DisplayPtr display, WindowHandle window, CursorHandle cursor);
+
+    // TODO 暂未使用
+    // XUndefineCursor(Display *display, Window w);
+    [LibraryImport(libX11)]
+    public static partial int XUndefineCursor(DisplayPtr display, WindowHandle window);
 
     #endregion
 

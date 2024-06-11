@@ -18,6 +18,7 @@ public enum ByteOrder : int
 /// <summary>
 /// 事件掩码。
 /// </summary>
+[Flags]
 public enum EventMask : ulong
 {
     NoEventMask = 0,
@@ -56,23 +57,30 @@ public enum CloseDownMode : int
 }
 
 [Flags]
-public enum WindowAttributeValueMask : ulong
+public enum WindowChangeMask : ulong
 {
-    BackPixmap = 1 << 0,
-    BackPixel = 1 << 1,
-    BorderPixmap = 1 << 2,
-    BorderPixel = 1 << 3,
-    BitGravity = 1 << 4,
-    WinGravity = 1 << 5,
-    BackingStore = 1 << 6,
-    BackingPlanes = 1 << 7,
-    BackingPixel = 1 << 8,
-    OverrideRedirect = 1 << 9,
-    SaveUnder = 1 << 10,
-    EventMask = 1 << 11,
-    DontPropagate = 1 << 12,
-    Colormap = 1 << 13,
-    Cursor = 1 << 14,
+    X = 1 << 0,
+    Y = 1 << 1,
+    Width = 1 << 2,
+    Height = 1 << 3,
+    BorderWidth = 1 << 4,
+    Sibling = 1 << 5,
+    StackMode = 1 << 6,
+}
+
+public enum StackMode
+{
+    Above = 0,
+    Below = 1,
+    TopIf = 2,
+    BottomIf = 3,
+    Opposite = 4,
+}
+
+public enum CirculationDirection
+{
+    RaiseLowest = 0,
+    LowerHighest = 1,
 }
 
 public enum WindowClasses : uint

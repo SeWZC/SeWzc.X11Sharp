@@ -19,7 +19,7 @@ public sealed class Display : IDisposable
         XDisplay = xDisplay;
     }
 
-    private static WeakReferenceValueDictionary<DisplayPtr, Display> Cache { get; } = new();
+    private static WeakReferenceValueDictionary<IntPtr, Display> Cache { get; } = new();
 
     /// <summary>
     /// 获取连接编号。
@@ -211,9 +211,9 @@ public sealed class Display : IDisposable
         return display.XDisplay.Value;
     }
 
-    public static explicit operator Display(nint display)
+    public static explicit operator Display(nint ptr)
     {
-        return Cache.GetOrAdd(new DisplayPtr(display), static key => new Display(key));
+        return Cache.GetOrAdd(ptr, static ptr => new Display(new DisplayPtr(ptr)));
     }
 
     #endregion
@@ -231,7 +231,7 @@ public sealed class Display : IDisposable
             return;
 
         _disposed = true;
-        Cache.Remove(XDisplay);
+        Cache.Remove(XDisplay.Value);
         _ = XLib.XCloseDisplay(XDisplay);
     }
 

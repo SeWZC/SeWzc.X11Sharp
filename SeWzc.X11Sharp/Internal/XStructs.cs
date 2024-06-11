@@ -62,7 +62,7 @@ internal readonly record struct XVisualId(nuint Value);
 internal unsafe struct XVisual
 {
     public XExtData* ext_data;
-    public nuint visualid;
+    public XVisualId visualid;
     public int c_class; // TODO 待确定类型
     public nuint red_mask;
     public nuint green_mask;
@@ -99,9 +99,21 @@ internal unsafe struct XScreen
 [StructLayout(LayoutKind.Sequential)]
 internal struct XPixmapFormatValues
 {
-    int depth;
-    int bits_per_pixel;
-    int scanline_pad;
+    public int depth;
+    public int bits_per_pixel;
+    public int scanline_pad;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+internal struct XWindowChanges
+{
+    public int x;
+    public int y;
+    public int width;
+    public int height;
+    public int border_width;
+    public WindowHandle sibling;
+    public StackMode stack_mode;
 }
 
 [StructLayout(LayoutKind.Sequential)]

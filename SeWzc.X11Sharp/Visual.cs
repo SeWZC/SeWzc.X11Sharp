@@ -11,13 +11,15 @@ public unsafe class Visual
         XVisual = visual;
     }
 
-    public static explicit operator Visual(IntPtr visual)
-    {
-        return new Visual((XVisual*)visual);
-    }
+    private static WeakReferenceValueDictionary<nint, Visual> Cache { get; } = new();
 
     public static explicit operator IntPtr(Visual visual)
     {
         return (IntPtr)visual.XVisual;
+    }
+
+    public static explicit operator Visual(IntPtr ptr)
+    {
+        return Cache.GetOrAdd(ptr, static ptr => new Visual((XVisual*)ptr));
     }
 }

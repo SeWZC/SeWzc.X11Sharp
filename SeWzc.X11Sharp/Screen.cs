@@ -15,6 +15,8 @@ public sealed unsafe class Screen
         _screen = screen;
     }
 
+    private static WeakReferenceValueDictionary<IntPtr, Screen> Cache { get; } = new();
+
     /// <summary>
     /// 获取黑色像素。
     /// </summary>
@@ -98,14 +100,14 @@ public sealed unsafe class Screen
 
     #region 运算符重载
 
-    public static explicit operator Screen(IntPtr screen)
-    {
-        return new Screen((XScreen*)screen);
-    }
-
     public static explicit operator IntPtr(Screen screen)
     {
         return (IntPtr)screen._screen;
+    }
+
+    public static explicit operator Screen(IntPtr ptr)
+    {
+        return Cache.GetOrAdd(ptr, static ptr => new Screen((XScreen*)ptr));
     }
 
     #endregion

@@ -11,13 +11,15 @@ public sealed class Cursor
         Handle = handle;
     }
 
-    public static explicit operator IntPtr(Cursor cursor)
+    private static WeakReferenceValueDictionary<nint, Cursor> Cache { get; } = new();
+
+    public static explicit operator nint(Cursor cursor)
     {
         return cursor.Handle.Value;
     }
 
-    public static explicit operator Cursor(IntPtr cursor)
+    public static explicit operator Cursor(nint handle)
     {
-        return new Cursor(new CursorHandle(cursor));
+        return Cache.GetOrAdd(handle, static handle => new Cursor(new CursorHandle(handle)));
     }
 }

@@ -14,13 +14,15 @@ public sealed class GraphicsContext
         GC = gc;
     }
 
-    public static explicit operator IntPtr(GraphicsContext gc)
+    private static WeakReferenceValueDictionary<nint, GraphicsContext> Cache { get; } = new();
+
+    public static explicit operator nint(GraphicsContext gc)
     {
         return gc.GC.Value;
     }
 
-    public static explicit operator GraphicsContext(IntPtr handle)
+    public static explicit operator GraphicsContext(nint handle)
     {
-        return new GraphicsContext(new GCPtr(handle));
+        return Cache.GetOrAdd(handle, static handle => new GraphicsContext(new GCPtr(handle)));
     }
 }

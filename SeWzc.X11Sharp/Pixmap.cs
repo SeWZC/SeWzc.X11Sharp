@@ -11,13 +11,15 @@ public sealed class Pixmap
         Handle = handle;
     }
 
-    public static explicit operator IntPtr(Pixmap pixmap)
+    private static WeakReferenceValueDictionary<nint, Pixmap> Cache { get; } = new();
+
+    public static explicit operator nint(Pixmap pixmap)
     {
         return pixmap.Handle.Value;
     }
 
-    public static explicit operator Pixmap(IntPtr handle)
+    public static explicit operator Pixmap(nint handle)
     {
-        return new Pixmap(new PixmapHandle(handle));
+        return Cache.GetOrAdd(handle, static handle => new Pixmap(new PixmapHandle(handle)));
     }
 }
