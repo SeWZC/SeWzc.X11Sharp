@@ -1,4 +1,5 @@
-﻿using SeWzc.X11Sharp.Internal;
+﻿using System.Runtime.CompilerServices;
+using SeWzc.X11Sharp.Internal;
 using SeWzc.X11Sharp.Structs;
 
 namespace SeWzc.X11Sharp;
@@ -22,6 +23,7 @@ public sealed class X11Window
     /// </summary>
     /// <param name="display">与 X 服务器的连接。</param>
     /// <returns>Display 与 该窗口的的组合。</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public X11DisplayWindow WithDisplay(X11Display display)
     {
         return new X11DisplayWindow(display, this);

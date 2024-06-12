@@ -1,4 +1,5 @@
-﻿using SeWzc.X11Sharp.Internal;
+﻿using System.Diagnostics.CodeAnalysis;
+using SeWzc.X11Sharp.Internal;
 using SeWzc.X11Sharp.Structs;
 
 namespace SeWzc.X11Sharp;
@@ -170,5 +171,34 @@ public readonly record struct X11DisplayWindow
     public void SetBorder(Pixel pixel)
     {
         _ = XLib.XSetWindowBorder(Display.XDisplay, Window.XWindow, pixel);
+    }
+
+    /// <summary>
+    /// 查询窗口的根窗口、父窗口和子窗口。
+    /// </summary>
+    /// <param name="root">根窗口。</param>
+    /// <param name="parent">父窗口。</param>
+    /// <param name="children">子窗口。</param>
+    /// <returns>是否查询成功。</returns>
+    public unsafe bool QueryTree([NotNullWhen(true)] out X11DisplayWindow? root, [NotNullWhen(true)] out X11DisplayWindow? parent,
+        out X11DisplayWindow[] children)
+    {
+        var success = XLib.XQueryTree(Display.XDisplay, Window.XWindow, out var rootWindow, out var parentWindow, out var childrenPtr, out var childrenCount);
+        if (!success)
+        {
+            root = default;
+            parent = default;
+            children = [];
+            return false;
+        }
+
+        root = new X11Window(rootWindow).WithDisplay(Display);
+        parent = new X11Window(parentWindow).WithDisplay(Display);
+        children = new X11DisplayWindow[childrenCount];
+        for (var i = 0; i < childrenCount; i++)
+            children[i] = new X11Window(childrenPtr[i]).WithDisplay(Display);
+
+        XLib.XFree(childrenPtr);
+        return true;
     }
 }

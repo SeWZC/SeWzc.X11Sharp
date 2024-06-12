@@ -104,3 +104,17 @@ public enum Gravity : uint
     SouthEastGravity = 9,
     StaticGravity = 10,
 }
+
+public enum BackingStore : int
+{
+    NotUseful = 0,
+    WhenMapped = 1,
+    Always = 2,
+}
+
+public enum MapState : int
+{
+    IsUnmapped = 0,
+    IsUnviewable = 1,
+    IsViewable = 2,
+}

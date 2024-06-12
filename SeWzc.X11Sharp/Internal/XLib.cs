@@ -316,7 +316,8 @@ internal static unsafe partial class XLib
     // TODO 暂未使用
     // Status XInitThreads(void);
     [LibraryImport(libX11)]
-    public static partial int XInitThreads();
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static partial bool XInitThreads();
 
     // TODO 暂未使用
     // XLockDisplay(Display *display);
@@ -335,12 +336,14 @@ internal static unsafe partial class XLib
     // TODO 暂未使用
     // Status XAddConnectionWatch(Display *display, XConnectionWatchProc procedure, XPointer client_data);
     [LibraryImport(libX11)]
-    public static partial int XAddConnectionWatch(DisplayPtr display, XConnectionWatchProc procedure, XPointer client_data);
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static partial bool XAddConnectionWatch(DisplayPtr display, XConnectionWatchProc procedure, XPointer client_data);
 
     // TODO 暂未使用
     // Status XRemoveConnectionWatch(Display *display, XConnectionWatchProc procedure, XPointer client_data);
     [LibraryImport(libX11)]
-    public static partial int XRemoveConnectionWatch(DisplayPtr display, XConnectionWatchProc procedure, XPointer client_data);
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static partial bool XRemoveConnectionWatch(DisplayPtr display, XConnectionWatchProc procedure, XPointer client_data);
 
     // TODO 暂未使用
     // void XProcessInternalConnection(Display *display, int fd);
@@ -350,7 +353,8 @@ internal static unsafe partial class XLib
     // TODO 暂未使用
     // Status XInternalConnectionNumbers(Display *display, int ** fd, int * count_return);
     [LibraryImport(libX11)]
-    public static partial int XInternalConnectionNumbers(DisplayPtr display, int** fd, out int count_return);
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static partial bool XInternalConnectionNumbers(DisplayPtr display, int** fd, out int count_return);
 
     #endregion
 
@@ -449,7 +453,7 @@ internal static unsafe partial class XLib
     // XMoveResizeWindow(Display *display, Window w, int x, int y, unsigned int width, unsigned int height);
     [LibraryImport(libX11)]
     public static partial int XMoveResizeWindow(DisplayPtr display, WindowHandle window, int x, int y, uint width, uint height);
-    
+
     // XSetWindowBorderWidth(Display *display, Window w, unsigned int width);
     [LibraryImport(libX11)]
     public static partial int XSetWindowBorderWidth(DisplayPtr display, WindowHandle window, uint width);
@@ -526,6 +530,24 @@ internal static unsafe partial class XLib
     // XUndefineCursor(Display *display, Window w);
     [LibraryImport(libX11)]
     public static partial int XUndefineCursor(DisplayPtr display, WindowHandle window);
+
+    #endregion
+
+    #endregion
+
+    #region Window Information Functions
+
+    #region Obtaining Window Information
+
+    // Status XQueryTree(Display *display, Window w, Window *root_return, Window *parent_return, Window **children_return, unsigned int *nchildren_return);
+    [LibraryImport(libX11)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static partial bool XQueryTree(DisplayPtr display, WindowHandle window, out WindowHandle root_return, out WindowHandle parent_return, out WindowHandle* children_return, out uint nchildren_return);
+
+    // Status XGetWindowAttributes(Display *display, Window w, XWindowAttributes *window_attributes_return);
+    [LibraryImport(libX11)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static partial bool XGetWindowAttributes(DisplayPtr display, WindowHandle window, XWindowAttributes* window_attributes_return);
 
     #endregion
 

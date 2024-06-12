@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using SeWzc.X11Sharp.Structs;
 
 namespace SeWzc.X11Sharp.Internal;
 
@@ -87,11 +88,11 @@ internal unsafe struct XScreen
     public XVisual* root_visual;
     public GCPtr default_gc;
     public ColormapHandle cmap;
-    public nint white_pixel;
-    public nint black_pixel;
+    public Pixel white_pixel;
+    public Pixel black_pixel;
     public int max_maps;
     public int min_maps;
-    public int backing_store;
+    public BackingStore backing_store;
     public bool save_unders;
     public nint root_input_mask;
 }
@@ -117,20 +118,48 @@ internal struct XWindowChanges
 }
 
 [StructLayout(LayoutKind.Sequential)]
+internal struct XWindowAttributes
+{
+    public int x;
+    public int y;
+    public int width;
+    public int height;
+    public int border_width;
+    public int depth;
+    public unsafe XVisual* visual;
+    public WindowHandle root;
+    public WindowClasses c_class;
+    public Gravity bit_gravity;
+    public Gravity win_gravity;
+    public BackingStore backing_store;
+    public nuint backing_planes;
+    public Pixel backing_pixel;
+    public bool save_under;
+    public ColormapHandle colormap;
+    public bool map_installed;
+    public MapState map_state;
+    public EventMask all_event_masks;
+    public EventMask your_event_mask;
+    public EventMask do_not_propagate_mask;
+    public bool override_redirect;
+    public unsafe XScreen* screen;
+}
+
+[StructLayout(LayoutKind.Sequential)]
 internal struct XSetWindowAttributes
 {
     public PixmapHandle background_pixmap;
-    public nuint background_pixel;
+    public Pixel background_pixel;
     public PixmapHandle border_pixmap;
-    public nuint border_pixel;
+    public Pixel border_pixel;
     public Gravity bit_gravity;
     public Gravity win_gravity;
-    public int backing_store;
+    public BackingStore backing_store;
     public nuint backing_planes;
-    public nuint backing_pixel;
+    public Pixel backing_pixel;
     public bool save_under;
-    public long event_mask;
-    public long do_not_propagate_mask;
+    public EventMask event_mask;
+    public EventMask do_not_propagate_mask;
     public bool override_redirect;
     public ColormapHandle colormap;
     public CursorHandle cursor;

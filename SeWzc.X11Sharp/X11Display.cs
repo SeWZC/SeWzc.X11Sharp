@@ -30,7 +30,7 @@ public sealed class X11Display : IDisposable
     /// <summary>
     /// 获取默认的根窗口。
     /// </summary>
-    public X11DisplayWindow DefaultRootWindow => new(this, new X11Window(XLib.XDefaultRootWindow(XDisplay)));
+    public X11DisplayWindow DefaultRootWindow => new X11Window(XLib.XDefaultRootWindow(XDisplay)).WithDisplay(this);
 
     /// <summary>
     /// 获取默认屏幕。
@@ -192,7 +192,7 @@ public sealed class X11Display : IDisposable
     /// <returns>指定屏幕的根窗口。</returns>
     public X11DisplayWindow GetRootWindow(int screenNumber)
     {
-        return new X11DisplayWindow(this, new X11Window(XLib.XRootWindow(XDisplay, screenNumber)));
+        return new X11Window(XLib.XRootWindow(XDisplay, screenNumber)).WithDisplay(this);
     }
 
     /// <summary>
@@ -229,7 +229,7 @@ public sealed class X11Display : IDisposable
             null, // TODO 暂未实现
             valueMask,
             &windowAttributes);
-        return new X11DisplayWindow(this, new X11Window(window));
+        return new X11Window(window).WithDisplay(this);
     }
 
     /// <summary>
@@ -250,7 +250,7 @@ public sealed class X11Display : IDisposable
             borderWidth,
             border,
             background);
-        return new X11DisplayWindow(this, new X11Window(window));
+        return new X11Window(window).WithDisplay(this);
     }
 
     #region 运算符重载
