@@ -7,11 +7,11 @@ namespace SeWzc.X11Sharp;
 /// <summary>
 /// 与 X 服务器的连接。
 /// </summary>
-public sealed class Display : IDisposable
+public sealed class X11Display : IDisposable
 {
     internal readonly DisplayPtr XDisplay;
 
-    private Display(DisplayPtr xDisplay)
+    private X11Display(DisplayPtr xDisplay)
     {
         if (xDisplay == default)
             throw new ArgumentNullException(nameof(xDisplay));
@@ -19,7 +19,7 @@ public sealed class Display : IDisposable
         XDisplay = xDisplay;
     }
 
-    private static WeakReferenceValueDictionary<IntPtr, Display> Cache { get; } = new();
+    private static WeakReferenceValueDictionary<IntPtr, X11Display> Cache { get; } = new();
 
     /// <summary>
     /// 获取连接编号。
@@ -30,12 +30,12 @@ public sealed class Display : IDisposable
     /// <summary>
     /// 获取默认的根窗口。
     /// </summary>
-    public Window DefaultRootWindow => new(XLib.XDefaultRootWindow(XDisplay));
+    public X11Window DefaultRootWindow => new(XLib.XDefaultRootWindow(XDisplay));
 
     /// <summary>
     /// 获取默认屏幕。
     /// </summary>
-    public unsafe Screen DefaultScreen => new(XLib.XDefaultScreenOfDisplay(XDisplay));
+    public unsafe X11Screen DefaultScreen => new(XLib.XDefaultScreenOfDisplay(XDisplay));
 
     /// <summary>
     /// 获取默认屏幕编号。
@@ -64,12 +64,12 @@ public sealed class Display : IDisposable
     /// <param name="displayName">Display 名称。如果为 <see langword="null" />，则默认为 DISPLAY 环境变量。</param>
     /// <returns></returns>
     [MustDisposeResource]
-    public static Display Open(string? displayName = null)
+    public static X11Display Open(string? displayName = null)
     {
         var display = XLib.XOpenDisplay(displayName);
         if (display == default)
             throw new InvalidOperationException("连接到 X 服务器失败。");
-        return new Display(display);
+        return new X11Display(display);
     }
 
     /// <summary>
@@ -103,9 +103,9 @@ public sealed class Display : IDisposable
     /// </summary>
     /// <param name="screenNumber">屏幕的编号。</param>
     /// <returns>指定屏幕上的默认颜色图。</returns>
-    public ColorMap GetDefaultColormap(int screenNumber)
+    public X11ColorMap GetDefaultColormap(int screenNumber)
     {
-        return new ColorMap(XLib.XDefaultColormap(XDisplay, screenNumber));
+        return new X11ColorMap(XLib.XDefaultColormap(XDisplay, screenNumber));
     }
 
     /// <summary>
@@ -140,9 +140,9 @@ public sealed class Display : IDisposable
     /// </summary>
     /// <param name="screenNumber">屏幕的编号。</param>
     /// <returns>指定屏幕上的默认图形上下文。</returns>
-    public GraphicsContext GetDefaultGC(int screenNumber)
+    public X11GC GetDefaultGC(int screenNumber)
     {
-        return new GraphicsContext(XLib.XDefaultGC(XDisplay, screenNumber));
+        return new X11GC(XLib.XDefaultGC(XDisplay, screenNumber));
     }
 
     /// <summary>
@@ -150,9 +150,9 @@ public sealed class Display : IDisposable
     /// </summary>
     /// <param name="screenNumber">屏幕的编号。</param>
     /// <returns>指定编号的屏幕。</returns>
-    public unsafe Screen GetScreen(int screenNumber)
+    public unsafe X11Screen GetScreen(int screenNumber)
     {
-        return new Screen(XLib.XScreenOfDisplay(XDisplay, screenNumber));
+        return new X11Screen(XLib.XScreenOfDisplay(XDisplay, screenNumber));
     }
 
     /// <summary>
@@ -160,9 +160,9 @@ public sealed class Display : IDisposable
     /// </summary>
     /// <param name="screenNumber">屏幕的编号。</param>
     /// <returns>指定屏幕上的默认视觉效果。</returns>
-    public unsafe Visual GetDefaultVisual(int screenNumber)
+    public unsafe X11Visual GetDefaultVisual(int screenNumber)
     {
-        return new Visual(XLib.XDefaultVisual(XDisplay, screenNumber));
+        return new X11Visual(XLib.XDefaultVisual(XDisplay, screenNumber));
     }
 
     /// <summary>
@@ -190,9 +190,9 @@ public sealed class Display : IDisposable
     /// </summary>
     /// <param name="screenNumber">屏幕的编号。</param>
     /// <returns>指定屏幕的根窗口。</returns>
-    public Window GetRootWindow(int screenNumber)
+    public X11Window GetRootWindow(int screenNumber)
     {
-        return new Window(XLib.XRootWindow(XDisplay, screenNumber));
+        return new X11Window(XLib.XRootWindow(XDisplay, screenNumber));
     }
 
     /// <summary>
@@ -206,14 +206,14 @@ public sealed class Display : IDisposable
 
     #region 运算符重载
 
-    public static explicit operator nint(Display display)
+    public static explicit operator nint(X11Display display)
     {
         return display.XDisplay.Value;
     }
 
-    public static explicit operator Display(nint ptr)
+    public static explicit operator X11Display(nint ptr)
     {
-        return Cache.GetOrAdd(ptr, static ptr => new Display(new DisplayPtr(ptr)));
+        return Cache.GetOrAdd(ptr, static ptr => new X11Display(new DisplayPtr(ptr)));
     }
 
     #endregion
@@ -244,7 +244,7 @@ public sealed class Display : IDisposable
         GC.SuppressFinalize(this);
     }
 
-    ~Display()
+    ~X11Display()
     {
         Close();
     }

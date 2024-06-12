@@ -27,12 +27,12 @@ internal readonly record struct CursorHandle(nint Value) : IIntPtrRole<CursorHan
 
 internal readonly record struct DisplayPtr(nint Value) : IIntPtrRole<DisplayPtr>
 {
-    public static implicit operator Display(DisplayPtr ptr)
+    public static implicit operator X11Display(DisplayPtr ptr)
     {
-        return (Display)ptr.Value;
+        return (X11Display)ptr.Value;
     }
 
-    public static implicit operator DisplayPtr(Display display)
+    public static implicit operator DisplayPtr(X11Display display)
     {
         return new DisplayPtr((IntPtr)display);
     }

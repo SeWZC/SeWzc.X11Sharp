@@ -5,9 +5,9 @@ namespace SeWzc.X11Sharp;
 public sealed class SetWindowAttributes
 {
     //
-    public Pixmap? BackgroundPixmap {get; set;}
+    public X11Pixmap? BackgroundPixmap {get; set;}
     public nuint? BackgroundPixel {get; set;}
-    public Pixmap? BorderPixmap {get; set;}
+    public X11Pixmap? BorderPixmap {get; set;}
     public nuint? BorderPixel { get; set; }
     public Gravity? BitGravity { get; set; }
     public Gravity? WinGravity { get; set; }
@@ -18,8 +18,8 @@ public sealed class SetWindowAttributes
     public long? EventMask { get; set; }
     public long? DoNotPropagateMask { get; set; }
     public bool? OverrideRedirect { get; set; }
-    public ColorMap? Colormap {get; set;}
-    public Cursor? Cursor {get; set;}
+    public X11ColorMap? Colormap {get; set;}
+    public X11Cursor? Cursor {get; set;}
 
     internal WindowAttributeValueMask GetValueMask()
     {

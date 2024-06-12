@@ -3,16 +3,16 @@ using SeWzc.X11Sharp.Structs;
 
 namespace SeWzc.X11Sharp;
 
-public sealed class Window
+public sealed class X11Window
 {
     private readonly WindowHandle _window;
 
-    internal Window(WindowHandle window)
+    internal X11Window(WindowHandle window)
     {
         _window = window;
     }
 
-    private static WeakReferenceValueDictionary<nint, Window> Cache { get; } = new();
+    private static WeakReferenceValueDictionary<nint, X11Window> Cache { get; } = new();
 
     /// <summary>
     /// 创建窗口。
@@ -26,7 +26,7 @@ public sealed class Window
     /// <param name="windowClass">窗口的类别。</param>
     /// <param name="attributes">窗口的 Attributes。</param>
     /// <returns></returns>
-    public static unsafe Window Create(Display display, Window parent, Point location, Size size, uint borderWidth, int depth,
+    public static unsafe X11Window Create(X11Display display, X11Window parent, Point location, Size size, uint borderWidth, int depth,
         WindowClasses windowClass = WindowClasses.CopyFromParent, SetWindowAttributes? attributes = null)
     {
         var valueMask = attributes?.GetValueMask() ?? 0;
@@ -40,14 +40,14 @@ public sealed class Window
             null, // TODO 暂未实现
             valueMask,
             &windowAttributes);
-        return new Window(window);
+        return new X11Window(window);
     }
 
     /// <summary>
     /// 销毁窗口。
     /// </summary>
     /// <param name="display">与 X 服务的连接。</param>
-    public void Destroy(Display display)
+    public void Destroy(X11Display display)
     {
         _ = XLib.XDestroyWindow(display.XDisplay, _window);
     }
@@ -56,7 +56,7 @@ public sealed class Window
     /// 销毁子窗口。
     /// </summary>
     /// <param name="display">与 X 服务的连接。</param>
-    public void DestroySubwindows(Display display)
+    public void DestroySubwindows(X11Display display)
     {
         _ = XLib.XDestroySubwindows(display.XDisplay, _window);
     }
@@ -65,7 +65,7 @@ public sealed class Window
     /// 映射窗口。
     /// </summary>
     /// <param name="display">与 X 服务的连接。</param>
-    public void Map(Display display)
+    public void Map(X11Display display)
     {
         _ = XLib.XMapWindow(display.XDisplay, _window);
     }
@@ -74,7 +74,7 @@ public sealed class Window
     /// 映射并提升窗口。
     /// </summary>
     /// <param name="display">与 X 服务的连接。</param>
-    public void MapRaised(Display display)
+    public void MapRaised(X11Display display)
     {
         _ = XLib.XMapRaised(display.XDisplay, _window);
     }
@@ -83,7 +83,7 @@ public sealed class Window
     /// 映射子窗口。
     /// </summary>
     /// <param name="display">与 X 服务的连接。</param>
-    public void MapSubwindows(Display display)
+    public void MapSubwindows(X11Display display)
     {
         _ = XLib.XMapSubwindows(display.XDisplay, _window);
     }
@@ -92,7 +92,7 @@ public sealed class Window
     /// 取消映射窗口。
     /// </summary>
     /// <param name="display">与 X 服务的连接。</param>
-    public void Unmap(Display display)
+    public void Unmap(X11Display display)
     {
         _ = XLib.XUnmapWindow(display.XDisplay, _window);
     }
@@ -101,7 +101,7 @@ public sealed class Window
     /// 取消映射子窗口。
     /// </summary>
     /// <param name="display">与 X 服务的连接。</param>
-    public void UnmapSubwindows(Display display)
+    public void UnmapSubwindows(X11Display display)
     {
         _ = XLib.XUnmapSubwindows(display.XDisplay, _window);
     }
@@ -111,7 +111,7 @@ public sealed class Window
     /// </summary>
     /// <param name="display">与 X 服务的连接。</param>
     /// <param name="changes">窗口变化。</param>
-    public unsafe void Configure(Display display, WindowChanges changes)
+    public unsafe void Configure(X11Display display, WindowChanges changes)
     {
         var windowConfigureMask = changes.GetValueMask();
         var windowChanges = changes.ToXWindowChanges();
@@ -123,7 +123,7 @@ public sealed class Window
     /// </summary>
     /// <param name="display">与 X 服务的连接。</param>
     /// <param name="location">窗口左上角在父窗口的位置。</param>
-    public void Move(Display display, Point location)
+    public void Move(X11Display display, Point location)
     {
         _ = XLib.XMoveWindow(display.XDisplay, _window, location.X, location.Y);
     }
@@ -133,7 +133,7 @@ public sealed class Window
     /// </summary>
     /// <param name="display">与 X 服务的连接。</param>
     /// <param name="size">窗口的大小。</param>
-    public void Resize(Display display, Size size)
+    public void Resize(X11Display display, Size size)
     {
         _ = XLib.XResizeWindow(display.XDisplay, _window, size.Width, size.Height);
     }
@@ -144,7 +144,7 @@ public sealed class Window
     /// <param name="display">与 X 服务的连接。</param>
     /// <param name="location">窗口左上角在父窗口的位置。</param>
     /// <param name="size">窗口的大小。</param>
-    public void MoveResize(Display display, Point location, Size size)
+    public void MoveResize(X11Display display, Point location, Size size)
     {
         _ = XLib.XMoveResizeWindow(display.XDisplay, _window, location.X, location.Y, size.Width, size.Height);
     }
@@ -154,7 +154,7 @@ public sealed class Window
     /// </summary>
     /// <param name="display">与 X 服务的连接。</param>
     /// <param name="borderWidth">窗口边框宽度。</param>
-    public void SetWindowBorderWidth(Display display, uint borderWidth)
+    public void SetWindowBorderWidth(X11Display display, uint borderWidth)
     {
         _ = XLib.XSetWindowBorderWidth(display.XDisplay, _window, borderWidth);
     }
@@ -163,7 +163,7 @@ public sealed class Window
     /// 升起窗口到堆栈顶部。
     /// </summary>
     /// <param name="display">与 X 服务的连接。</param>
-    public void Raise(Display display)
+    public void Raise(X11Display display)
     {
         _ = XLib.XRaiseWindow(display.XDisplay, _window);
     }
@@ -172,7 +172,7 @@ public sealed class Window
     /// 降低窗口到堆栈底部。
     /// </summary>
     /// <param name="display">与 X 服务的连接。</param>
-    public void Lower(Display display)
+    public void Lower(X11Display display)
     {
         _ = XLib.XLowerWindow(display.XDisplay, _window);
     }
@@ -182,7 +182,7 @@ public sealed class Window
     /// </summary>
     /// <param name="display">与 X 服务的连接。</param>
     /// <param name="attributes">新的 Attributes。</param>
-    public unsafe void ChangeAttributes(Display display, SetWindowAttributes attributes)
+    public unsafe void ChangeAttributes(X11Display display, SetWindowAttributes attributes)
     {
         var windowAttributeValueMask = attributes.GetValueMask();
         var setWindowAttributes = attributes.ToXSetWindowAttributes();
@@ -194,7 +194,7 @@ public sealed class Window
     /// </summary>
     /// <param name="display">与 X 服务的连接。</param>
     /// <param name="pixel">背景像素。</param>
-    public void SetBackground(Display display, Pixel pixel)
+    public void SetBackground(X11Display display, Pixel pixel)
     {
         _ = XLib.XSetWindowBackground(display.XDisplay, _window, pixel);
     }
@@ -204,21 +204,21 @@ public sealed class Window
     /// </summary>
     /// <param name="display">与 X 服务的连接。</param>
     /// <param name="pixel">边框像素。</param>
-    public void SetBorder(Display display, Pixel pixel)
+    public void SetBorder(X11Display display, Pixel pixel)
     {
         _ = XLib.XSetWindowBorder(display.XDisplay, _window, pixel);
     }
 
     #region 运算符
 
-    public static explicit operator nint(Window window)
+    public static explicit operator nint(X11Window window)
     {
         return window._window.Value;
     }
 
-    public static explicit operator Window(nint handle)
+    public static explicit operator X11Window(nint handle)
     {
-        return Cache.GetOrAdd(handle, key => new Window(new WindowHandle(key)));
+        return Cache.GetOrAdd(handle, key => new X11Window(new WindowHandle(key)));
     }
 
     #endregion

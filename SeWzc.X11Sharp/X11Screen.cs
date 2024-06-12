@@ -6,16 +6,16 @@ namespace SeWzc.X11Sharp;
 /// <summary>
 /// X 服务上的屏幕。
 /// </summary>
-public sealed unsafe class Screen
+public sealed unsafe class X11Screen
 {
     private readonly XScreen* _screen;
 
-    internal Screen(XScreen* screen)
+    internal X11Screen(XScreen* screen)
     {
         _screen = screen;
     }
 
-    private static WeakReferenceValueDictionary<IntPtr, Screen> Cache { get; } = new();
+    private static WeakReferenceValueDictionary<IntPtr, X11Screen> Cache { get; } = new();
 
     /// <summary>
     /// 获取黑色像素。
@@ -46,17 +46,17 @@ public sealed unsafe class Screen
     /// <summary>
     /// 获取默认图形上下文。
     /// </summary>
-    public GraphicsContext DefaultGC => new(XLib.XDefaultGCOfScreen(_screen));
+    public X11GC DefaultGC => new(XLib.XDefaultGCOfScreen(_screen));
 
     /// <summary>
     /// 获取默认视觉效果.
     /// </summary>
-    public Visual DefaultVisual => new(XLib.XDefaultVisualOfScreen(_screen));
+    public X11Visual DefaultVisual => new(XLib.XDefaultVisualOfScreen(_screen));
 
     /// <summary>
     /// 获取屏幕关联的与 X 服务的连接。
     /// </summary>
-    public Display Display => XLib.XDisplayOfScreen(_screen);
+    public X11Display Display => XLib.XDisplayOfScreen(_screen);
 
     /// <summary>
     /// 获取屏幕编号。
@@ -96,18 +96,18 @@ public sealed unsafe class Screen
     /// <summary>
     /// 获取该屏幕的根窗口。
     /// </summary>
-    public Window RootWindow => new(XLib.XRootWindowOfScreen(_screen));
+    public X11Window RootWindow => new(XLib.XRootWindowOfScreen(_screen));
 
     #region 运算符重载
 
-    public static explicit operator IntPtr(Screen screen)
+    public static explicit operator IntPtr(X11Screen screen)
     {
         return (IntPtr)screen._screen;
     }
 
-    public static explicit operator Screen(IntPtr ptr)
+    public static explicit operator X11Screen(IntPtr ptr)
     {
-        return Cache.GetOrAdd(ptr, static ptr => new Screen((XScreen*)ptr));
+        return Cache.GetOrAdd(ptr, static ptr => new X11Screen((XScreen*)ptr));
     }
 
     #endregion
