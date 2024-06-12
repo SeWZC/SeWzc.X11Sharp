@@ -11,6 +11,8 @@ public class WeakReferenceValueDictionary<TKey, TValue>
 {
     private readonly Dictionary<TKey, WeakReference<TValue>> _dictionary = new();
 
+    private readonly object _lock = new();
+
     /// <summary>
     /// 添加键值对。如果键已存在，则会覆盖原有值。
     /// </summary>
@@ -18,7 +20,8 @@ public class WeakReferenceValueDictionary<TKey, TValue>
     /// <param name="value">值。</param>
     public void Add(TKey key, TValue value)
     {
-        _dictionary[key] = new WeakReference<TValue>(value);
+        lock (_lock)
+            _dictionary[key] = new WeakReference<TValue>(value);
     }
 
     /// <summary>
@@ -29,14 +32,17 @@ public class WeakReferenceValueDictionary<TKey, TValue>
     /// <returns></returns>
     public TValue? Get(TKey key, TValue? defaultValue = null)
     {
-        if (_dictionary.TryGetValue(key, out var weakReference))
+        lock (_lock)
         {
-            if (weakReference.TryGetTarget(out var value))
-                return value;
-            _dictionary.Remove(key);
-        }
+            if (_dictionary.TryGetValue(key, out var weakReference))
+            {
+                if (weakReference.TryGetTarget(out var value))
+                    return value;
+                _dictionary.Remove(key);
+            }
 
-        return defaultValue;
+            return defaultValue;
+        }
     }
 
     /// <summary>
@@ -47,16 +53,19 @@ public class WeakReferenceValueDictionary<TKey, TValue>
     /// <returns>不存在时返回新值，否则返回已存在的值。</returns>
     public TValue GetOrAdd(TKey key, Func<TKey, TValue> valueFactory)
     {
-        if (_dictionary.TryGetValue(key, out var weakReference))
+        lock (_lock)
         {
-            if (weakReference.TryGetTarget(out var value))
-                return value;
-            _dictionary.Remove(key);
-        }
+            if (_dictionary.TryGetValue(key, out var weakReference))
+            {
+                if (weakReference.TryGetTarget(out var value))
+                    return value;
+                _dictionary.Remove(key);
+            }
 
-        var newValue = valueFactory(key);
-        _dictionary[key] = new WeakReference<TValue>(newValue);
-        return newValue;
+            var newValue = valueFactory(key);
+            _dictionary[key] = new WeakReference<TValue>(newValue);
+            return newValue;
+        }
     }
 
     /// <summary>
@@ -66,14 +75,17 @@ public class WeakReferenceValueDictionary<TKey, TValue>
     /// <returns>是否包含指定键。</returns>
     public bool ContainsKey(TKey key)
     {
-        if (_dictionary.TryGetValue(key, out var weakReference))
+        lock (_lock)
         {
-            if (weakReference.TryGetTarget(out _))
-                return true;
-            _dictionary.Remove(key);
-        }
+            if (_dictionary.TryGetValue(key, out var weakReference))
+            {
+                if (weakReference.TryGetTarget(out _))
+                    return true;
+                _dictionary.Remove(key);
+            }
 
-        return false;
+            return false;
+        }
     }
 
     /// <summary>
@@ -82,6 +94,7 @@ public class WeakReferenceValueDictionary<TKey, TValue>
     /// <param name="key">键。</param>
     public void Remove(TKey key)
     {
-        _dictionary.Remove(key);
+        lock (_lock)
+            _dictionary.Remove(key);
     }
 }
