@@ -13,11 +13,19 @@ public static class X11Lib
         return X11Display.Open(displayName);
     }
 
-    /// <inheritdoc cref="X11Window.Create" />
-    /// <seealso cref="X11Window.Create" />
-    public static X11Window CreateWindow(X11Display display, X11Window parent, Point location, Size size, uint borderWidth, int depth,
+    /// <inheritdoc cref="X11Display.CreateWindow" />
+    /// <seealso cref="X11Display.CreateWindow" />
+    public static X11DisplayWindow CreateWindow(X11Display display, X11Window parent, Point location, Size size, uint borderWidth, int depth,
         WindowClasses windowClass = WindowClasses.CopyFromParent, SetWindowAttributes? attributes = null)
     {
-        return X11Window.Create(display, parent, location, size, borderWidth, depth, windowClass, attributes);
+        return display.CreateWindow(parent, location, size, borderWidth, depth, windowClass, attributes);
+    }
+
+    /// <inheritdoc cref="X11Display.CreateSimpleWindow" />
+    /// <seealso cref="X11Display.CreateSimpleWindow" />
+    public static X11DisplayWindow CreateSimpleWindow(X11Display display, X11Window parent, Point location, Size size, uint borderWidth,
+        Pixel border, Pixel background)
+    {
+        return display.CreateSimpleWindow(parent, location, size, borderWidth, border, background);
     }
 }

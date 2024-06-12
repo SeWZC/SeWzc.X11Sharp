@@ -381,7 +381,6 @@ internal static unsafe partial class XLib
         WindowAttributeValueMask valuemask,
         XSetWindowAttributes* attributes);
 
-    // TODO 暂未使用
     // Window XCreateSimpleWindow(Display *display, Window parent, int x, int y, unsigned int width, unsigned int height, unsigned int border_width, unsigned long border, unsigned long background);
     [LibraryImport(libX11)]
     public static partial WindowHandle XCreateSimpleWindow(DisplayPtr display, WindowHandle parent,

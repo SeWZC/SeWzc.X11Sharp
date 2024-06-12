@@ -30,7 +30,7 @@ public sealed class X11Display : IDisposable
     /// <summary>
     /// 获取默认的根窗口。
     /// </summary>
-    public X11Window DefaultRootWindow => new(XLib.XDefaultRootWindow(XDisplay));
+    public X11DisplayWindow DefaultRootWindow => new(this, new X11Window(XLib.XDefaultRootWindow(XDisplay)));
 
     /// <summary>
     /// 获取默认屏幕。
@@ -190,9 +190,9 @@ public sealed class X11Display : IDisposable
     /// </summary>
     /// <param name="screenNumber">屏幕的编号。</param>
     /// <returns>指定屏幕的根窗口。</returns>
-    public X11Window GetRootWindow(int screenNumber)
+    public X11DisplayWindow GetRootWindow(int screenNumber)
     {
-        return new X11Window(XLib.XRootWindow(XDisplay, screenNumber));
+        return new X11DisplayWindow(this, new X11Window(XLib.XRootWindow(XDisplay, screenNumber)));
     }
 
     /// <summary>
@@ -202,6 +202,55 @@ public sealed class X11Display : IDisposable
     public void SetCloseDownMode(CloseDownMode mode)
     {
         _ = XLib.XSetCloseDownMode(XDisplay, mode);
+    }
+
+    /// <summary>
+    /// 创建窗口。
+    /// </summary>
+    /// <param name="parent">父窗口。</param>
+    /// <param name="location">窗口左上角在父窗口的位置。</param>
+    /// <param name="size">窗口的大小。</param>
+    /// <param name="borderWidth">窗口的边框宽度。</param>
+    /// <param name="depth">窗口深度。</param>
+    /// <param name="windowClass">窗口的类别。</param>
+    /// <param name="attributes">窗口的 Attributes。</param>
+    /// <returns></returns>
+    public unsafe X11DisplayWindow CreateWindow(X11Window parent, Point location, Size size, uint borderWidth, int depth,
+        WindowClasses windowClass = WindowClasses.CopyFromParent, SetWindowAttributes? attributes = null)
+    {
+        var valueMask = attributes?.GetValueMask() ?? 0;
+        var windowAttributes = attributes?.ToXSetWindowAttributes() ?? default;
+        var window = XLib.XCreateWindow(XDisplay, parent.XWindow,
+            location.X, location.Y,
+            size.Width, size.Height,
+            borderWidth,
+            depth,
+            windowClass,
+            null, // TODO 暂未实现
+            valueMask,
+            &windowAttributes);
+        return new X11DisplayWindow(this, new X11Window(window));
+    }
+
+    /// <summary>
+    /// 创建简单窗口。
+    /// </summary>
+    /// <param name="parent">父窗口。</param>
+    /// <param name="location">窗口左上角在父窗口的位置。</param>
+    /// <param name="size">窗口的大小。</param>
+    /// <param name="borderWidth">窗口的边框宽度。</param>
+    /// <param name="border">窗口的边框颜色。</param>
+    /// <param name="background">窗口的背景颜色。</param>
+    /// <returns></returns>
+    public X11DisplayWindow CreateSimpleWindow(X11Window parent, Point location, Size size, uint borderWidth, Pixel border, Pixel background)
+    {
+        var window = XLib.XCreateSimpleWindow(XDisplay, parent.XWindow,
+            location.X, location.Y,
+            size.Width, size.Height,
+            borderWidth,
+            border,
+            background);
+        return new X11DisplayWindow(this, new X11Window(window));
     }
 
     #region 运算符重载
