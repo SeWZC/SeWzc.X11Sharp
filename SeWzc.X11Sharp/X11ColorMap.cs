@@ -4,9 +4,9 @@ namespace SeWzc.X11Sharp;
 
 public sealed class X11ColorMap
 {
-    internal readonly ColormapHandle Handle;
+    internal ColormapHandle Handle { get; }
 
-    internal X11ColorMap(ColormapHandle handle)
+    private X11ColorMap(ColormapHandle handle)
     {
         Handle = handle;
     }

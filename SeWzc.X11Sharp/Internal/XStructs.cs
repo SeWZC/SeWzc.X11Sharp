@@ -7,6 +7,8 @@ internal interface IIntPtrRole<T> where T : unmanaged, IIntPtrRole<T>, IEquatabl
 {
     nint Value { get; }
 
+    public static T Zero => default;
+
     public static virtual implicit operator nint(T xid)
     {
         return xid.Value;
@@ -18,19 +20,96 @@ internal interface IIntPtrRole<T> where T : unmanaged, IIntPtrRole<T>, IEquatabl
     }
 }
 
-internal readonly record struct WindowHandle(nint Value) : IIntPtrRole<WindowHandle>;
+internal readonly record struct WindowHandle(nint Value) : IIntPtrRole<WindowHandle>
+{
+    public static explicit operator WindowHandle(DrawableHandle drawableHandle)
+    {
+        return new WindowHandle(drawableHandle.Value);
+    }
 
-internal readonly record struct PixmapHandle(nint Value) : IIntPtrRole<PixmapHandle>;
+    public static implicit operator DrawableHandle(WindowHandle windowHandle)
+    {
+        return new DrawableHandle(windowHandle.Value);
+    }
 
-internal readonly record struct ColormapHandle(nint Value) : IIntPtrRole<ColormapHandle>;
+    public static implicit operator WindowHandle(X11Window value)
+    {
+        return value.Handle;
+    }
 
-internal readonly record struct CursorHandle(nint Value) : IIntPtrRole<CursorHandle>;
+    public static implicit operator X11Window(WindowHandle windowHandle)
+    {
+        return (X11Window)windowHandle.Value;
+    }
+}
+
+internal readonly record struct PixmapHandle(nint Value) : IIntPtrRole<PixmapHandle>
+{
+    public static explicit operator PixmapHandle(DrawableHandle drawableHandle)
+    {
+        return new PixmapHandle(drawableHandle.Value);
+    }
+
+    public static implicit operator DrawableHandle(PixmapHandle pixmapHandle)
+    {
+        return new DrawableHandle(pixmapHandle.Value);
+    }
+
+    public static implicit operator PixmapHandle(X11Pixmap value)
+    {
+        return value.Handle;
+    }
+
+    public static implicit operator X11Pixmap(PixmapHandle pixmapHandle)
+    {
+        return (X11Pixmap)pixmapHandle.Value;
+    }
+}
+
+internal readonly record struct ColormapHandle(nint Value) : IIntPtrRole<ColormapHandle>
+{
+    public static implicit operator ColormapHandle(X11ColorMap colormap)
+    {
+        return colormap.Handle;
+    }
+
+    public static implicit operator X11ColorMap(ColormapHandle colormapHandle)
+    {
+        return (X11ColorMap)colormapHandle.Value;
+    }
+}
+
+internal readonly record struct CursorHandle(nint Value) : IIntPtrRole<CursorHandle>
+{
+    public static implicit operator CursorHandle(X11Cursor cursor)
+    {
+        return cursor.Handle;
+    }
+
+    public static implicit operator X11Cursor(CursorHandle cursorHandle)
+    {
+        return (X11Cursor)cursorHandle.Value;
+    }
+}
+
+internal readonly record struct DrawableHandle(nint Value) : IIntPtrRole<DrawableHandle>
+{
+    public static implicit operator DrawableHandle(X11Drawable drawable)
+    {
+        return drawable.Handle;
+    }
+
+    public static implicit operator X11Drawable(DrawableHandle drawableHandle)
+    {
+        return (X11Drawable)drawableHandle.Value;
+    }
+}
 
 internal readonly record struct DisplayPtr(nint Value) : IIntPtrRole<DisplayPtr>
 {
-    public static implicit operator X11Display(DisplayPtr ptr)
+    public static implicit operator X11Display?(DisplayPtr ptr)
     {
-        return (X11Display)ptr.Value;
+        return (X11Display?)ptr.Value;
     }
 
     public static implicit operator DisplayPtr(X11Display display)
@@ -39,7 +118,57 @@ internal readonly record struct DisplayPtr(nint Value) : IIntPtrRole<DisplayPtr>
     }
 }
 
-internal readonly record struct GCPtr(nint Value) : IIntPtrRole<GCPtr>;
+internal readonly record struct VisualPtr(nint Value) : IIntPtrRole<VisualPtr>
+{
+    public static implicit operator X11Visual?(VisualPtr ptr)
+    {
+        return (X11Visual?)ptr.Value;
+    }
+
+    public static implicit operator VisualPtr(X11Visual visual)
+    {
+        return new VisualPtr((IntPtr)visual);
+    }
+}
+
+internal readonly record struct ScreenPtr(nint Value) : IIntPtrRole<ScreenPtr>
+{
+    public static implicit operator X11Screen?(ScreenPtr ptr)
+    {
+        return (X11Screen?)ptr.Value;
+    }
+
+    public static implicit operator ScreenPtr(X11Screen screen)
+    {
+        return new ScreenPtr((IntPtr)screen);
+    }
+}
+
+internal readonly record struct GCPtr(nint Value) : IIntPtrRole<GCPtr>
+{
+    public static implicit operator X11GC?(GCPtr ptr)
+    {
+        return (X11GC?)ptr.Value;
+    }
+
+    public static implicit operator GCPtr(X11GC gc)
+    {
+        return new GCPtr((IntPtr)gc);
+    }
+}
+
+internal readonly record struct AtomHandle(nint Value) : IIntPtrRole<AtomHandle>
+{
+    public static implicit operator X11Atom(AtomHandle atomHandle)
+    {
+        return (X11Atom)atomHandle.Value;
+    }
+
+    public static implicit operator AtomHandle(X11Atom atom)
+    {
+        return new AtomHandle((IntPtr)atom);
+    }
+}
 
 internal unsafe struct XPointer(byte* value)
 {
@@ -85,7 +214,7 @@ internal unsafe struct XScreen
     public int ndepths;
     public int* depths;
     public int root_depth;
-    public XVisual* root_visual;
+    public VisualPtr root_visual;
     public GCPtr default_gc;
     public ColormapHandle cmap;
     public Pixel white_pixel;
@@ -126,7 +255,7 @@ internal struct XWindowAttributes
     public int height;
     public int border_width;
     public int depth;
-    public unsafe XVisual* visual;
+    public VisualPtr visual;
     public WindowHandle root;
     public WindowClasses c_class;
     public Gravity bit_gravity;
@@ -142,7 +271,12 @@ internal struct XWindowAttributes
     public EventMask your_event_mask;
     public EventMask do_not_propagate_mask;
     public bool override_redirect;
-    public unsafe XScreen* screen;
+    public ScreenPtr screen;
+
+    public static implicit operator WindowAttributes(XWindowAttributes windowAttributes)
+    {
+        return new WindowAttributes(windowAttributes);
+    }
 }
 
 [StructLayout(LayoutKind.Sequential)]

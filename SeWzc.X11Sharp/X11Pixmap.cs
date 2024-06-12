@@ -2,13 +2,14 @@ using SeWzc.X11Sharp.Internal;
 
 namespace SeWzc.X11Sharp;
 
-public sealed class X11Pixmap
+public sealed class X11Pixmap : X11Drawable
 {
-    internal readonly PixmapHandle Handle;
+    internal new PixmapHandle Handle => (PixmapHandle)base.Handle;
 
-    internal X11Pixmap(PixmapHandle handle)
+    internal DrawableHandle DrawableHandle => base.Handle;
+
+    private X11Pixmap(PixmapHandle handle) : base(handle)
     {
-        Handle = handle;
     }
 
     private static WeakReferenceValueDictionary<nint, X11Pixmap> Cache { get; } = new();

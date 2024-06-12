@@ -6,14 +6,14 @@ namespace SeWzc.X11Sharp;
 /// <summary>
 /// X 服务上的屏幕。
 /// </summary>
-public sealed unsafe class X11Screen
+public sealed class X11Screen
 {
-    private readonly XScreen* _screen;
-
-    internal X11Screen(XScreen* screen)
+    private X11Screen(ScreenPtr ptr)
     {
-        _screen = screen;
+        Ptr = ptr;
     }
+
+    private ScreenPtr Ptr { get; }
 
     private static WeakReferenceValueDictionary<IntPtr, X11Screen> Cache { get; } = new();
 
@@ -23,7 +23,7 @@ public sealed unsafe class X11Screen
     /// <remarks>
     /// 这里的黑色像素未必是 RGB 的黑色，只是在对应屏幕上用于表示颜色深度的一个值。
     /// </remarks>
-    public Pixel BlackPixel => XLib.XBlackPixelOfScreen(_screen);
+    public Pixel BlackPixel => XLib.XBlackPixelOfScreen(Ptr);
 
     /// <summary>
     /// 获取白色像素。
@@ -31,83 +31,84 @@ public sealed unsafe class X11Screen
     /// <remarks>
     /// 这里的白色像素未必是 RGB 的白色，只是在对应屏幕上用于表示颜色深度的一个值。
     /// </remarks>
-    public Pixel WhitePixel => XLib.XWhitePixelOfScreen(_screen);
+    public Pixel WhitePixel => XLib.XWhitePixelOfScreen(Ptr);
 
     /// <summary>
     /// 获取默认颜色图中颜色图单元格的数量。
     /// </summary>
-    public int Cells => XLib.XCellsOfScreen(_screen);
+    public int Cells => XLib.XCellsOfScreen(Ptr);
 
     /// <summary>
     /// 获取默认深度。
     /// </summary>
-    public int DefaultDepth => XLib.XDefaultDepthOfScreen(_screen);
+    public int DefaultDepth => XLib.XDefaultDepthOfScreen(Ptr);
 
     /// <summary>
     /// 获取默认图形上下文。
     /// </summary>
-    public X11GC DefaultGC => new(XLib.XDefaultGCOfScreen(_screen));
+    public X11GC? DefaultGC => XLib.XDefaultGCOfScreen(Ptr);
 
     /// <summary>
     /// 获取默认视觉效果.
     /// </summary>
-    public X11Visual DefaultVisual => new(XLib.XDefaultVisualOfScreen(_screen));
+    public X11Visual? DefaultVisual => XLib.XDefaultVisualOfScreen(Ptr);
 
     /// <summary>
     /// 获取屏幕关联的与 X 服务的连接。
     /// </summary>
-    public X11Display Display => XLib.XDisplayOfScreen(_screen);
+    public X11Display Display => (X11Display?)XLib.XDisplayOfScreen(Ptr) ?? throw new InvalidOperationException("Display is null.");
 
     /// <summary>
     /// 获取屏幕编号。
     /// </summary>
-    public int Number => (int)XLib.XScreenNumberOfScreen(_screen);
+    public int Number => (int)XLib.XScreenNumberOfScreen(Ptr);
 
     /// <summary>
     /// 获取屏幕上根窗口的事件掩码。
     /// </summary>
-    public EventMask EventMask => XLib.XEventMaskOfScreen(_screen);
+    public EventMask EventMask => XLib.XEventMaskOfScreen(Ptr);
 
     /// <summary>
     /// 获取屏幕宽度。
     /// </summary>
-    public int Width => XLib.XWidthOfScreen(_screen);
+    public int Width => XLib.XWidthOfScreen(Ptr);
 
     /// <summary>
     /// 获取屏幕高度。
     /// </summary>
-    public int Height => XLib.XHeightOfScreen(_screen);
+    public int Height => XLib.XHeightOfScreen(Ptr);
 
     /// <summary>
     /// 获取屏幕宽度（毫米）。
     /// </summary>
-    public int MillimeterWidth => XLib.XWidthMMOfScreen(_screen);
+    public int MillimeterWidth => XLib.XWidthMMOfScreen(Ptr);
 
     /// <summary>
     /// 获取屏幕高度（毫米）。
     /// </summary>
-    public int MillimeterHeight => XLib.XHeightMMOfScreen(_screen);
+    public int MillimeterHeight => XLib.XHeightMMOfScreen(Ptr);
 
     /// <summary>
     /// 获取屏幕的平面数（根窗口的深度）。
     /// </summary>
-    public int Planes => XLib.XPlanesOfScreen(_screen);
+    public int Planes => XLib.XPlanesOfScreen(Ptr);
 
     /// <summary>
+    /// s
     /// 获取该屏幕的根窗口。
     /// </summary>
-    public X11Window RootWindow => new(XLib.XRootWindowOfScreen(_screen));
+    public X11Window RootWindow => XLib.XRootWindowOfScreen(Ptr);
 
     #region 运算符重载
 
     public static explicit operator IntPtr(X11Screen screen)
     {
-        return (IntPtr)screen._screen;
+        return screen.Ptr.Value;
     }
 
-    public static explicit operator X11Screen(IntPtr ptr)
+    public static explicit operator X11Screen?(IntPtr ptr)
     {
-        return Cache.GetOrAdd(ptr, static ptr => new X11Screen((XScreen*)ptr));
+        return ptr is 0 ? null : Cache.GetOrAdd(ptr, key => new X11Screen(new ScreenPtr(key)));
     }
 
     #endregion

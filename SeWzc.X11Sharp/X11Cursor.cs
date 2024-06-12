@@ -4,9 +4,9 @@ namespace SeWzc.X11Sharp;
 
 public sealed class X11Cursor
 {
-    internal readonly CursorHandle Handle;
+    internal CursorHandle Handle { get; }
 
-    internal X11Cursor(CursorHandle handle)
+    private X11Cursor(CursorHandle handle)
     {
         Handle = handle;
     }

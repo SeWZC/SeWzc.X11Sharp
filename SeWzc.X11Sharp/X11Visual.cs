@@ -2,11 +2,11 @@
 
 namespace SeWzc.X11Sharp;
 
-public unsafe class X11Visual
+public class X11Visual
 {
-    internal readonly XVisual* XVisual;
+    internal readonly VisualPtr XVisual;
 
-    internal X11Visual(XVisual* visual)
+    private X11Visual(VisualPtr visual)
     {
         XVisual = visual;
     }
@@ -15,11 +15,11 @@ public unsafe class X11Visual
 
     public static explicit operator IntPtr(X11Visual visual)
     {
-        return (IntPtr)visual.XVisual;
+        return visual.XVisual.Value;
     }
 
-    public static explicit operator X11Visual(IntPtr ptr)
+    public static explicit operator X11Visual?(IntPtr ptr)
     {
-        return Cache.GetOrAdd(ptr, static ptr => new X11Visual((XVisual*)ptr));
+        return ptr is 0 ? null : Cache.GetOrAdd(ptr, key => new X11Visual(new VisualPtr(key)));
     }
 }

@@ -7,22 +7,22 @@ namespace SeWzc.X11Sharp;
 /// </summary>
 public sealed class X11GC
 {
-    internal readonly GCPtr GC;
+    internal GCPtr Ptr { get; }
 
-    internal X11GC(GCPtr gc)
+    private X11GC(GCPtr ptr)
     {
-        GC = gc;
+        Ptr = ptr;
     }
 
     private static WeakReferenceValueDictionary<nint, X11GC> Cache { get; } = new();
 
     public static explicit operator nint(X11GC gc)
     {
-        return gc.GC.Value;
+        return gc.Ptr.Value;
     }
 
-    public static explicit operator X11GC(nint handle)
+    public static explicit operator X11GC?(nint handle)
     {
-        return Cache.GetOrAdd(handle, static handle => new X11GC(new GCPtr(handle)));
+        return handle is 0 ? null : Cache.GetOrAdd(handle, static handle => new X11GC(new GCPtr(handle)));
     }
 }

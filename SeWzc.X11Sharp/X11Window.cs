@@ -1,20 +1,20 @@
 ﻿using System.Runtime.CompilerServices;
 using SeWzc.X11Sharp.Internal;
-using SeWzc.X11Sharp.Structs;
 
 namespace SeWzc.X11Sharp;
 
 /// <summary>
 /// X11 窗口。
 /// </summary>
-public sealed class X11Window
+public sealed class X11Window : X11Drawable
 {
-    internal readonly WindowHandle XWindow;
-
-    internal X11Window(WindowHandle xWindow)
+    private X11Window(WindowHandle handle) : base(handle)
     {
-        XWindow = xWindow;
     }
+
+    internal new WindowHandle Handle => (WindowHandle)base.Handle;
+
+    internal DrawableHandle DrawableHandle => base.Handle;
 
     private static WeakReferenceValueDictionary<nint, X11Window> Cache { get; } = new();
 
@@ -29,17 +29,13 @@ public sealed class X11Window
         return new X11DisplayWindow(display, this);
     }
 
-    #region 运算符
-
     public static explicit operator nint(X11Window window)
     {
-        return window.XWindow.Value;
+        return window.Handle.Value;
     }
 
     public static explicit operator X11Window(nint handle)
     {
         return Cache.GetOrAdd(handle, key => new X11Window(new WindowHandle(key)));
     }
-
-    #endregion
 }

@@ -28,4 +28,9 @@ public static class X11Lib
     {
         return display.CreateSimpleWindow(parent, location, size, borderWidth, border, background);
     }
+
+    public static X11Atom GetAtom(X11Display display, string atomName, bool onlyIfExists = false)
+    {
+        return display.GetAtom(atomName, onlyIfExists);
+    }
 }

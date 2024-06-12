@@ -7,7 +7,7 @@ using SeWzc.X11Sharp.Structs;
 
 namespace SeWzc.X11Sharp.Internal;
 
-internal static unsafe partial class XLib
+internal static partial class XLib
 {
     private const string libX11 = "libX11.so.6";
     // ReSharper disable once IdentifierTypo
@@ -52,7 +52,7 @@ internal static unsafe partial class XLib
 
     // int *XListDepths(Display *display, int screen_number, int *count_return);
     [LibraryImport(libX11)]
-    public static partial int* XListDepths(DisplayPtr display, int screen_number, out int count);
+    public static unsafe partial int* XListDepths(DisplayPtr display, int screen_number, out int count);
 
     // GC XDefaultGC(Display *display, int screen_number);
     [LibraryImport(libX11)]
@@ -64,11 +64,11 @@ internal static unsafe partial class XLib
 
     // Screen *XDefaultScreenOfDisplay(Display *display);
     [LibraryImport(libX11)]
-    public static partial XScreen* XDefaultScreenOfDisplay(DisplayPtr display);
+    public static partial ScreenPtr XDefaultScreenOfDisplay(DisplayPtr display);
 
     // Screen *XScreenOfDisplay(Display *display, int screen_number);
     [LibraryImport(libX11)]
-    public static partial XScreen* XScreenOfDisplay(DisplayPtr display, int screen_number);
+    public static partial ScreenPtr XScreenOfDisplay(DisplayPtr display, int screen_number);
 
     // int XDefaultScreen(Display *display);
     [LibraryImport(libX11)]
@@ -76,7 +76,7 @@ internal static unsafe partial class XLib
 
     // Visual *XDefaultVisual(Display *display, int screen_number);
     [LibraryImport(libX11)]
-    public static partial XVisual* XDefaultVisual(DisplayPtr display, int screen_number);
+    public static partial VisualPtr XDefaultVisual(DisplayPtr display, int screen_number);
 
     // int XDisplayCells(Display *display, int screen_number);
     [LibraryImport(libX11)]
@@ -148,7 +148,7 @@ internal static unsafe partial class XLib
     // TODO 暂未使用
     // XPixmapFormatValues *XListPixmapFormats(Display *display, int *count_return);
     [LibraryImport(libX11)]
-    public static partial XPixmapFormatValues* XListPixmapFormats(DisplayPtr display, out int count);
+    public static unsafe partial XPixmapFormatValues* XListPixmapFormats(DisplayPtr display, out int count);
 
     // TODO 暂未使用
     // int XImageByteOrder(Display *display);
@@ -196,87 +196,87 @@ internal static unsafe partial class XLib
 
     // unsigned long XBlackPixelOfScreen(Screen *screen);
     [LibraryImport(libX11)]
-    public static partial Pixel XBlackPixelOfScreen(XScreen* screen);
+    public static partial Pixel XBlackPixelOfScreen(ScreenPtr screen);
 
     // unsigned long XWhitePixelOfScreen(Screen *screen);
     [LibraryImport(libX11)]
-    public static partial Pixel XWhitePixelOfScreen(XScreen* screen);
+    public static partial Pixel XWhitePixelOfScreen(ScreenPtr screen);
 
     // int XCellsOfScreen(Screen *screen);
     [LibraryImport(libX11)]
-    public static partial int XCellsOfScreen(XScreen* screen);
+    public static partial int XCellsOfScreen(ScreenPtr screen);
 
     // Colormap XDefaultColormapOfScreen(Screen *screen);
     [LibraryImport(libX11)]
-    public static partial ColormapHandle XDefaultColormapOfScreen(XScreen* screen);
+    public static partial ColormapHandle XDefaultColormapOfScreen(ScreenPtr screen);
 
     // int XDefaultDepthOfScreen(Screen *screen);
     [LibraryImport(libX11)]
-    public static partial int XDefaultDepthOfScreen(XScreen* screen);
+    public static partial int XDefaultDepthOfScreen(ScreenPtr screen);
 
     // GC XDefaultGCOfScreen(Screen *screen);
     [LibraryImport(libX11)]
-    public static partial GCPtr XDefaultGCOfScreen(XScreen* screen);
+    public static partial GCPtr XDefaultGCOfScreen(ScreenPtr screen);
 
     // Visual *XDefaultVisualOfScreen(Screen *screen);
     [LibraryImport(libX11)]
-    public static partial XVisual* XDefaultVisualOfScreen(XScreen* screen);
+    public static partial VisualPtr XDefaultVisualOfScreen(ScreenPtr screen);
 
     // TODO 暂未使用
     // int XDoesBackingStore(Screen *screen);
     [LibraryImport(libX11)]
-    public static partial int XDoesBackingStore(XScreen* screen);
+    public static partial int XDoesBackingStore(ScreenPtr screen);
 
     // TODO 暂未使用
     // Bool XDoesSaveUnders(Screen *screen);
     [LibraryImport(libX11)]
-    public static partial int XDoesSaveUnders(XScreen* screen);
+    public static partial int XDoesSaveUnders(ScreenPtr screen);
 
     // Display *XDisplayOfScreen(Screen *screen);
     [LibraryImport(libX11)]
-    public static partial DisplayPtr XDisplayOfScreen(XScreen* screen);
+    public static partial DisplayPtr XDisplayOfScreen(ScreenPtr screen);
 
     // long XScreenNumberOfScreen(Screen *screen);
     [LibraryImport(libX11)]
-    public static partial nint XScreenNumberOfScreen(XScreen* screen);
+    public static partial nint XScreenNumberOfScreen(ScreenPtr screen);
 
     // long XEventMaskOfScreen(Screen *screen);
     [LibraryImport(libX11)]
-    public static partial EventMask XEventMaskOfScreen(XScreen* screen);
+    public static partial EventMask XEventMaskOfScreen(ScreenPtr screen);
 
     // int XWidthOfScreen(Screen *screen);
     [LibraryImport(libX11)]
-    public static partial int XWidthOfScreen(XScreen* screen);
+    public static partial int XWidthOfScreen(ScreenPtr screen);
 
     // int XHeightOfScreen(Screen *screen);
     [LibraryImport(libX11)]
-    public static partial int XHeightOfScreen(XScreen* screen);
+    public static partial int XHeightOfScreen(ScreenPtr screen);
 
     // int XWidthMMOfScreen(Screen *screen);
     [LibraryImport(libX11)]
-    public static partial int XWidthMMOfScreen(XScreen* screen);
+    public static partial int XWidthMMOfScreen(ScreenPtr screen);
 
     // int XHeightMMOfScreen(Screen *screen);
     [LibraryImport(libX11)]
-    public static partial int XHeightMMOfScreen(XScreen* screen);
+    public static partial int XHeightMMOfScreen(ScreenPtr screen);
 
     // TODO 暂未使用
     // int XMaxCmapsOfScreen(Screen *screen);
     [LibraryImport(libX11)]
-    public static partial int XMaxCmapsOfScreen(XScreen* screen);
+    public static partial int XMaxCmapsOfScreen(ScreenPtr screen);
 
     // TODO 暂未使用
     // int XMinCmapsOfScreen(Screen *screen);
     [LibraryImport(libX11)]
-    public static partial int XMinCmapsOfScreen(XScreen* screen);
+    public static partial int XMinCmapsOfScreen(ScreenPtr screen);
 
     // int XPlanesOfScreen(Screen *screen);
     [LibraryImport(libX11)]
-    public static partial int XPlanesOfScreen(XScreen* screen);
+    public static partial int XPlanesOfScreen(ScreenPtr screen);
 
     // Window XRootWindowOfScreen(Screen *screen);
     [LibraryImport(libX11)]
-    public static partial WindowHandle XRootWindowOfScreen(XScreen* screen);
+    public static partial WindowHandle XRootWindowOfScreen(ScreenPtr screen);
 
     #endregion
 
@@ -295,7 +295,7 @@ internal static unsafe partial class XLib
 
     // XFree(void *data);
     [LibraryImport(libX11)]
-    public static partial void XFree(void* data);
+    public static unsafe partial void XFree(void* data);
 
     #endregion
 
@@ -354,7 +354,7 @@ internal static unsafe partial class XLib
     // Status XInternalConnectionNumbers(Display *display, int ** fd, int * count_return);
     [LibraryImport(libX11)]
     [return: MarshalAs(UnmanagedType.Bool)]
-    public static partial bool XInternalConnectionNumbers(DisplayPtr display, int** fd, out int count_return);
+    public static unsafe partial bool XInternalConnectionNumbers(DisplayPtr display, int** fd, out int count_return);
 
     #endregion
 
@@ -367,23 +367,23 @@ internal static unsafe partial class XLib
     // TODO 暂未使用
     // VisualID XVisualIDFromVisual(Visual *visual);
     [LibraryImport(libX11)]
-    public static partial XVisualId XVisualIDFromVisual(XVisual* visual);
+    public static partial XVisualId XVisualIDFromVisual(VisualPtr visual);
 
     #endregion
 
     #region Creating Windows
 
     // Window XCreateWindow(Display *display, Window parent, int x, int y, unsigned int width, unsigned int height, unsigned int border_width, int depth, unsigned int class, Visual *visual, unsigned long valuemask, XSetWindowAttributes *attributes);
-    [LibraryImport(libX11)]
-    public static partial WindowHandle XCreateWindow(DisplayPtr display, WindowHandle parent,
+    [DllImport(libX11)]
+    public static extern WindowHandle XCreateWindow(DisplayPtr display, WindowHandle parent,
         int x, int y,
         uint width, uint height,
         uint border_width,
         int depth,
         WindowClasses @class,
-        XVisual* visual,
+        VisualPtr visual,
         WindowAttributeValueMask valuemask,
-        XSetWindowAttributes* attributes);
+        in XSetWindowAttributes attributes);
 
     // Window XCreateSimpleWindow(Display *display, Window parent, int x, int y, unsigned int width, unsigned int height, unsigned int border_width, unsigned long border, unsigned long background);
     [LibraryImport(libX11)]
@@ -440,7 +440,7 @@ internal static unsafe partial class XLib
 
     // XConfigureWindow(Display *display, Window w, unsigned int value_mask, XWindowChanges *values);
     [LibraryImport(libX11)]
-    public static partial int XConfigureWindow(DisplayPtr display, WindowHandle window, WindowChangeMask value_mask, XWindowChanges* values);
+    public static partial int XConfigureWindow(DisplayPtr display, WindowHandle window, WindowChangeMask value_mask, in XWindowChanges values);
 
     // XMoveWindow(Display *display, Window w, int x, int y);
     [LibraryImport(libX11)]
@@ -488,15 +488,15 @@ internal static unsafe partial class XLib
     // TODO 暂未使用
     // XRestackWindows(Display *display, Window windows[], int nwindows);
     [LibraryImport(libX11)]
-    public static partial int XRestackWindows(DisplayPtr display, WindowHandle[] windows, int nwindows);
+    public static partial int XRestackWindows(DisplayPtr display, [In] WindowHandle[] windows, int nwindows);
 
     #endregion
 
     #region Changing Window Attributes
 
     // XChangeWindowAttributes(Display *display, Window w, unsigned long valuemask, XSetWindowAttributes *attributes);
-    [LibraryImport(libX11)]
-    public static partial int XChangeWindowAttributes(DisplayPtr display, WindowHandle window, WindowAttributeValueMask valuemask, XSetWindowAttributes* attributes);
+    [DllImport(libX11)]
+    public static extern int XChangeWindowAttributes(DisplayPtr display, WindowHandle window, WindowAttributeValueMask valuemask, in XSetWindowAttributes attributes);
 
     // XSetWindowBackground(Display *display, Window w, unsigned long background_pixel);
     [LibraryImport(libX11)]
@@ -542,12 +542,48 @@ internal static unsafe partial class XLib
     // Status XQueryTree(Display *display, Window w, Window *root_return, Window *parent_return, Window **children_return, unsigned int *nchildren_return);
     [LibraryImport(libX11)]
     [return: MarshalAs(UnmanagedType.Bool)]
-    public static partial bool XQueryTree(DisplayPtr display, WindowHandle window, out WindowHandle root_return, out WindowHandle parent_return, out WindowHandle* children_return, out uint nchildren_return);
+    public static unsafe partial bool XQueryTree(DisplayPtr display, WindowHandle window, out WindowHandle root_return, out WindowHandle parent_return, out WindowHandle* children_return, out uint nchildren_return);
 
     // Status XGetWindowAttributes(Display *display, Window w, XWindowAttributes *window_attributes_return);
+    [DllImport(libX11)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern bool XGetWindowAttributes(DisplayPtr display, WindowHandle window, out XWindowAttributes window_attributes_return);
+
+    // TODO 暂未使用
+    // Status XGetGeometry(Display *display, Drawable d, Window *root_return, int *x_return, int *y_return, unsigned int *width_return, unsigned int *height_return, unsigned int *border_width_return, unsigned int *depth_return);
     [LibraryImport(libX11)]
     [return: MarshalAs(UnmanagedType.Bool)]
-    public static partial bool XGetWindowAttributes(DisplayPtr display, WindowHandle window, XWindowAttributes* window_attributes_return);
+    public static partial bool XGetGeometry(DisplayPtr display, DrawableHandle drawable, out WindowHandle root_return, out int x_return, out int y_return, out uint width_return, out uint height_return, out uint border_width_return, out uint depth_return);
+
+    #endregion
+
+    #region Translating Screen Coordinates
+
+    // TODO 暂未使用
+    // Bool XTranslateCoordinates(Display *display, Window src_w, Window dest_w, int src_x, int src_y, int *dest_x_return, int *dest_y_return, Window *child_return);
+    [LibraryImport(libX11)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static partial bool XTranslateCoordinates(DisplayPtr display, WindowHandle src_w, WindowHandle dest_w, int src_x, int src_y, out int dest_x_return, out int dest_y_return, out WindowHandle child_return);
+
+    // TODO 暂未使用
+    // Bool XQueryPointer(Display *display, Window w, Window *root_return, Window *child_return, int *root_x_return, int *root_y_return, int *win_x_return, int *win_y_return, unsigned int *mask_return);
+    [LibraryImport(libX11)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static partial bool XQueryPointer(DisplayPtr display, WindowHandle window, out WindowHandle root_return, out WindowHandle child_return, out int root_x_return, out int root_y_return, out int win_x_return, out int win_y_return, out uint mask_return);
+
+    #endregion
+
+    #region Properties and Atoms
+
+    // Atom XInternAtom(Display *display, char *atom_name, Bool only_if_exists);
+    [LibraryImport(libX11, StringMarshalling = StringMarshalling.Utf8)]
+    public static partial AtomHandle XInternAtom(DisplayPtr display, string atom_name, [MarshalAs(UnmanagedType.Bool)] bool only_if_exists);
+
+    // TODO 暂未使用
+    // Status XInternAtoms(Display *display, char **names, int count, Bool only_if_exists, Atom *atoms_return);
+    [LibraryImport(libX11, StringMarshalling = StringMarshalling.Utf8)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static unsafe partial bool XInternAtoms(DisplayPtr display, [In] string[] names, int count, [MarshalAs(UnmanagedType.Bool)] bool only_if_exists, AtomHandle* atoms_return);
 
     #endregion
 

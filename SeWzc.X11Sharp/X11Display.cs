@@ -30,12 +30,12 @@ public sealed class X11Display : IDisposable
     /// <summary>
     /// 获取默认的根窗口。
     /// </summary>
-    public X11DisplayWindow DefaultRootWindow => new X11Window(XLib.XDefaultRootWindow(XDisplay)).WithDisplay(this);
+    public X11DisplayWindow DefaultRootWindow => ((X11Window)XLib.XDefaultRootWindow(XDisplay)).WithDisplay(this);
 
     /// <summary>
     /// 获取默认屏幕。
     /// </summary>
-    public unsafe X11Screen DefaultScreen => new(XLib.XDefaultScreenOfDisplay(XDisplay));
+    public X11Screen DefaultScreen => (X11Screen?)XLib.XDefaultScreenOfDisplay(XDisplay) ?? throw new InvalidOperationException("Default screen is null.");
 
     /// <summary>
     /// 获取默认屏幕编号。
@@ -105,7 +105,7 @@ public sealed class X11Display : IDisposable
     /// <returns>指定屏幕上的默认颜色图。</returns>
     public X11ColorMap GetDefaultColormap(int screenNumber)
     {
-        return new X11ColorMap(XLib.XDefaultColormap(XDisplay, screenNumber));
+        return XLib.XDefaultColormap(XDisplay, screenNumber);
     }
 
     /// <summary>
@@ -142,7 +142,7 @@ public sealed class X11Display : IDisposable
     /// <returns>指定屏幕上的默认图形上下文。</returns>
     public X11GC GetDefaultGC(int screenNumber)
     {
-        return new X11GC(XLib.XDefaultGC(XDisplay, screenNumber));
+        return (X11GC?)XLib.XDefaultGC(XDisplay, screenNumber) ?? throw new InvalidOperationException("Default GC is null.");
     }
 
     /// <summary>
@@ -150,9 +150,9 @@ public sealed class X11Display : IDisposable
     /// </summary>
     /// <param name="screenNumber">屏幕的编号。</param>
     /// <returns>指定编号的屏幕。</returns>
-    public unsafe X11Screen GetScreen(int screenNumber)
+    public X11Screen? GetScreen(int screenNumber)
     {
-        return new X11Screen(XLib.XScreenOfDisplay(XDisplay, screenNumber));
+        return XLib.XScreenOfDisplay(XDisplay, screenNumber);
     }
 
     /// <summary>
@@ -160,9 +160,9 @@ public sealed class X11Display : IDisposable
     /// </summary>
     /// <param name="screenNumber">屏幕的编号。</param>
     /// <returns>指定屏幕上的默认视觉效果。</returns>
-    public unsafe X11Visual GetDefaultVisual(int screenNumber)
+    public X11Visual GetDefaultVisual(int screenNumber)
     {
-        return new X11Visual(XLib.XDefaultVisual(XDisplay, screenNumber));
+        return (X11Visual?)XLib.XDefaultVisual(XDisplay, screenNumber) ?? throw new InvalidOperationException("Default visual is null.");
     }
 
     /// <summary>
@@ -192,7 +192,7 @@ public sealed class X11Display : IDisposable
     /// <returns>指定屏幕的根窗口。</returns>
     public X11DisplayWindow GetRootWindow(int screenNumber)
     {
-        return new X11Window(XLib.XRootWindow(XDisplay, screenNumber)).WithDisplay(this);
+        return ((X11Window)XLib.XRootWindow(XDisplay, screenNumber)).WithDisplay(this);
     }
 
     /// <summary>
@@ -215,21 +215,21 @@ public sealed class X11Display : IDisposable
     /// <param name="windowClass">窗口的类别。</param>
     /// <param name="attributes">窗口的 Attributes。</param>
     /// <returns></returns>
-    public unsafe X11DisplayWindow CreateWindow(X11Window parent, Point location, Size size, uint borderWidth, int depth,
+    public X11DisplayWindow CreateWindow(X11Window parent, Point location, Size size, uint borderWidth, int depth,
         WindowClasses windowClass = WindowClasses.CopyFromParent, SetWindowAttributes? attributes = null)
     {
         var valueMask = attributes?.GetValueMask() ?? 0;
         var windowAttributes = attributes?.ToXSetWindowAttributes() ?? default;
-        var window = XLib.XCreateWindow(XDisplay, parent.XWindow,
+        var window = XLib.XCreateWindow(XDisplay, parent.Handle,
             location.X, location.Y,
             size.Width, size.Height,
             borderWidth,
             depth,
             windowClass,
-            null, // TODO 暂未实现
+            default, // TODO 暂未实现
             valueMask,
-            &windowAttributes);
-        return new X11Window(window).WithDisplay(this);
+            in windowAttributes);
+        return ((X11Window)window).WithDisplay(this);
     }
 
     /// <summary>
@@ -244,13 +244,24 @@ public sealed class X11Display : IDisposable
     /// <returns></returns>
     public X11DisplayWindow CreateSimpleWindow(X11Window parent, Point location, Size size, uint borderWidth, Pixel border, Pixel background)
     {
-        var window = XLib.XCreateSimpleWindow(XDisplay, parent.XWindow,
+        var window = XLib.XCreateSimpleWindow(XDisplay, parent.Handle,
             location.X, location.Y,
             size.Width, size.Height,
             borderWidth,
             border,
             background);
-        return new X11Window(window).WithDisplay(this);
+        return ((X11Window)window).WithDisplay(this);
+    }
+
+    /// <summary>
+    /// 获取指定名称的原子。
+    /// </summary>
+    /// <param name="atomName">原子名称。</param>
+    /// <param name="onlyIfExists">是否仅获取已存在的原子。</param>
+    /// <returns></returns>
+    public X11Atom GetAtom(string atomName, bool onlyIfExists = false)
+    {
+        return XLib.XInternAtom(XDisplay, atomName, onlyIfExists);
     }
 
     #region 运算符重载
@@ -260,9 +271,9 @@ public sealed class X11Display : IDisposable
         return display.XDisplay.Value;
     }
 
-    public static explicit operator X11Display(nint ptr)
+    public static explicit operator X11Display?(nint ptr)
     {
-        return Cache.GetOrAdd(ptr, static ptr => new X11Display(new DisplayPtr(ptr)));
+        return ptr is 0 ? null : Cache.GetOrAdd(ptr, static ptr => new X11Display(new DisplayPtr(ptr)));
     }
 
     #endregion
