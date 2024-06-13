@@ -5,30 +5,6 @@ namespace SeWzc.X11Sharp;
 
 public sealed class WindowAttributes
 {
-    public int X { get; }
-    public int Y { get; }
-    public int Width { get; }
-    public int Height { get; }
-    public int BorderWidth { get; }
-    public int Depth { get; }
-    public X11Visual Visual { get; }
-    public X11Window Root { get; }
-    public WindowClasses WindowClass { get; }
-    public Gravity BitGravity { get; }
-    public Gravity WinGravity { get; }
-    public BackingStore BackingStore { get; }
-    public nuint BackingPlanes { get; }
-    public Pixel BackingPixel { get; }
-    public bool SaveUnder { get; }
-    public X11ColorMap Colormap { get; }
-    public bool MapInstalled { get; }
-    public MapState MapState { get; }
-    public EventMask AllEventMasks { get; }
-    public EventMask YourEventMask { get; }
-    public EventMask DoNotPropagateMask { get; }
-    public bool OverrideRedirect { get; }
-    public X11Screen Screen { get; }
-
     internal WindowAttributes(XWindowAttributes windowAttributes)
     {
         X = windowAttributes.x;
@@ -55,4 +31,28 @@ public sealed class WindowAttributes
         OverrideRedirect = windowAttributes.override_redirect;
         Screen = (X11Screen?)windowAttributes.screen ?? throw new ArgumentNullException(nameof(windowAttributes.screen));
     }
+
+    public int X { get; }
+    public int Y { get; }
+    public int Width { get; }
+    public int Height { get; }
+    public int BorderWidth { get; }
+    public int Depth { get; }
+    public X11Visual Visual { get; }
+    public X11Window Root { get; }
+    public WindowClasses WindowClass { get; }
+    public Gravity BitGravity { get; }
+    public Gravity WinGravity { get; }
+    public BackingStore BackingStore { get; }
+    public nuint BackingPlanes { get; }
+    public Pixel BackingPixel { get; }
+    public bool SaveUnder { get; }
+    public X11ColorMap Colormap { get; }
+    public bool MapInstalled { get; }
+    public MapState MapState { get; }
+    public EventMask AllEventMasks { get; }
+    public EventMask YourEventMask { get; }
+    public EventMask DoNotPropagateMask { get; }
+    public bool OverrideRedirect { get; }
+    public X11Screen Screen { get; }
 }

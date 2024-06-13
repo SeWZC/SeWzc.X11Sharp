@@ -13,12 +13,12 @@ public class X11Visual
 
     private static WeakReferenceValueDictionary<nint, X11Visual> Cache { get; } = new();
 
-    public static explicit operator IntPtr(X11Visual visual)
+    public static explicit operator nint(X11Visual visual)
     {
         return visual.XVisual.Value;
     }
 
-    public static explicit operator X11Visual?(IntPtr ptr)
+    public static explicit operator X11Visual?(nint ptr)
     {
         return ptr is 0 ? null : Cache.GetOrAdd(ptr, key => new X11Visual(new VisualPtr(key)));
     }

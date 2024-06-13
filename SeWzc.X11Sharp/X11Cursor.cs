@@ -4,12 +4,12 @@ namespace SeWzc.X11Sharp;
 
 public sealed class X11Cursor
 {
-    internal CursorHandle Handle { get; }
-
     private X11Cursor(CursorHandle handle)
     {
         Handle = handle;
     }
+
+    internal CursorHandle Handle { get; }
 
     private static WeakReferenceValueDictionary<nint, X11Cursor> Cache { get; } = new();
 

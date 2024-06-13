@@ -496,7 +496,8 @@ internal static partial class XLib
 
     // XChangeWindowAttributes(Display *display, Window w, unsigned long valuemask, XSetWindowAttributes *attributes);
     [DllImport(libX11)]
-    public static extern int XChangeWindowAttributes(DisplayPtr display, WindowHandle window, WindowAttributeValueMask valuemask, in XSetWindowAttributes attributes);
+    public static extern int XChangeWindowAttributes(DisplayPtr display, WindowHandle window, WindowAttributeValueMask valuemask,
+        in XSetWindowAttributes attributes);
 
     // XSetWindowBackground(Display *display, Window w, unsigned long background_pixel);
     [LibraryImport(libX11)]
@@ -542,7 +543,8 @@ internal static partial class XLib
     // Status XQueryTree(Display *display, Window w, Window *root_return, Window *parent_return, Window **children_return, unsigned int *nchildren_return);
     [LibraryImport(libX11)]
     [return: MarshalAs(UnmanagedType.Bool)]
-    public static unsafe partial bool XQueryTree(DisplayPtr display, WindowHandle window, out WindowHandle root_return, out WindowHandle parent_return, out WindowHandle* children_return, out uint nchildren_return);
+    public static unsafe partial bool XQueryTree(DisplayPtr display, WindowHandle window, out WindowHandle root_return, out WindowHandle parent_return,
+        out WindowHandle* children_return, out uint nchildren_return);
 
     // Status XGetWindowAttributes(Display *display, Window w, XWindowAttributes *window_attributes_return);
     [DllImport(libX11)]
@@ -553,7 +555,8 @@ internal static partial class XLib
     // Status XGetGeometry(Display *display, Drawable d, Window *root_return, int *x_return, int *y_return, unsigned int *width_return, unsigned int *height_return, unsigned int *border_width_return, unsigned int *depth_return);
     [LibraryImport(libX11)]
     [return: MarshalAs(UnmanagedType.Bool)]
-    public static partial bool XGetGeometry(DisplayPtr display, DrawableHandle drawable, out WindowHandle root_return, out int x_return, out int y_return, out uint width_return, out uint height_return, out uint border_width_return, out uint depth_return);
+    public static partial bool XGetGeometry(DisplayPtr display, DrawableHandle drawable, out WindowHandle root_return, out int x_return, out int y_return,
+        out uint width_return, out uint height_return, out uint border_width_return, out uint depth_return);
 
     #endregion
 
@@ -563,13 +566,15 @@ internal static partial class XLib
     // Bool XTranslateCoordinates(Display *display, Window src_w, Window dest_w, int src_x, int src_y, int *dest_x_return, int *dest_y_return, Window *child_return);
     [LibraryImport(libX11)]
     [return: MarshalAs(UnmanagedType.Bool)]
-    public static partial bool XTranslateCoordinates(DisplayPtr display, WindowHandle src_w, WindowHandle dest_w, int src_x, int src_y, out int dest_x_return, out int dest_y_return, out WindowHandle child_return);
+    public static partial bool XTranslateCoordinates(DisplayPtr display, WindowHandle src_w, WindowHandle dest_w, int src_x, int src_y, out int dest_x_return,
+        out int dest_y_return, out WindowHandle child_return);
 
     // TODO 暂未使用
     // Bool XQueryPointer(Display *display, Window w, Window *root_return, Window *child_return, int *root_x_return, int *root_y_return, int *win_x_return, int *win_y_return, unsigned int *mask_return);
     [LibraryImport(libX11)]
     [return: MarshalAs(UnmanagedType.Bool)]
-    public static partial bool XQueryPointer(DisplayPtr display, WindowHandle window, out WindowHandle root_return, out WindowHandle child_return, out int root_x_return, out int root_y_return, out int win_x_return, out int win_y_return, out uint mask_return);
+    public static partial bool XQueryPointer(DisplayPtr display, WindowHandle window, out WindowHandle root_return, out WindowHandle child_return,
+        out int root_x_return, out int root_y_return, out int win_x_return, out int win_y_return, out uint mask_return);
 
     #endregion
 
@@ -583,7 +588,8 @@ internal static partial class XLib
     // Status XInternAtoms(Display *display, char **names, int count, Bool only_if_exists, Atom *atoms_return);
     [LibraryImport(libX11, StringMarshalling = StringMarshalling.Utf8)]
     [return: MarshalAs(UnmanagedType.Bool)]
-    public static unsafe partial bool XInternAtoms(DisplayPtr display, [In] string[] names, int count, [MarshalAs(UnmanagedType.Bool)] bool only_if_exists, AtomHandle* atoms_return);
+    public static unsafe partial bool XInternAtoms(DisplayPtr display, [In] string[] names, int count, [MarshalAs(UnmanagedType.Bool)] bool only_if_exists,
+        AtomHandle* atoms_return);
 
     #endregion
 

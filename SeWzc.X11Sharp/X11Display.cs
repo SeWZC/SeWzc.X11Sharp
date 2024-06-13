@@ -19,7 +19,7 @@ public sealed class X11Display : IDisposable
         XDisplay = xDisplay;
     }
 
-    private static WeakReferenceValueDictionary<IntPtr, X11Display> Cache { get; } = new();
+    private static WeakReferenceValueDictionary<nint, X11Display> Cache { get; } = new();
 
     /// <summary>
     /// 获取连接编号。

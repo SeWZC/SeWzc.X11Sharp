@@ -4,12 +4,12 @@ namespace SeWzc.X11Sharp;
 
 public sealed class X11ColorMap
 {
-    internal ColormapHandle Handle { get; }
-
     private X11ColorMap(ColormapHandle handle)
     {
         Handle = handle;
     }
+
+    internal ColormapHandle Handle { get; }
 
     private static WeakReferenceValueDictionary<nint, X11ColorMap> Cache { get; } = new();
 

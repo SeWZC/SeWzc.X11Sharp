@@ -15,7 +15,7 @@ public sealed class X11Screen
 
     private ScreenPtr Ptr { get; }
 
-    private static WeakReferenceValueDictionary<IntPtr, X11Screen> Cache { get; } = new();
+    private static WeakReferenceValueDictionary<nint, X11Screen> Cache { get; } = new();
 
     /// <summary>
     /// 获取黑色像素。
@@ -101,12 +101,12 @@ public sealed class X11Screen
 
     #region 运算符重载
 
-    public static explicit operator IntPtr(X11Screen screen)
+    public static explicit operator nint(X11Screen screen)
     {
         return screen.Ptr.Value;
     }
 
-    public static explicit operator X11Screen?(IntPtr ptr)
+    public static explicit operator X11Screen?(nint ptr)
     {
         return ptr is 0 ? null : Cache.GetOrAdd(ptr, key => new X11Screen(new ScreenPtr(key)));
     }

@@ -4,12 +4,12 @@ namespace SeWzc.X11Sharp;
 
 public class X11Drawable
 {
-    internal DrawableHandle Handle { get; }
-
     private protected X11Drawable(DrawableHandle handle)
     {
         Handle = handle;
     }
+
+    internal DrawableHandle Handle { get; }
 
     private static WeakReferenceValueDictionary<nint, X11Drawable> Cache { get; } = new();
 

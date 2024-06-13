@@ -114,7 +114,7 @@ internal readonly record struct DisplayPtr(nint Value) : IIntPtrRole<DisplayPtr>
 
     public static implicit operator DisplayPtr(X11Display display)
     {
-        return new DisplayPtr((IntPtr)display);
+        return new DisplayPtr((nint)display);
     }
 }
 
@@ -127,7 +127,7 @@ internal readonly record struct VisualPtr(nint Value) : IIntPtrRole<VisualPtr>
 
     public static implicit operator VisualPtr(X11Visual visual)
     {
-        return new VisualPtr((IntPtr)visual);
+        return new VisualPtr((nint)visual);
     }
 }
 
@@ -140,7 +140,7 @@ internal readonly record struct ScreenPtr(nint Value) : IIntPtrRole<ScreenPtr>
 
     public static implicit operator ScreenPtr(X11Screen screen)
     {
-        return new ScreenPtr((IntPtr)screen);
+        return new ScreenPtr((nint)screen);
     }
 }
 
@@ -153,7 +153,7 @@ internal readonly record struct GCPtr(nint Value) : IIntPtrRole<GCPtr>
 
     public static implicit operator GCPtr(X11GC gc)
     {
-        return new GCPtr((IntPtr)gc);
+        return new GCPtr((nint)gc);
     }
 }
 
@@ -166,7 +166,7 @@ internal readonly record struct AtomHandle(nint Value) : IIntPtrRole<AtomHandle>
 
     public static implicit operator AtomHandle(X11Atom atom)
     {
-        return new AtomHandle((IntPtr)atom);
+        return new AtomHandle((nint)atom);
     }
 }
 

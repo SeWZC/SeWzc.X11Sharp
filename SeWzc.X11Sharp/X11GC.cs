@@ -7,12 +7,12 @@ namespace SeWzc.X11Sharp;
 /// </summary>
 public sealed class X11GC
 {
-    internal GCPtr Ptr { get; }
-
     private X11GC(GCPtr ptr)
     {
         Ptr = ptr;
     }
+
+    internal GCPtr Ptr { get; }
 
     private static WeakReferenceValueDictionary<nint, X11GC> Cache { get; } = new();
 

@@ -4,13 +4,13 @@ namespace SeWzc.X11Sharp;
 
 public sealed class X11Pixmap : X11Drawable
 {
-    internal new PixmapHandle Handle => (PixmapHandle)base.Handle;
-
-    internal DrawableHandle DrawableHandle => base.Handle;
-
     private X11Pixmap(PixmapHandle handle) : base(handle)
     {
     }
+
+    internal new PixmapHandle Handle => (PixmapHandle)base.Handle;
+
+    internal DrawableHandle DrawableHandle => base.Handle;
 
     private static WeakReferenceValueDictionary<nint, X11Pixmap> Cache { get; } = new();
 
