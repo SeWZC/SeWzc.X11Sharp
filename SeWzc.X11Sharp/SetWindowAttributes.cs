@@ -18,7 +18,7 @@ public sealed class SetWindowAttributes
     public EventMask? EventMask { get; set; }
     public EventMask? DoNotPropagateMask { get; set; }
     public bool? OverrideRedirect { get; set; }
-    public X11ColorMap? Colormap { get; set; }
+    public X11Colormap? Colormap { get; set; }
     public X11Cursor? Cursor { get; set; }
 
     internal WindowAttributeValueMask GetValueMask()
@@ -63,9 +63,9 @@ public sealed class SetWindowAttributes
     {
         return new XSetWindowAttributes
         {
-            background_pixmap = BackgroundPixmap?.Handle ?? default,
+            background_pixmap = BackgroundPixmap ?? default,
             background_pixel = BackgroundPixel ?? default,
-            border_pixmap = BorderPixmap?.Handle ?? default,
+            border_pixmap = BorderPixmap ?? default,
             border_pixel = BorderPixel ?? default,
             bit_gravity = BitGravity ?? Gravity.ForgetGravity,
             win_gravity = WinGravity ?? Gravity.ForgetGravity,
@@ -76,8 +76,8 @@ public sealed class SetWindowAttributes
             event_mask = EventMask ?? default,
             do_not_propagate_mask = DoNotPropagateMask ?? default,
             override_redirect = OverrideRedirect ?? false,
-            colormap = Colormap?.Handle ?? default,
-            cursor = Cursor?.Handle ?? default,
+            colormap = Colormap ?? default,
+            cursor = Cursor ?? default,
         };
     }
 }

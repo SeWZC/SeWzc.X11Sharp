@@ -30,7 +30,7 @@ public sealed class X11Display : IDisposable
     /// <summary>
     /// 获取默认的根窗口。
     /// </summary>
-    public X11DisplayWindow DefaultRootWindow => ((X11Window)XLib.XDefaultRootWindow(XDisplay)).WithDisplay(this);
+    public X11DisplayWindow DefaultRootWindow => XLib.XDefaultRootWindow(XDisplay).WithDisplay(this);
 
     /// <summary>
     /// 获取默认屏幕。
@@ -103,7 +103,7 @@ public sealed class X11Display : IDisposable
     /// </summary>
     /// <param name="screenNumber">屏幕的编号。</param>
     /// <returns>指定屏幕上的默认颜色图。</returns>
-    public X11ColorMap GetDefaultColormap(int screenNumber)
+    public X11Colormap GetDefaultColormap(int screenNumber)
     {
         return XLib.XDefaultColormap(XDisplay, screenNumber);
     }
@@ -192,7 +192,7 @@ public sealed class X11Display : IDisposable
     /// <returns>指定屏幕的根窗口。</returns>
     public X11DisplayWindow GetRootWindow(int screenNumber)
     {
-        return ((X11Window)XLib.XRootWindow(XDisplay, screenNumber)).WithDisplay(this);
+        return XLib.XRootWindow(XDisplay, screenNumber).WithDisplay(this);
     }
 
     /// <summary>
@@ -220,7 +220,7 @@ public sealed class X11Display : IDisposable
     {
         var valueMask = attributes?.GetValueMask() ?? 0;
         var windowAttributes = attributes?.ToXSetWindowAttributes() ?? default;
-        var window = XLib.XCreateWindow(XDisplay, parent.Handle,
+        var window = XLib.XCreateWindow(XDisplay, parent,
             location.X, location.Y,
             size.Width, size.Height,
             borderWidth,
@@ -229,7 +229,7 @@ public sealed class X11Display : IDisposable
             default, // TODO 暂未实现
             valueMask,
             in windowAttributes);
-        return ((X11Window)window).WithDisplay(this);
+        return window.WithDisplay(this);
     }
 
     /// <summary>
@@ -244,13 +244,13 @@ public sealed class X11Display : IDisposable
     /// <returns></returns>
     public X11DisplayWindow CreateSimpleWindow(X11Window parent, Point location, Size size, uint borderWidth, Pixel border, Pixel background)
     {
-        var window = XLib.XCreateSimpleWindow(XDisplay, parent.Handle,
+        var window = XLib.XCreateSimpleWindow(XDisplay, parent,
             location.X, location.Y,
             size.Width, size.Height,
             borderWidth,
             border,
             background);
-        return ((X11Window)window).WithDisplay(this);
+        return window.WithDisplay(this);
     }
 
     /// <summary>

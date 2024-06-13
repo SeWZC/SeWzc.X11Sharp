@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using SeWzc.X11Sharp.Structs;
 
 namespace SeWzc.X11Sharp.Internal;
@@ -14,94 +15,9 @@ internal interface IIntPtrRole<T> where T : unmanaged, IIntPtrRole<T>, IEquatabl
         return xid.Value;
     }
 
-    public static virtual unsafe implicit operator T(nint handle)
+    public static virtual implicit operator T(nint handle)
     {
-        return *(T*)&handle;
-    }
-}
-
-internal readonly record struct WindowHandle(nint Value) : IIntPtrRole<WindowHandle>
-{
-    public static explicit operator WindowHandle(DrawableHandle drawableHandle)
-    {
-        return new WindowHandle(drawableHandle.Value);
-    }
-
-    public static implicit operator DrawableHandle(WindowHandle windowHandle)
-    {
-        return new DrawableHandle(windowHandle.Value);
-    }
-
-    public static implicit operator WindowHandle(X11Window value)
-    {
-        return value.Handle;
-    }
-
-    public static implicit operator X11Window(WindowHandle windowHandle)
-    {
-        return (X11Window)windowHandle.Value;
-    }
-}
-
-internal readonly record struct PixmapHandle(nint Value) : IIntPtrRole<PixmapHandle>
-{
-    public static explicit operator PixmapHandle(DrawableHandle drawableHandle)
-    {
-        return new PixmapHandle(drawableHandle.Value);
-    }
-
-    public static implicit operator DrawableHandle(PixmapHandle pixmapHandle)
-    {
-        return new DrawableHandle(pixmapHandle.Value);
-    }
-
-    public static implicit operator PixmapHandle(X11Pixmap value)
-    {
-        return value.Handle;
-    }
-
-    public static implicit operator X11Pixmap(PixmapHandle pixmapHandle)
-    {
-        return (X11Pixmap)pixmapHandle.Value;
-    }
-}
-
-internal readonly record struct ColormapHandle(nint Value) : IIntPtrRole<ColormapHandle>
-{
-    public static implicit operator ColormapHandle(X11ColorMap colormap)
-    {
-        return colormap.Handle;
-    }
-
-    public static implicit operator X11ColorMap(ColormapHandle colormapHandle)
-    {
-        return (X11ColorMap)colormapHandle.Value;
-    }
-}
-
-internal readonly record struct CursorHandle(nint Value) : IIntPtrRole<CursorHandle>
-{
-    public static implicit operator CursorHandle(X11Cursor cursor)
-    {
-        return cursor.Handle;
-    }
-
-    public static implicit operator X11Cursor(CursorHandle cursorHandle)
-    {
-        return (X11Cursor)cursorHandle.Value;
-    }
-}
-
-internal readonly record struct DrawableHandle(nint Value) : IIntPtrRole<DrawableHandle>
-{
-    public static implicit operator DrawableHandle(X11Drawable drawable)
-    {
-        return drawable.Handle;
-    }
-
-    public static implicit operator X11Drawable(DrawableHandle drawableHandle)
-    {
-        return (X11Drawable)drawableHandle.Value;
+        return Unsafe.BitCast<nint, T>(handle);
     }
 }
 
@@ -157,19 +73,6 @@ internal readonly record struct GCPtr(nint Value) : IIntPtrRole<GCPtr>
     }
 }
 
-internal readonly record struct AtomHandle(nint Value) : IIntPtrRole<AtomHandle>
-{
-    public static implicit operator X11Atom(AtomHandle atomHandle)
-    {
-        return (X11Atom)atomHandle.Value;
-    }
-
-    public static implicit operator AtomHandle(X11Atom atom)
-    {
-        return new AtomHandle((nint)atom);
-    }
-}
-
 internal unsafe struct XPointer(byte* value)
 {
     public byte* Value = value;
@@ -184,7 +87,9 @@ internal unsafe struct XExtData
     public XPointer private_data;
 }
 
-internal unsafe delegate void XConnectionWatchProc(DisplayPtr display, XPointer client_data, int fd, bool opening, XPointer* watch_data);
+[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+internal unsafe delegate void XConnectionWatchProc(DisplayPtr display, XPointer client_data, int fd,
+    [MarshalAs(UnmanagedType.Bool)] bool opening, XPointer* watch_data);
 
 internal readonly record struct XVisualId(nuint Value);
 
@@ -206,7 +111,7 @@ internal unsafe struct XScreen
 {
     public XExtData* ext_data;
     public DisplayPtr display;
-    public WindowHandle root;
+    public X11Window root;
     public int width;
     public int height;
     public int mwidth;
@@ -216,12 +121,13 @@ internal unsafe struct XScreen
     public int root_depth;
     public VisualPtr root_visual;
     public GCPtr default_gc;
-    public ColormapHandle cmap;
+    public X11Colormap cmap;
     public Pixel white_pixel;
     public Pixel black_pixel;
     public int max_maps;
     public int min_maps;
     public BackingStore backing_store;
+    [field: MarshalAs(UnmanagedType.Bool)]
     public bool save_unders;
     public nint root_input_mask;
 }
@@ -242,7 +148,7 @@ internal struct XWindowChanges
     public int width;
     public int height;
     public int border_width;
-    public WindowHandle sibling;
+    public X11Window sibling;
     public StackMode stack_mode;
 }
 
@@ -256,20 +162,23 @@ internal struct XWindowAttributes
     public int border_width;
     public int depth;
     public VisualPtr visual;
-    public WindowHandle root;
+    public X11Window root;
     public WindowClasses c_class;
     public Gravity bit_gravity;
     public Gravity win_gravity;
     public BackingStore backing_store;
     public nuint backing_planes;
     public Pixel backing_pixel;
+    [field: MarshalAs(UnmanagedType.Bool)]
     public bool save_under;
-    public ColormapHandle colormap;
+    public X11Colormap colormap;
+    [field: MarshalAs(UnmanagedType.Bool)]
     public bool map_installed;
     public MapState map_state;
     public EventMask all_event_masks;
     public EventMask your_event_mask;
     public EventMask do_not_propagate_mask;
+    [field: MarshalAs(UnmanagedType.Bool)]
     public bool override_redirect;
     public ScreenPtr screen;
 
@@ -282,19 +191,21 @@ internal struct XWindowAttributes
 [StructLayout(LayoutKind.Sequential)]
 internal struct XSetWindowAttributes
 {
-    public PixmapHandle background_pixmap;
+    public X11Pixmap background_pixmap;
     public Pixel background_pixel;
-    public PixmapHandle border_pixmap;
+    public X11Pixmap border_pixmap;
     public Pixel border_pixel;
     public Gravity bit_gravity;
     public Gravity win_gravity;
     public BackingStore backing_store;
     public nuint backing_planes;
     public Pixel backing_pixel;
+    [field: MarshalAs(UnmanagedType.Bool)]
     public bool save_under;
     public EventMask event_mask;
     public EventMask do_not_propagate_mask;
+    [field: MarshalAs(UnmanagedType.Bool)]
     public bool override_redirect;
-    public ColormapHandle colormap;
-    public CursorHandle cursor;
+    public X11Colormap colormap;
+    public X11Cursor cursor;
 }

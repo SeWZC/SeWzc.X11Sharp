@@ -29,7 +29,7 @@ public readonly record struct X11DisplayWindow
     /// </summary>
     public void Destroy()
     {
-        _ = XLib.XDestroyWindow(Display.XDisplay, Window.Handle);
+        _ = XLib.XDestroyWindow(Display.XDisplay, Window);
     }
 
     /// <summary>
@@ -37,7 +37,7 @@ public readonly record struct X11DisplayWindow
     /// </summary>
     public void DestroySubwindows()
     {
-        _ = XLib.XDestroySubwindows(Display.XDisplay, Window.Handle);
+        _ = XLib.XDestroySubwindows(Display.XDisplay, Window);
     }
 
     /// <summary>
@@ -45,7 +45,7 @@ public readonly record struct X11DisplayWindow
     /// </summary>
     public void Map()
     {
-        _ = XLib.XMapWindow(Display.XDisplay, Window.Handle);
+        _ = XLib.XMapWindow(Display.XDisplay, Window);
     }
 
     /// <summary>
@@ -53,7 +53,7 @@ public readonly record struct X11DisplayWindow
     /// </summary>
     public void MapRaised()
     {
-        _ = XLib.XMapRaised(Display.XDisplay, Window.Handle);
+        _ = XLib.XMapRaised(Display.XDisplay, Window);
     }
 
     /// <summary>
@@ -61,7 +61,7 @@ public readonly record struct X11DisplayWindow
     /// </summary>
     public void MapSubwindows()
     {
-        _ = XLib.XMapSubwindows(Display.XDisplay, Window.Handle);
+        _ = XLib.XMapSubwindows(Display.XDisplay, Window);
     }
 
     /// <summary>
@@ -69,7 +69,7 @@ public readonly record struct X11DisplayWindow
     /// </summary>
     public void Unmap()
     {
-        _ = XLib.XUnmapWindow(Display.XDisplay, Window.Handle);
+        _ = XLib.XUnmapWindow(Display.XDisplay, Window);
     }
 
     /// <summary>
@@ -77,7 +77,7 @@ public readonly record struct X11DisplayWindow
     /// </summary>
     public void UnmapSubwindows()
     {
-        _ = XLib.XUnmapSubwindows(Display.XDisplay, Window.Handle);
+        _ = XLib.XUnmapSubwindows(Display.XDisplay, Window);
     }
 
     /// <summary>
@@ -88,7 +88,7 @@ public readonly record struct X11DisplayWindow
     {
         var windowConfigureMask = changes.GetValueMask();
         var windowChanges = changes.ToXWindowChanges();
-        _ = XLib.XConfigureWindow(Display.XDisplay, Window.Handle, windowConfigureMask, in windowChanges);
+        _ = XLib.XConfigureWindow(Display.XDisplay, Window, windowConfigureMask, in windowChanges);
     }
 
     /// <summary>
@@ -97,7 +97,7 @@ public readonly record struct X11DisplayWindow
     /// <param name="location">窗口左上角在父窗口的位置。</param>
     public void Move(Point location)
     {
-        _ = XLib.XMoveWindow(Display.XDisplay, Window.Handle, location.X, location.Y);
+        _ = XLib.XMoveWindow(Display.XDisplay, Window, location.X, location.Y);
     }
 
     /// <summary>
@@ -106,7 +106,7 @@ public readonly record struct X11DisplayWindow
     /// <param name="size">窗口的大小。</param>
     public void Resize(Size size)
     {
-        _ = XLib.XResizeWindow(Display.XDisplay, Window.Handle, size.Width, size.Height);
+        _ = XLib.XResizeWindow(Display.XDisplay, Window, size.Width, size.Height);
     }
 
     /// <summary>
@@ -116,7 +116,7 @@ public readonly record struct X11DisplayWindow
     /// <param name="size">窗口的大小。</param>
     public void MoveResize(Point location, Size size)
     {
-        _ = XLib.XMoveResizeWindow(Display.XDisplay, Window.Handle, location.X, location.Y, size.Width, size.Height);
+        _ = XLib.XMoveResizeWindow(Display.XDisplay, Window, location.X, location.Y, size.Width, size.Height);
     }
 
     /// <summary>
@@ -125,7 +125,7 @@ public readonly record struct X11DisplayWindow
     /// <param name="borderWidth">窗口边框宽度。</param>
     public void SetWindowBorderWidth(uint borderWidth)
     {
-        _ = XLib.XSetWindowBorderWidth(Display.XDisplay, Window.Handle, borderWidth);
+        _ = XLib.XSetWindowBorderWidth(Display.XDisplay, Window, borderWidth);
     }
 
     /// <summary>
@@ -133,7 +133,7 @@ public readonly record struct X11DisplayWindow
     /// </summary>
     public void Raise()
     {
-        _ = XLib.XRaiseWindow(Display.XDisplay, Window.Handle);
+        _ = XLib.XRaiseWindow(Display.XDisplay, Window);
     }
 
     /// <summary>
@@ -141,7 +141,7 @@ public readonly record struct X11DisplayWindow
     /// </summary>
     public void Lower()
     {
-        _ = XLib.XLowerWindow(Display.XDisplay, Window.Handle);
+        _ = XLib.XLowerWindow(Display.XDisplay, Window);
     }
 
     /// <summary>
@@ -152,7 +152,7 @@ public readonly record struct X11DisplayWindow
     {
         var windowAttributeValueMask = attributes.GetValueMask();
         var setWindowAttributes = attributes.ToXSetWindowAttributes();
-        _ = XLib.XChangeWindowAttributes(Display.XDisplay, Window.Handle, windowAttributeValueMask, in setWindowAttributes);
+        _ = XLib.XChangeWindowAttributes(Display.XDisplay, Window, windowAttributeValueMask, in setWindowAttributes);
     }
 
     /// <summary>
@@ -161,7 +161,7 @@ public readonly record struct X11DisplayWindow
     /// <param name="pixel">背景像素。</param>
     public void SetBackground(Pixel pixel)
     {
-        _ = XLib.XSetWindowBackground(Display.XDisplay, Window.Handle, pixel);
+        _ = XLib.XSetWindowBackground(Display.XDisplay, Window, pixel);
     }
 
     /// <summary>
@@ -170,7 +170,7 @@ public readonly record struct X11DisplayWindow
     /// <param name="pixel">边框像素。</param>
     public void SetBorder(Pixel pixel)
     {
-        _ = XLib.XSetWindowBorder(Display.XDisplay, Window.Handle, pixel);
+        _ = XLib.XSetWindowBorder(Display.XDisplay, Window, pixel);
     }
 
     /// <summary>
@@ -183,7 +183,7 @@ public readonly record struct X11DisplayWindow
     public unsafe bool QueryTree([NotNullWhen(true)] out X11DisplayWindow? root, [NotNullWhen(true)] out X11DisplayWindow? parent,
         out X11DisplayWindow[] children)
     {
-        var success = XLib.XQueryTree(Display.XDisplay, Window.Handle, out var rootWindow, out var parentWindow, out var childrenPtr, out var childrenCount);
+        var success = XLib.XQueryTree(Display.XDisplay, Window, out var rootWindow, out var parentWindow, out var childrenPtr, out var childrenCount);
         if (!success)
         {
             root = default;
@@ -192,11 +192,11 @@ public readonly record struct X11DisplayWindow
             return false;
         }
 
-        root = ((X11Window)rootWindow).WithDisplay(Display);
-        parent = ((X11Window)parentWindow).WithDisplay(Display);
+        root = rootWindow.WithDisplay(Display);
+        parent = parentWindow.WithDisplay(Display);
         children = new X11DisplayWindow[childrenCount];
         for (var i = 0; i < childrenCount; i++)
-            children[i] = ((X11Window)childrenPtr[i]).WithDisplay(Display);
+            children[i] = childrenPtr[i].WithDisplay(Display);
 
         XLib.XFree(childrenPtr);
         return true;
@@ -208,7 +208,7 @@ public readonly record struct X11DisplayWindow
     /// <returns>如果获取失败，则返回 <see langword="null" />；否则返回窗口的 Attributes。</returns>
     public WindowAttributes? GetAttributes()
     {
-        var success = XLib.XGetWindowAttributes(Display.XDisplay, Window.Handle, out var windowAttributes);
+        var success = XLib.XGetWindowAttributes(Display.XDisplay, Window, out var windowAttributes);
         return success ? new WindowAttributes(windowAttributes) : null;
     }
 }

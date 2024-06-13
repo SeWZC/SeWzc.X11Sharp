@@ -47,7 +47,7 @@ public sealed class WindowAttributes
     public nuint BackingPlanes { get; }
     public Pixel BackingPixel { get; }
     public bool SaveUnder { get; }
-    public X11ColorMap Colormap { get; }
+    public X11Colormap Colormap { get; }
     public bool MapInstalled { get; }
     public MapState MapState { get; }
     public EventMask AllEventMasks { get; }
