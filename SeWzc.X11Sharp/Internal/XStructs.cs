@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using SeWzc.X11Sharp.Handles;
 using SeWzc.X11Sharp.Structs;
 
 namespace SeWzc.X11Sharp.Internal;
@@ -85,7 +86,7 @@ public struct Bool
 
     public static implicit operator Bool(bool value)
     {
-        return new Bool() { _value = value ? 1 : 0 };
+        return new Bool { _value = value ? 1 : 0 };
     }
 }
 

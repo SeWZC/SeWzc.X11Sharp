@@ -1,4 +1,6 @@
 ﻿using JetBrains.Annotations;
+using SeWzc.X11Sharp.Extensions;
+using SeWzc.X11Sharp.Handles;
 using SeWzc.X11Sharp.Internal;
 using SeWzc.X11Sharp.Structs;
 
@@ -30,7 +32,7 @@ public sealed class X11Display : IDisposable
     /// <summary>
     /// 获取默认的根窗口。
     /// </summary>
-    public X11DisplayWindow DefaultRootWindow => XLib.XDefaultRootWindow(XDisplay).WithDisplay(this);
+    public X11DisplayWith<X11Window> DefaultRootWindow => XLib.XDefaultRootWindow(XDisplay).WithDisplay(this);
 
     /// <summary>
     /// 获取默认屏幕。
@@ -190,7 +192,7 @@ public sealed class X11Display : IDisposable
     /// </summary>
     /// <param name="screenNumber">屏幕的编号。</param>
     /// <returns>指定屏幕的根窗口。</returns>
-    public X11DisplayWindow GetRootWindow(int screenNumber)
+    public X11DisplayWith<X11Window> GetRootWindow(int screenNumber)
     {
         return XLib.XRootWindow(XDisplay, screenNumber).WithDisplay(this);
     }
@@ -215,7 +217,7 @@ public sealed class X11Display : IDisposable
     /// <param name="windowClass">窗口的类别。</param>
     /// <param name="attributes">窗口的 Attributes。</param>
     /// <returns></returns>
-    public X11DisplayWindow CreateWindow(X11Window parent, Point location, Size size, uint borderWidth, int depth,
+    public X11DisplayWith<X11Window> CreateWindow(X11Window parent, Point location, Size size, uint borderWidth, int depth,
         WindowClasses windowClass = WindowClasses.CopyFromParent, SetWindowAttributes? attributes = null)
     {
         var valueMask = attributes?.GetValueMask() ?? 0;
@@ -242,7 +244,7 @@ public sealed class X11Display : IDisposable
     /// <param name="border">窗口的边框颜色。</param>
     /// <param name="background">窗口的背景颜色。</param>
     /// <returns></returns>
-    public X11DisplayWindow CreateSimpleWindow(X11Window parent, Point location, Size size, uint borderWidth, Pixel border, Pixel background)
+    public X11DisplayWith<X11Window> CreateSimpleWindow(X11Window parent, Point location, Size size, uint borderWidth, Pixel border, Pixel background)
     {
         var window = XLib.XCreateSimpleWindow(XDisplay, parent,
             location.X, location.Y,
@@ -258,10 +260,30 @@ public sealed class X11Display : IDisposable
     /// </summary>
     /// <param name="atomName">原子名称。</param>
     /// <param name="onlyIfExists">是否仅获取已存在的原子。</param>
-    /// <returns></returns>
-    public X11Atom GetAtom(string atomName, bool onlyIfExists = false)
+    /// <returns>
+    /// 指定名称的原子，如果 <paramref name="onlyIfExists" /> 为 <see langword="true" /> 而且不存在指定的名称，则返回
+    /// <see cref="X11Atom.None" />。
+    /// </returns>
+    public X11DisplayWith<X11Atom> InternAtom(string atomName, bool onlyIfExists = false)
     {
-        return XLib.XInternAtom(XDisplay, atomName, onlyIfExists);
+        return XLib.XInternAtom(XDisplay, atomName, onlyIfExists).WithDisplay(this);
+    }
+
+    /// <summary>
+    /// 获取指定名称列表的原子的列表。
+    /// </summary>
+    /// <param name="atomNames">原子名称列表。</param>
+    /// <param name="onlyIfExists">是否仅获取已存在的原子。</param>
+    /// <returns>
+    /// 指定原子列表。如果 <paramref name="onlyIfExists" /> 为 <see langword="true" /> 而且不存在指定的名称，则对应位置的原子为
+    /// <see cref="X11Atom.None" />；否则为指定名称的原子。
+    /// </returns>
+    public unsafe X11DisplayWith<X11Atom[]> InternAtoms(string[] atomNames, bool onlyIfExists = false)
+    {
+        var atoms = new X11Atom[atomNames.Length];
+        fixed (X11Atom* ptr = atoms)
+            XLib.XInternAtoms(XDisplay, atomNames, atomNames.Length, onlyIfExists, ptr);
+        return atoms.WithDisplay(this);
     }
 
     #region 运算符重载
