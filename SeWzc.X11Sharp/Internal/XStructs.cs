@@ -104,8 +104,10 @@ internal unsafe struct XExtData
     public XPointer private_data;
 }
 
+// ReSharper disable InconsistentNaming
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 internal unsafe delegate void XConnectionWatchProc(DisplayPtr display, XPointer client_data, int fd, Bool opening, XPointer* watch_data);
+// ReSharper restore InconsistentNaming
 
 internal readonly record struct XVisualId(nuint Value);
 

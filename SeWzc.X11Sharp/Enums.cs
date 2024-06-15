@@ -11,8 +11,8 @@ public enum Planes
 /// </summary>
 public enum ByteOrder : int
 {
-    LSBFirst = 0,
-    MSBFirst = 1,
+    LsbFirst = 0,
+    MsbFirst = 1,
 }
 
 /// <summary>
