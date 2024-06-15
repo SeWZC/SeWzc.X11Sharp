@@ -230,7 +230,7 @@ internal static partial class XLib
     // TODO 暂未使用
     // Bool XDoesSaveUnders(Screen *screen);
     [LibraryImport(libX11)]
-    public static partial int XDoesSaveUnders(ScreenPtr screen);
+    public static partial Bool XDoesSaveUnders(ScreenPtr screen);
 
     // Display *XDisplayOfScreen(Screen *screen);
     [LibraryImport(libX11)]
@@ -316,8 +316,7 @@ internal static partial class XLib
     // TODO 暂未使用
     // Status XInitThreads(void);
     [LibraryImport(libX11)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static partial bool XInitThreads();
+    public static partial Bool XInitThreads();
 
     // TODO 暂未使用
     // XLockDisplay(Display *display);
@@ -336,14 +335,12 @@ internal static partial class XLib
     // TODO 暂未使用
     // Status XAddConnectionWatch(Display *display, XConnectionWatchProc procedure, XPointer client_data);
     [LibraryImport(libX11)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static partial bool XAddConnectionWatch(DisplayPtr display, XConnectionWatchProc procedure, XPointer client_data);
+    public static partial Bool XAddConnectionWatch(DisplayPtr display, XConnectionWatchProc procedure, XPointer client_data);
 
     // TODO 暂未使用
     // Status XRemoveConnectionWatch(Display *display, XConnectionWatchProc procedure, XPointer client_data);
     [LibraryImport(libX11)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static partial bool XRemoveConnectionWatch(DisplayPtr display, XConnectionWatchProc procedure, XPointer client_data);
+    public static partial Bool XRemoveConnectionWatch(DisplayPtr display, XConnectionWatchProc procedure, XPointer client_data);
 
     // TODO 暂未使用
     // void XProcessInternalConnection(Display *display, int fd);
@@ -353,8 +350,7 @@ internal static partial class XLib
     // TODO 暂未使用
     // Status XInternalConnectionNumbers(Display *display, int ** fd, int * count_return);
     [LibraryImport(libX11)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static unsafe partial bool XInternalConnectionNumbers(DisplayPtr display, int** fd, out int count_return);
+    public static unsafe partial Bool XInternalConnectionNumbers(DisplayPtr display, int** fd, out int count_return);
 
     #endregion
 
@@ -374,8 +370,8 @@ internal static partial class XLib
     #region Creating Windows
     
     // Window XCreateWindow(Display *display, Window parent, int x, int y, unsigned int width, unsigned int height, unsigned int border_width, int depth, unsigned int class, Visual *visual, unsigned long valuemask, XSetWindowAttributes *attributes);
-    [DllImport(libX11)]
-    public static extern X11Window XCreateWindow(DisplayPtr display, X11Window parent,
+    [LibraryImport(libX11)]
+    public static partial X11Window XCreateWindow(DisplayPtr display, X11Window parent,
         int x, int y,
         uint width, uint height,
         uint border_width,
@@ -495,8 +491,8 @@ internal static partial class XLib
     #region Changing Window Attributes
     
     // XChangeWindowAttributes(Display *display, Window w, unsigned long valuemask, XSetWindowAttributes *attributes);
-    [DllImport(libX11)]
-    public static extern int XChangeWindowAttributes(DisplayPtr display, X11Window window, WindowAttributeValueMask valuemask,
+    [LibraryImport(libX11)]
+    public static partial int XChangeWindowAttributes(DisplayPtr display, X11Window window, WindowAttributeValueMask valuemask,
         in XSetWindowAttributes attributes);
 
     // XSetWindowBackground(Display *display, Window w, unsigned long background_pixel);
@@ -542,20 +538,17 @@ internal static partial class XLib
 
     // Status XQueryTree(Display *display, Window w, Window *root_return, Window *parent_return, Window **children_return, unsigned int *nchildren_return);
     [LibraryImport(libX11)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static unsafe partial bool XQueryTree(DisplayPtr display, X11Window window, out X11Window root_return, out X11Window parent_return,
+    public static unsafe partial Bool XQueryTree(DisplayPtr display, X11Window window, out X11Window root_return, out X11Window parent_return,
         out X11Window* children_return, out uint nchildren_return);
     
     // Status XGetWindowAttributes(Display *display, Window w, XWindowAttributes *window_attributes_return);
-    [DllImport(libX11)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern bool XGetWindowAttributes(DisplayPtr display, X11Window window, out XWindowAttributes window_attributes_return);
+    [LibraryImport(libX11)]
+    public static partial Bool XGetWindowAttributes(DisplayPtr display, X11Window window, out XWindowAttributes window_attributes_return);
 
     // TODO 暂未使用
     // Status XGetGeometry(Display *display, Drawable d, Window *root_return, int *x_return, int *y_return, unsigned int *width_return, unsigned int *height_return, unsigned int *border_width_return, unsigned int *depth_return);
     [LibraryImport(libX11)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static partial bool XGetGeometry(DisplayPtr display, X11Drawable drawable, out X11Window root_return, out int x_return, out int y_return,
+    public static partial Bool XGetGeometry(DisplayPtr display, X11Drawable drawable, out X11Window root_return, out int x_return, out int y_return,
         out uint width_return, out uint height_return, out uint border_width_return, out uint depth_return);
 
     #endregion
@@ -565,15 +558,13 @@ internal static partial class XLib
     // TODO 暂未使用
     // Bool XTranslateCoordinates(Display *display, Window src_w, Window dest_w, int src_x, int src_y, int *dest_x_return, int *dest_y_return, Window *child_return);
     [LibraryImport(libX11)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static partial bool XTranslateCoordinates(DisplayPtr display, X11Window src_w, X11Window dest_w, int src_x, int src_y, out int dest_x_return,
+    public static partial Bool XTranslateCoordinates(DisplayPtr display, X11Window src_w, X11Window dest_w, int src_x, int src_y, out int dest_x_return,
         out int dest_y_return, out X11Window child_return);
 
     // TODO 暂未使用
     // Bool XQueryPointer(Display *display, Window w, Window *root_return, Window *child_return, int *root_x_return, int *root_y_return, int *win_x_return, int *win_y_return, unsigned int *mask_return);
     [LibraryImport(libX11)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static partial bool XQueryPointer(DisplayPtr display, X11Window window, out X11Window root_return, out X11Window child_return,
+    public static partial Bool XQueryPointer(DisplayPtr display, X11Window window, out X11Window root_return, out X11Window child_return,
         out int root_x_return, out int root_y_return, out int win_x_return, out int win_y_return, out uint mask_return);
 
     #endregion
@@ -582,13 +573,12 @@ internal static partial class XLib
 
     // Atom XInternAtom(Display *display, char *atom_name, Bool only_if_exists);
     [LibraryImport(libX11, StringMarshalling = StringMarshalling.Utf8)]
-    public static partial X11Atom XInternAtom(DisplayPtr display, string atom_name, [MarshalAs(UnmanagedType.Bool)] bool only_if_exists);
+    public static partial X11Atom XInternAtom(DisplayPtr display, string atom_name, Bool only_if_exists);
 
     // TODO 暂未使用
     // Status XInternAtoms(Display *display, char **names, int count, Bool only_if_exists, Atom *atoms_return);
     [LibraryImport(libX11, StringMarshalling = StringMarshalling.Utf8)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static unsafe partial bool XInternAtoms(DisplayPtr display, [In] string[] names, int count, [MarshalAs(UnmanagedType.Bool)] bool only_if_exists,
+    public static unsafe partial Bool XInternAtoms(DisplayPtr display, [In] string[] names, int count, Bool only_if_exists,
         X11Atom* atoms_return);
 
     #endregion

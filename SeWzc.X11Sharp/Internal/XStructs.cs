@@ -73,6 +73,22 @@ internal readonly record struct GCPtr(nint Value) : IIntPtrRole<GCPtr>
     }
 }
 
+[StructLayout(LayoutKind.Sequential, Size = sizeof(bool))]
+public struct Bool
+{
+    private int _value;
+
+    public static implicit operator bool(Bool @bool)
+    {
+        return @bool._value != 0;
+    }
+
+    public static implicit operator Bool(bool value)
+    {
+        return new Bool() { _value = value ? 1 : 0 };
+    }
+}
+
 internal unsafe struct XPointer(byte* value)
 {
     public byte* Value = value;
@@ -88,8 +104,7 @@ internal unsafe struct XExtData
 }
 
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-internal unsafe delegate void XConnectionWatchProc(DisplayPtr display, XPointer client_data, int fd,
-    [MarshalAs(UnmanagedType.Bool)] bool opening, XPointer* watch_data);
+internal unsafe delegate void XConnectionWatchProc(DisplayPtr display, XPointer client_data, int fd, Bool opening, XPointer* watch_data);
 
 internal readonly record struct XVisualId(nuint Value);
 
@@ -127,8 +142,7 @@ internal unsafe struct XScreen
     public int max_maps;
     public int min_maps;
     public BackingStore backing_store;
-    [field: MarshalAs(UnmanagedType.Bool)]
-    public bool save_unders;
+    public Bool save_unders;
     public nint root_input_mask;
 }
 
@@ -169,17 +183,14 @@ internal struct XWindowAttributes
     public BackingStore backing_store;
     public nuint backing_planes;
     public Pixel backing_pixel;
-    [field: MarshalAs(UnmanagedType.Bool)]
-    public bool save_under;
+    public Bool save_under;
     public X11Colormap colormap;
-    [field: MarshalAs(UnmanagedType.Bool)]
-    public bool map_installed;
+    public Bool map_installed;
     public MapState map_state;
     public EventMask all_event_masks;
     public EventMask your_event_mask;
     public EventMask do_not_propagate_mask;
-    [field: MarshalAs(UnmanagedType.Bool)]
-    public bool override_redirect;
+    public Bool override_redirect;
     public ScreenPtr screen;
 
     public static implicit operator WindowAttributes(XWindowAttributes windowAttributes)
@@ -200,12 +211,10 @@ internal struct XSetWindowAttributes
     public BackingStore backing_store;
     public nuint backing_planes;
     public Pixel backing_pixel;
-    [field: MarshalAs(UnmanagedType.Bool)]
-    public bool save_under;
+    public Bool save_under;
     public EventMask event_mask;
     public EventMask do_not_propagate_mask;
-    [field: MarshalAs(UnmanagedType.Bool)]
-    public bool override_redirect;
+    public Bool override_redirect;
     public X11Colormap colormap;
     public X11Cursor cursor;
 }
