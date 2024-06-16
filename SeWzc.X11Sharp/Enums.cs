@@ -118,3 +118,126 @@ public enum MapState : int
     IsUnviewable = 1,
     IsViewable = 2,
 }
+
+public enum GraphicsFunctions : int
+{
+    /// <summary>
+    /// 0
+    /// </summary>
+    Clear = 0,
+    /// <summary>
+    /// src && dst
+    /// </summary>
+    And = 1,
+    /// <summary>
+    /// src && !dst
+    /// </summary>
+    AndReverse = 2,
+    /// <summary>
+    /// src
+    /// </summary>
+    Copy = 3,
+    /// <summary>
+    /// !src && dst
+    /// </summary>
+    AndInverted = 4,
+    /// <summary>
+    /// dst
+    /// </summary>
+    Noop = 5,
+    /// <summary>
+    /// src ^ dst
+    /// </summary>
+    Xor = 6,
+    /// <summary>
+    /// src || dst
+    /// </summary>
+    Or = 7,
+    /// <summary>
+    /// !(src || dst)
+    /// </summary>
+    Nor = 8,
+    /// <summary>
+    /// !(src ^ dst)
+    /// </summary>
+    Equiv = 9,
+    /// <summary>
+    /// !dst
+    /// </summary>
+    Invert = 10,
+    /// <summary>
+    /// src || !dst
+    /// </summary>
+    OrReverse = 11,
+    /// <summary>
+    /// !src
+    /// </summary>
+    CopyInverted = 12,
+    /// <summary>
+    /// !src || dst
+    /// </summary>
+    OrInverted = 13,
+    /// <summary>
+    /// !(src && dst)
+    /// </summary>
+    Nand = 14,
+    /// <summary>
+    /// 1
+    /// </summary>
+    Set = 15,
+}
+
+public enum PropertyMode : int
+{
+    Replace = 0,
+    Prepend = 1,
+    Append = 2,
+}
+
+public enum LineStyle : int
+{
+    Solid = 0,
+    OnOffDash = 1,
+    DoubleDash = 2,
+}
+
+public enum CapStyle : int
+{
+    NotLast = 0,
+    Butt = 1,
+    Round = 2,
+    Projecting = 3,
+}
+
+public enum JoinStyle : int
+{
+    Miter = 0,
+    Round = 1,
+    Bevel = 2,
+}
+
+public enum FillStyle : int
+{
+    Solid = 0,
+    Tiled = 1,
+    Stippled = 2,
+    OpaqueStippled = 3,
+}
+
+public enum FillRule : int
+{
+    EvenOdd = 0,
+    Winding = 1,
+}
+
+public enum SubwindowMode : int
+{
+    ClipByChildren = 0,
+    IncludeInferiors = 1,
+}
+
+public enum ArcMode : int
+{
+    Chord = 0,
+    PieSlice = 1,
+}

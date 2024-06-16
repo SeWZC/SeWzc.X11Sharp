@@ -221,3 +221,31 @@ internal struct XSetWindowAttributes
     public X11Colormap colormap;
     public X11Cursor cursor;
 }
+
+[StructLayout(LayoutKind.Sequential)]
+internal struct XGCValues
+{
+    public GraphicsFunctions function;
+    public nuint plane_mask;
+    public Pixel foreground;
+    public Pixel background;
+    public int line_width;
+    public LineStyle line_style;
+    public CapStyle cap_style;
+    public JoinStyle join_style;
+    public FillStyle fill_style;
+    public FillRule fill_rule;
+    public ArcMode arc_mode;
+    public X11Pixmap tile;
+    public X11Pixmap stipple;
+    public int ts_x_origin;
+    public int ts_y_origin;
+    public X11Font font;
+    public int subwindow_mode;
+    public Bool graphics_exposures;
+    public int clip_x_origin;
+    public int clip_y_origin;
+    public X11Pixmap clip_mask;
+    public int dash_offset;
+    public byte dashes;
+}

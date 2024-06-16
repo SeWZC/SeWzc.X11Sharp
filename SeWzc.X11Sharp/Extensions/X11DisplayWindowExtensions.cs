@@ -1,4 +1,7 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+using System.Text;
 using SeWzc.X11Sharp.Handles;
 using SeWzc.X11Sharp.Internal;
 using SeWzc.X11Sharp.Structs;
@@ -217,4 +220,174 @@ public static class X11DisplayWindowExtensions
         var success = XLib.XGetWindowAttributes(displayWindow.Display.XDisplay, displayWindow.Value, out var windowAttributes);
         return success ? new WindowAttributes(windowAttributes) : null;
     }
+
+    /// <summary>
+    /// 获取窗口的属性。
+    /// </summary>
+    /// <param name="displayWindow">Display 和 Window 的组合。</param>
+    /// <param name="property">属性的原子。</param>
+    /// <returns>
+    /// 如果不存在该属性，则返回 <see langword="null" />；
+    /// 如果获取到属性，则返回 <see cref="X11PropertyData" />，其中包含属性的类型和值，需要根据类型进行解析。
+    /// </returns>
+    public static unsafe X11PropertyData? GetProperty(this X11DisplayWith<X11Window> displayWindow, X11Atom property)
+    {
+        XLib.XGetWindowProperty(displayWindow.Display, displayWindow.Value, property, 0, int.MaxValue, false, new X11Atom(0),
+            out var actualTypeReturn, out var actualFormatReturn, out var nitemsReturn, out var bytesAfterReturn, out var propReturn);
+        if (actualFormatReturn is 0)
+            return null;
+
+        Debug.Assert(bytesAfterReturn is 0, "Unexpected bytesAfterReturn.");
+
+        X11PropertyData? result = null;
+        switch (actualFormatReturn)
+        {
+            case 8:
+            {
+                var prop = (byte*)propReturn;
+                var value = new byte[nitemsReturn];
+                Unsafe.Copy(ref value, prop);
+                result = new X11PropertyData.Int8Array(actualTypeReturn, value);
+                break;
+            }
+            case 16:
+            {
+                var prop = (short*)propReturn;
+                var value = new short[nitemsReturn];
+                Unsafe.Copy(ref value, prop);
+                result = new X11PropertyData.Int16Array(actualTypeReturn, value);
+                break;
+            }
+            case 32:
+            {
+                var prop = (int*)propReturn;
+                var value = new int[nitemsReturn];
+                Unsafe.Copy(ref value, prop);
+                result = new X11PropertyData.Int32Array(actualTypeReturn, value);
+                break;
+            }
+            default:
+            {
+                Debug.Assert(false, "Unexpected actualFormatReturn.");
+                break;
+            }
+        }
+
+        XLib.XFree(propReturn);
+
+        return result;
+    }
+
+    /// <summary>
+    /// 获取窗口的 utf8 类型的属性。
+    /// </summary>
+    /// <param name="displayWindow">Display 和 Window 的组合。</param>
+    /// <param name="property">属性的原子。</param>
+    /// <returns>如果不存在该属性或者属性格式不是 8 bit 为单元，则返回 <see langword="null" />；否则返回属性的值使用 utf8 解码的结果。</returns>
+    public static string? GetUtf8Property(this X11DisplayWith<X11Window> displayWindow, X11Atom property)
+    {
+        var propertyData = displayWindow.GetProperty(property);
+        if (propertyData is null)
+            return null;
+
+        return propertyData switch
+        {
+            X11PropertyData.Int8Array { Value: var value } => Encoding.UTF8.GetString(value),
+            _ => null,
+        };
+    }
+
+    /// <summary>
+    /// 列出窗口的属性。
+    /// </summary>
+    /// <param name="displayWindow">Display 和 Window 的组合。</param>
+    /// <returns>指定窗口的属性的原子数组。</returns>
+    public static unsafe X11DisplayWith<X11Atom[]> ListProperties(this X11DisplayWith<X11Window> displayWindow)
+    {
+        var properties = XLib.XListProperties(displayWindow.Display.XDisplay, displayWindow.Value, out var count);
+        var atoms = new X11Atom[count];
+        for (var i = 0; i < count; i++)
+            atoms[i] = properties[i];
+
+        XLib.XFree(properties);
+        return atoms.WithDisplay(displayWindow.Display);
+    }
+
+    /// <summary>
+    /// 改变窗口的属性。
+    /// </summary>
+    /// <param name="displayWindow">Display 和 Window 的组合。</param>
+    /// <param name="property">要改变的属性的原子。</param>
+    /// <param name="propertyData">属性的数据。</param>
+    /// <param name="mode">修改属性的模式。</param>
+    /// <exception cref="ArgumentException">属性数据类型不符合预期。</exception>
+    public static unsafe void ChangeProperty(this X11DisplayWith<X11Window> displayWindow, X11Atom property, X11PropertyData propertyData, PropertyMode mode)
+    {
+        switch (propertyData)
+        {
+            case X11PropertyData.Int8Array int8ArrayData:
+            {
+                var value = int8ArrayData.Value;
+                fixed (byte* pValue = value)
+                {
+                    XLib.XChangeProperty(displayWindow.Display.XDisplay, displayWindow.Value, property, int8ArrayData.PropertyType, 8, mode, pValue,
+                        value.Length);
+                }
+
+                break;
+            }
+            case X11PropertyData.Int16Array int16ArrayData:
+            {
+                var value = int16ArrayData.Value;
+                fixed (short* pValue = value)
+                {
+                    XLib.XChangeProperty(displayWindow.Display.XDisplay, displayWindow.Value, property, int16ArrayData.PropertyType, 16, mode, pValue,
+                        value.Length);
+                }
+
+                break;
+            }
+            case X11PropertyData.Int32Array int32ArrayData:
+            {
+                var value = int32ArrayData.Value;
+                fixed (int* pValue = value)
+                {
+                    XLib.XChangeProperty(displayWindow.Display, displayWindow.Value, property, int32ArrayData.PropertyType, 32, mode, pValue,
+                        value.Length);
+                }
+
+                break;
+            }
+            default:
+            {
+                throw new ArgumentException("Unexpected property data type.", nameof(propertyData));
+            }
+        }
+    }
+
+    /// <summary>
+    /// 改变窗口的 utf8 类型的属性。
+    /// </summary>
+    /// <param name="displayWindow">Display 和 Window 的组合。</param>
+    /// <param name="property">要改变的属性的原子。</param>
+    /// <param name="propertyType">属性的类型的原子。</param>
+    /// <param name="value">属性的值。</param>
+    /// <param name="mode">修改属性的模式。</param>
+    public static void ChangeUtf8Property(this X11DisplayWith<X11Window> displayWindow, X11Atom property, X11Atom propertyType , string value, PropertyMode mode)
+    {
+        var bytes = Encoding.UTF8.GetBytes(value);
+        displayWindow.ChangeProperty(property, new X11PropertyData.Int8Array(propertyType, bytes), mode);
+    }
+
+    /// <summary>
+    /// 删除窗口的属性。
+    /// </summary>
+    /// <param name="displayWindow">Display 和 Window 的组合。</param>
+    /// <param name="property">要删除的属性的原子。</param>
+    public static void DeleteProperty(this X11DisplayWith<X11Window> displayWindow, X11Atom property)
+    {
+        XLib.XDeleteProperty(displayWindow.Display.XDisplay, displayWindow.Value, property);
+    }
+
+
 }
