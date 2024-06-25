@@ -265,7 +265,7 @@ public static class X11DisplayWindowExtensions
                 var prop = (nint*)propReturn;
                 var value = new nint[nitemsReturn];
                 fixed(void* pValue = value)
-                    Unsafe.CopyBlock(pValue, prop, (uint)nitemsReturn * 4);
+                    Unsafe.CopyBlock(pValue, prop, (uint)((int)nitemsReturn * sizeof(nint)));
                 result = new X11PropertyData.Format32Array(actualTypeReturn, value);
                 break;
             }
@@ -355,7 +355,7 @@ public static class X11DisplayWindowExtensions
                 var value = format32ArrayData.Value;
                 fixed (nint* pValue = value)
                 {
-                    XLib.XChangeProperty(displayWindow.Display, displayWindow.Value, property, format32ArrayData.PropertyType, 32, mode, pValue,
+                    XLib.XChangeProperty(displayWindow.Display, displayWindow.Value, property, format32ArrayData.PropertyType, sizeof(nint) * 8, mode, pValue,
                         value.Length);
                 }
 
