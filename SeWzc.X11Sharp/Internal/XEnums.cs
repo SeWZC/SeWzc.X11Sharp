@@ -21,10 +21,10 @@ internal enum WindowAttributeValueMask : ulong
 }
 
 [Flags]
-internal enum GCAttributeValueMarks : ulong
+internal enum GCValueMarks : ulong
 {
     Function = 1 << 0,
-    PlaneMark = 1 << 1,
+    PlaneMask = 1 << 1,
     Foreground = 1 << 2,
     Background = 1 << 3,
     LineWidth = 1 << 4,

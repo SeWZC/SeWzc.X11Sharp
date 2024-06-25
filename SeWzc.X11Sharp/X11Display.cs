@@ -286,6 +286,20 @@ public sealed class X11Display : IDisposable
         return atoms.WithDisplay(this);
     }
 
+    /// <summary>
+    /// 创建图形上下文。
+    /// </summary>
+    /// <param name="drawable">可绘制对象。</param>
+    /// <param name="values">设置的值。</param>
+    /// <returns>具有指定值的图形上下文。</returns>
+    public X11GC? CreateGC(X11Drawable drawable, GCValues values)
+    {
+        var gcValues = values.ToXGCValues();
+        var valueMarks = values.GetMarks();
+        var gcPtr = XLib.XCreateGC(XDisplay, drawable, valueMarks, in gcValues);
+        return gcPtr;
+    }
+
     #region 运算符重载
 
     public static explicit operator nint(X11Display display)
