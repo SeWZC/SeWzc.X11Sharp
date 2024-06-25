@@ -248,7 +248,7 @@ public static class X11DisplayWindowExtensions
                 var value = new byte[nitemsReturn];
                 fixed(void* pValue = value)
                     Unsafe.CopyBlock(pValue, prop, (uint)nitemsReturn);
-                result = new X11PropertyData.Int8Array(actualTypeReturn, value);
+                result = new X11PropertyData.Format8Array(actualTypeReturn, value);
                 break;
             }
             case 16:
@@ -257,16 +257,16 @@ public static class X11DisplayWindowExtensions
                 var value = new short[nitemsReturn];
                 fixed(void* pValue = value)
                     Unsafe.CopyBlock(pValue, prop, (uint)nitemsReturn * 2);
-                result = new X11PropertyData.Int16Array(actualTypeReturn, value);
+                result = new X11PropertyData.Format16Array(actualTypeReturn, value);
                 break;
             }
             case 32:
             {
-                var prop = (int*)propReturn;
-                var value = new int[nitemsReturn];
+                var prop = (nint*)propReturn;
+                var value = new nint[nitemsReturn];
                 fixed(void* pValue = value)
                     Unsafe.CopyBlock(pValue, prop, (uint)nitemsReturn * 4);
-                result = new X11PropertyData.Int32Array(actualTypeReturn, value);
+                result = new X11PropertyData.Format32Array(actualTypeReturn, value);
                 break;
             }
             default:
@@ -295,7 +295,7 @@ public static class X11DisplayWindowExtensions
 
         return propertyData switch
         {
-            X11PropertyData.Int8Array { Value: var value } => Encoding.UTF8.GetString(value),
+            X11PropertyData.Format8Array { Value: var value } => Encoding.UTF8.GetString(value),
             _ => null,
         };
     }
@@ -328,34 +328,34 @@ public static class X11DisplayWindowExtensions
     {
         switch (propertyData)
         {
-            case X11PropertyData.Int8Array int8ArrayData:
+            case X11PropertyData.Format8Array format8ArrayData:
             {
-                var value = int8ArrayData.Value;
+                var value = format8ArrayData.Value;
                 fixed (byte* pValue = value)
                 {
-                    XLib.XChangeProperty(displayWindow.Display.XDisplay, displayWindow.Value, property, int8ArrayData.PropertyType, 8, mode, pValue,
+                    XLib.XChangeProperty(displayWindow.Display.XDisplay, displayWindow.Value, property, format8ArrayData.PropertyType, 8, mode, pValue,
                         value.Length);
                 }
 
                 break;
             }
-            case X11PropertyData.Int16Array int16ArrayData:
+            case X11PropertyData.Format16Array format16ArrayData:
             {
-                var value = int16ArrayData.Value;
+                var value = format16ArrayData.Value;
                 fixed (short* pValue = value)
                 {
-                    XLib.XChangeProperty(displayWindow.Display.XDisplay, displayWindow.Value, property, int16ArrayData.PropertyType, 16, mode, pValue,
+                    XLib.XChangeProperty(displayWindow.Display.XDisplay, displayWindow.Value, property, format16ArrayData.PropertyType, 16, mode, pValue,
                         value.Length);
                 }
 
                 break;
             }
-            case X11PropertyData.Int32Array int32ArrayData:
+            case X11PropertyData.Format32Array format32ArrayData:
             {
-                var value = int32ArrayData.Value;
-                fixed (int* pValue = value)
+                var value = format32ArrayData.Value;
+                fixed (nint* pValue = value)
                 {
-                    XLib.XChangeProperty(displayWindow.Display, displayWindow.Value, property, int32ArrayData.PropertyType, 32, mode, pValue,
+                    XLib.XChangeProperty(displayWindow.Display, displayWindow.Value, property, format32ArrayData.PropertyType, 32, mode, pValue,
                         value.Length);
                 }
 
@@ -379,7 +379,7 @@ public static class X11DisplayWindowExtensions
     public static void ChangeUtf8Property(this X11DisplayWith<X11Window> displayWindow, X11Atom property, X11Atom propertyType , string value, PropertyMode mode)
     {
         var bytes = Encoding.UTF8.GetBytes(value);
-        displayWindow.ChangeProperty(property, new X11PropertyData.Int8Array(propertyType, bytes), mode);
+        displayWindow.ChangeProperty(property, new X11PropertyData.Format8Array(propertyType, bytes), mode);
     }
 
     /// <summary>
