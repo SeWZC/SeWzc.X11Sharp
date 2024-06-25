@@ -637,4 +637,32 @@ internal static partial class XLib
     #endregion
 
     #endregion
+
+    #region Graphics Context Functions
+
+    #region Manipulating Graphics Context/State
+
+    // GC XCreateGC(Display *display, Drawable d, unsigned long valuemask, XGCValues *values);
+    [LibraryImport(libX11)]
+    public static partial GCPtr XCreateGC(DisplayPtr display, X11Drawable drawable, GCValueMarks valuemask, in XGCValues values);
+
+    // XCopyGC(Display *display, GC src, GC dest, unsigned long valuemask);
+    [LibraryImport(libX11)]
+    public static partial int XCopyGC(DisplayPtr display, GCPtr src, GCValueMarks valuemask, GCPtr dest);
+
+    // XChangeGC(Display *display, GC gc, unsigned long valuemask, XGCValues *values);
+    [LibraryImport(libX11)]
+    public static partial int XChangeGC(DisplayPtr display, GCPtr gc, GCValueMarks valuemask, in XGCValues values);
+
+    // Status XGetGCValues(Display *display, GC gc, unsigned long valuemask, XGCValues *values_return);
+    [LibraryImport(libX11)]
+    public static partial Bool XGetGCValues(DisplayPtr display, GCPtr gc, GCValueMarks valuemask, out XGCValues values_return);
+
+    // XFreeGC(Display *display, GC gc);
+    [LibraryImport(libX11)]
+    public static partial int XFreeGC(DisplayPtr display, GCPtr gc);
+
+    #endregion
+
+    #endregion
 }

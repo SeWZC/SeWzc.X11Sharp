@@ -241,7 +241,7 @@ internal struct XGCValues
     public int ts_x_origin;
     public int ts_y_origin;
     public X11Font font;
-    public int subwindow_mode;
+    public SubwindowMode subwindow_mode;
     public Bool graphics_exposures;
     public int clip_x_origin;
     public int clip_y_origin;
