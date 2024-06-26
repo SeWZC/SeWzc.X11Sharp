@@ -2,7 +2,7 @@
 using SeWzc.X11Sharp.Handles;
 using SeWzc.X11Sharp.Internal;
 
-namespace SeWzc.X11Sharp.Extensions;
+namespace SeWzc.X11Sharp;
 
 /// <summary>
 /// Display 和 Atom 的组合。
