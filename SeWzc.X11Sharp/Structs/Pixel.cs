@@ -1,14 +1,31 @@
 namespace SeWzc.X11Sharp.Structs;
 
-public readonly record struct Pixel(nuint PixelValue)
+public readonly record struct Pixel
 {
-    public static implicit operator nuint(Pixel pixel)
+    internal Pixel(ULong PixelValue)
+    {
+        this.PixelValue = PixelValue;
+    }
+
+    public static implicit operator ULong(Pixel pixel)
     {
         return pixel.PixelValue;
     }
 
-    public static implicit operator Pixel(nuint pixelValue)
+    public static explicit operator Pixel(ULong pixelValue)
     {
         return new Pixel(pixelValue);
     }
+
+    public static implicit operator Pixel(uint pixelValue)
+    {
+        return new Pixel(pixelValue);
+    }
+
+    public static explicit operator uint(Pixel pixel)
+    {
+        return (uint)pixel.PixelValue;
+    }
+
+    internal ULong PixelValue { get; init; }
 }

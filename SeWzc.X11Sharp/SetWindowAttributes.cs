@@ -13,7 +13,7 @@ public sealed class SetWindowAttributes
     public Gravity? BitGravity { get; set; }
     public Gravity? WinGravity { get; set; }
     public BackingStore? BackingStore { get; set; }
-    public nuint? BackingPlanes { get; set; }
+    public uint? BackingPlanes { get; set; }
     public Pixel? BackingPixel { get; set; }
     public bool? SaveUnder { get; set; }
     public EventMask? EventMask { get; set; }

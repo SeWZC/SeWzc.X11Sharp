@@ -261,7 +261,7 @@ public sealed class X11Display : IDisposable
     /// <param name="onlyIfExists">是否仅获取已存在的原子。</param>
     /// <returns>
     /// 指定名称的原子，如果 <paramref name="onlyIfExists" /> 为 <see langword="true" /> 而且不存在指定的名称，则返回
-    /// <see cref="X11Atom.None" />。
+    /// <see langword="default" />。
     /// </returns>
     public X11DisplayAtom InternAtom(string atomName, bool onlyIfExists = false)
     {

@@ -217,7 +217,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
         if (actualFormatReturn is 0)
             return null;
 
-        Debug.Assert(bytesAfterReturn is 0, "Unexpected bytesAfterReturn.");
+        Debug.Assert(bytesAfterReturn == 0, "Unexpected bytesAfterReturn.");
 
         X11PropertyData? result = null;
         switch (actualFormatReturn)

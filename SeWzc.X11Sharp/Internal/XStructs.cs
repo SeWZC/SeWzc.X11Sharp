@@ -109,7 +109,7 @@ internal unsafe struct XExtData
 internal unsafe delegate void XConnectionWatchProc(DisplayPtr display, XPointer client_data, int fd, Bool opening, XPointer* watch_data);
 // ReSharper restore InconsistentNaming
 
-internal readonly record struct XVisualId(nuint Value);
+internal readonly record struct XVisualId(Long Value);
 
 [StructLayout(LayoutKind.Sequential)]
 internal unsafe struct XVisual
@@ -117,9 +117,9 @@ internal unsafe struct XVisual
     public XExtData* ext_data;
     public XVisualId visualid;
     public int c_class; // TODO 待确定类型
-    public nuint red_mask;
-    public nuint green_mask;
-    public nuint blue_mask;
+    public ULong red_mask;
+    public ULong green_mask;
+    public ULong blue_mask;
     public int bits_per_rgb;
     public int map_entries;
 }
@@ -146,7 +146,7 @@ internal unsafe struct XScreen
     public int min_maps;
     public BackingStore backing_store;
     public Bool save_unders;
-    public nint root_input_mask;
+    public Long root_input_mask;
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -184,7 +184,7 @@ internal struct XWindowAttributes
     public Gravity bit_gravity;
     public Gravity win_gravity;
     public BackingStore backing_store;
-    public nuint backing_planes;
+    public ULong backing_planes;
     public Pixel backing_pixel;
     public Bool save_under;
     public X11Colormap colormap;
@@ -212,7 +212,7 @@ internal struct XSetWindowAttributes
     public Gravity bit_gravity;
     public Gravity win_gravity;
     public BackingStore backing_store;
-    public nuint backing_planes;
+    public ULong backing_planes;
     public Pixel backing_pixel;
     public Bool save_under;
     public EventMask event_mask;
@@ -226,7 +226,7 @@ internal struct XSetWindowAttributes
 internal struct XGCValues
 {
     public GraphicsFunctions function;
-    public nuint plane_mask;
+    public ULong plane_mask;
     public Pixel foreground;
     public Pixel background;
     public int line_width;
