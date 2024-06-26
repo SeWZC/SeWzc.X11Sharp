@@ -1,6 +1,4 @@
-﻿using SeWzc.X11Sharp.Extensions;
-
-namespace SeWzc.X11Sharp.Handles;
+﻿namespace SeWzc.X11Sharp.Handles;
 
 public readonly record struct X11Atom(nint Handle) : IX11HandleWrapper<X11Atom>
 {

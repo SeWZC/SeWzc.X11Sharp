@@ -6,7 +6,7 @@ using SeWzc.X11Sharp.Handles;
 using SeWzc.X11Sharp.Internal;
 using SeWzc.X11Sharp.Structs;
 
-namespace SeWzc.X11Sharp.Extensions;
+namespace SeWzc.X11Sharp;
 
 /// <summary>
 /// Display 和 Window 的组合。
@@ -223,37 +223,37 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
         switch (actualFormatReturn)
         {
             case 8:
-            {
-                var prop = (byte*)propReturn;
-                var value = new byte[nitemsReturn];
-                fixed(void* pValue = value)
-                    Unsafe.CopyBlock(pValue, prop, (uint)nitemsReturn);
-                result = new X11PropertyData.Format8Array(actualTypeReturn, value);
-                break;
-            }
+                {
+                    var prop = (byte*)propReturn;
+                    var value = new byte[nitemsReturn];
+                    fixed (void* pValue = value)
+                        Unsafe.CopyBlock(pValue, prop, (uint)nitemsReturn);
+                    result = new X11PropertyData.Format8Array(actualTypeReturn, value);
+                    break;
+                }
             case 16:
-            {
-                var prop = (short*)propReturn;
-                var value = new short[nitemsReturn];
-                fixed(void* pValue = value)
-                    Unsafe.CopyBlock(pValue, prop, (uint)nitemsReturn * 2);
-                result = new X11PropertyData.Format16Array(actualTypeReturn, value);
-                break;
-            }
+                {
+                    var prop = (short*)propReturn;
+                    var value = new short[nitemsReturn];
+                    fixed (void* pValue = value)
+                        Unsafe.CopyBlock(pValue, prop, (uint)nitemsReturn * 2);
+                    result = new X11PropertyData.Format16Array(actualTypeReturn, value);
+                    break;
+                }
             case 32:
-            {
-                var prop = (nint*)propReturn;
-                var value = new nint[nitemsReturn];
-                fixed(void* pValue = value)
-                    Unsafe.CopyBlock(pValue, prop, (uint)((int)nitemsReturn * sizeof(nint)));
-                result = new X11PropertyData.Format32Array(actualTypeReturn, value);
-                break;
-            }
+                {
+                    var prop = (nint*)propReturn;
+                    var value = new nint[nitemsReturn];
+                    fixed (void* pValue = value)
+                        Unsafe.CopyBlock(pValue, prop, (uint)((int)nitemsReturn * sizeof(nint)));
+                    result = new X11PropertyData.Format32Array(actualTypeReturn, value);
+                    break;
+                }
             default:
-            {
-                Debug.Assert(false, "Unexpected actualFormatReturn.");
-                break;
-            }
+                {
+                    Debug.Assert(false, "Unexpected actualFormatReturn.");
+                    break;
+                }
         }
 
         XLib.XFree(propReturn);
@@ -306,42 +306,42 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
         switch (propertyData)
         {
             case X11PropertyData.Format8Array format8ArrayData:
-            {
-                var value = format8ArrayData.Value;
-                fixed (byte* pValue = value)
                 {
-                    XLib.XChangeProperty(Display.XDisplay, Value, property, format8ArrayData.PropertyType, 8, mode, pValue,
-                        value.Length);
-                }
+                    var value = format8ArrayData.Value;
+                    fixed (byte* pValue = value)
+                    {
+                        XLib.XChangeProperty(Display.XDisplay, Value, property, format8ArrayData.PropertyType, 8, mode, pValue,
+                            value.Length);
+                    }
 
-                break;
-            }
+                    break;
+                }
             case X11PropertyData.Format16Array format16ArrayData:
-            {
-                var value = format16ArrayData.Value;
-                fixed (short* pValue = value)
                 {
-                    XLib.XChangeProperty(Display.XDisplay, Value, property, format16ArrayData.PropertyType, 16, mode, pValue,
-                        value.Length);
-                }
+                    var value = format16ArrayData.Value;
+                    fixed (short* pValue = value)
+                    {
+                        XLib.XChangeProperty(Display.XDisplay, Value, property, format16ArrayData.PropertyType, 16, mode, pValue,
+                            value.Length);
+                    }
 
-                break;
-            }
+                    break;
+                }
             case X11PropertyData.Format32Array format32ArrayData:
-            {
-                var value = format32ArrayData.Value;
-                fixed (nint* pValue = value)
                 {
-                    XLib.XChangeProperty(Display, Value, property, format32ArrayData.PropertyType, sizeof(nint) * 8, mode, pValue,
-                        value.Length);
-                }
+                    var value = format32ArrayData.Value;
+                    fixed (nint* pValue = value)
+                    {
+                        XLib.XChangeProperty(Display, Value, property, format32ArrayData.PropertyType, sizeof(nint) * 8, mode, pValue,
+                            value.Length);
+                    }
 
-                break;
-            }
+                    break;
+                }
             default:
-            {
-                throw new ArgumentException("Unexpected property data type.", nameof(propertyData));
-            }
+                {
+                    throw new ArgumentException("Unexpected property data type.", nameof(propertyData));
+                }
         }
     }
 
@@ -352,7 +352,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     /// <param name="propertyType">属性的类型的原子。</param>
     /// <param name="value">属性的值。</param>
     /// <param name="mode">修改属性的模式。</param>
-    public void ChangeUtf8Property(X11Atom property, X11Atom propertyType , string value, PropertyMode mode)
+    public void ChangeUtf8Property(X11Atom property, X11Atom propertyType, string value, PropertyMode mode)
     {
         var bytes = Encoding.UTF8.GetBytes(value);
         ChangeProperty(property, new X11PropertyData.Format8Array(propertyType, bytes), mode);

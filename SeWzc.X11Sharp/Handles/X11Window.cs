@@ -1,6 +1,4 @@
-﻿using SeWzc.X11Sharp.Extensions;
-
-namespace SeWzc.X11Sharp.Handles;
+﻿namespace SeWzc.X11Sharp.Handles;
 
 /// <summary>
 /// X11 窗口。
