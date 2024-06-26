@@ -6,9 +6,9 @@ namespace SeWzc.X11Sharp;
 public sealed class GCValues
 {
     public GraphicsFunctions? Function { get; set; }
-    public nuint? PlaneMask { get; set; }
-    public nuint? Foreground { get; set; }
-    public nuint? Background { get; set; }
+    public uint? PlaneMask { get; set; }
+    public uint? Foreground { get; set; }
+    public uint? Background { get; set; }
     public int? LineWidth { get; set; }
     public LineStyle? LineStyle { get; set; }
     public CapStyle? CapStyle { get; set; }
@@ -97,16 +97,16 @@ public sealed class GCValues
             fill_style = FillStyle ?? 0,
             fill_rule = FillRule ?? 0,
             arc_mode = ArcMode ?? 0,
-            tile = Tile ?? X11Pixmap.None,
-            stipple = Stipple ?? X11Pixmap.None,
+            tile = Tile ?? default,
+            stipple = Stipple ?? default,
             ts_x_origin = TsXOrigin ?? 0,
             ts_y_origin = TsYOrigin ?? 0,
-            font = Font ?? X11Font.None,
+            font = Font ?? default,
             subwindow_mode = SubwindowMode ?? 0,
             graphics_exposures = GraphicsExposures ?? false,
             clip_x_origin = ClipXOrigin ?? 0,
             clip_y_origin = ClipYOrigin ?? 0,
-            clip_mask = ClipMask ?? X11Pixmap.None,
+            clip_mask = ClipMask ?? default,
             dash_offset = DashOffset ?? 0,
             dashes = Dashes ?? 0,
         };

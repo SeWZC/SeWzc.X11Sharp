@@ -20,7 +20,7 @@ public sealed class WindowAttributes
         BitGravity = windowAttributes.bit_gravity;
         WinGravity = windowAttributes.win_gravity;
         BackingStore = windowAttributes.backing_store;
-        BackingPlanes = windowAttributes.backing_planes;
+        BackingPlanes = (uint)windowAttributes.backing_planes;
         BackingPixel = windowAttributes.backing_pixel;
         SaveUnder = windowAttributes.save_under;
         Colormap = windowAttributes.colormap;
@@ -45,7 +45,7 @@ public sealed class WindowAttributes
     public Gravity BitGravity { get; }
     public Gravity WinGravity { get; }
     public BackingStore BackingStore { get; }
-    public nuint BackingPlanes { get; }
+    public uint BackingPlanes { get; }
     public Pixel BackingPixel { get; }
     public bool SaveUnder { get; }
     public X11Colormap Colormap { get; }

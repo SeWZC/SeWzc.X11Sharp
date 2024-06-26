@@ -94,22 +94,22 @@ internal static partial class XLib
     // TODO 暂未使用
     // long XExtendedMaxRequestSize(Display *display);
     [LibraryImport(libX11)]
-    public static partial nint XExtendedMaxRequestSize(DisplayPtr display);
+    public static partial Long XExtendedMaxRequestSize(DisplayPtr display);
 
     // TODO 暂未使用
     // long XMaxRequestSize(Display *display);
     [LibraryImport(libX11)]
-    public static partial nint XMaxRequestSize(DisplayPtr display);
+    public static partial Long XMaxRequestSize(DisplayPtr display);
 
     // TODO 暂未使用
     // unsigned long XLastKnownRequestProcessed(Display *display);
     [LibraryImport(libX11)]
-    public static partial nuint XLastKnownRequestProcessed(DisplayPtr display);
+    public static partial ULong XLastKnownRequestProcessed(DisplayPtr display);
 
     // TODO 暂未使用
     // unsigned long XNextRequest(Display *display);
     [LibraryImport(libX11)]
-    public static partial nuint XNextRequest(DisplayPtr display);
+    public static partial ULong XNextRequest(DisplayPtr display);
 
     // int XProtocolVersion(Display *display);
     [LibraryImport(libX11)]
@@ -239,7 +239,7 @@ internal static partial class XLib
 
     // long XScreenNumberOfScreen(Screen *screen);
     [LibraryImport(libX11)]
-    public static partial nint XScreenNumberOfScreen(ScreenPtr screen);
+    public static partial Long XScreenNumberOfScreen(ScreenPtr screen);
 
     // long XEventMaskOfScreen(Screen *screen);
     [LibraryImport(libX11)]
@@ -594,8 +594,8 @@ internal static partial class XLib
 
     // int XGetWindowProperty(Display *display, Window w, Atom property, long long_offset, long long_length, Bool delete, Atom req_type, Atom *actual_type_return, int *actual_format_return, unsigned long *nitems_return, unsigned long *bytes_after_return, unsigned char **prop_return);
     [LibraryImport(libX11)]
-    public static unsafe partial int XGetWindowProperty(DisplayPtr display, X11Window window, X11Atom property, nint long_offset, nint long_length,
-        Bool delete, X11Atom req_type, out X11Atom actual_type_return, out int actual_format_return, out nuint nitems_return, out nuint bytes_after_return,
+    public static unsafe partial int XGetWindowProperty(DisplayPtr display, X11Window window, X11Atom property, Long long_offset, Long long_length,
+        Bool delete, X11Atom req_type, out X11Atom actual_type_return, out int actual_format_return, out ULong nitems_return, out ULong bytes_after_return,
         out void* prop_return);
 
     // Atom *XListProperties(Display *display, Window w, int *num_prop_return);
@@ -622,7 +622,7 @@ internal static partial class XLib
     // TODO 暂未使用
     // XSetSelectionOwner(Display *display, Atom selection, Window owner, Time time);
     [LibraryImport(libX11)]
-    public static partial int XSetSelectionOwner(DisplayPtr display, X11Atom selection, X11Window owner, nint time);
+    public static partial int XSetSelectionOwner(DisplayPtr display, X11Atom selection, X11Window owner, Time time);
 
     // TODO 暂未使用
     // Window XGetSelectionOwner(Display *display, Atom selection);
@@ -632,7 +632,7 @@ internal static partial class XLib
     // TODO 暂未使用
     // XConvertSelection(Display *display, Atom selection, Atom target, Atom property, Window requestor, Time time);
     [LibraryImport(libX11)]
-    public static partial int XConvertSelection(DisplayPtr display, X11Atom selection, X11Atom target, X11Atom property, X11Window requestor, nint time);
+    public static partial int XConvertSelection(DisplayPtr display, X11Atom selection, X11Atom target, X11Atom property, X11Window requestor, Time time);
 
     #endregion
 
@@ -648,7 +648,7 @@ internal static partial class XLib
 
     // XCopyGC(Display *display, GC src, GC dest, unsigned long valuemask);
     [LibraryImport(libX11)]
-    public static partial int XCopyGC(DisplayPtr display, GCPtr src, GCValueMarks valuemask, GCPtr dest);
+    public static partial int XCopyGC(DisplayPtr display, GCPtr src, GCPtr dest, GCValueMarks valuemask);
 
     // XChangeGC(Display *display, GC gc, unsigned long valuemask, XGCValues *values);
     [LibraryImport(libX11)]

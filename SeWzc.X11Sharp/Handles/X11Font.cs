@@ -1,7 +1,28 @@
-﻿namespace SeWzc.X11Sharp.Handles;
+﻿using SeWzc.X11Sharp.Structs;
 
-public readonly record struct X11Font(IntPtr Handle) : IX11HandleWrapper<X11Font>
+namespace SeWzc.X11Sharp.Handles;
+
+public readonly record struct X11Font
 {
-    /// <inheritdoc />
-    public static X11Font None { get; } = new(0);
+    public X11Font(ulong Handle)
+    {
+        this.Handle = (ULong)Handle;
+    }
+
+    internal ULong Handle { get; }
+
+    public static implicit operator ULong(X11Font value)
+    {
+        return value.Handle;
+    }
+
+    public static implicit operator nuint(X11Font value)
+    {
+        return value.Handle;
+    }
+
+    public static implicit operator nint(X11Font value)
+    {
+        return (nint)value.Handle;
+    }
 }

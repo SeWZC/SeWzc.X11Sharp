@@ -1,9 +1,30 @@
-﻿namespace SeWzc.X11Sharp.Handles;
+﻿using SeWzc.X11Sharp.Structs;
 
-public readonly record struct X11Atom(nint Handle) : IX11HandleWrapper<X11Atom>
+namespace SeWzc.X11Sharp.Handles;
+
+public readonly record struct X11Atom
 {
-    /// <inheritdoc />
-    public static X11Atom None { get; } = new(0);
+    public X11Atom(ulong Handle)
+    {
+        this.Handle = (ULong)Handle;
+    }
+
+    internal ULong Handle { get; }
+
+    public static implicit operator ULong(X11Atom value)
+    {
+        return value.Handle;
+    }
+
+    public static implicit operator nuint(X11Atom value)
+    {
+        return value.Handle;
+    }
+
+    public static implicit operator nint(X11Atom value)
+    {
+        return (nint)value.Handle;
+    }
 
     /// <summary>
     /// 与 Display 进行组合，以便进行操作。
