@@ -575,15 +575,17 @@ internal static partial class XLib
     // Atom XInternAtom(Display *display, char *atom_name, Bool only_if_exists);
     [LibraryImport(libX11, StringMarshalling = StringMarshalling.Utf8)]
     public static partial X11Atom XInternAtom(DisplayPtr display, string atom_name, Bool only_if_exists);
-
+    
+    // TODO 暂未使用
     // Status XInternAtoms(Display *display, char **names, int count, Bool only_if_exists, Atom *atoms_return);
     [LibraryImport(libX11, StringMarshalling = StringMarshalling.Utf8)]
-    public static unsafe partial Bool XInternAtoms(DisplayPtr display, [In] string[] names, int count, Bool only_if_exists, X11Atom* atoms_return);
+    public static unsafe partial Bool XInternAtoms(DisplayPtr display, [In] string[] names, int count, Bool only_if_exists, [In] [Out] X11Atom[] atoms_return);
 
     // char *XGetAtomName(Display *display, Atom atom);
     [LibraryImport(libX11)]
     public static unsafe partial byte* XGetAtomName(DisplayPtr display, X11Atom atom);
 
+    // TODO 暂未使用
     // Status XGetAtomNames(Display *display, Atom *atoms, int count, char **names_return);
     [LibraryImport(libX11)]
     public static unsafe partial Bool XGetAtomNames(DisplayPtr display, [In] X11Atom[] atoms, int count, byte** names_return);

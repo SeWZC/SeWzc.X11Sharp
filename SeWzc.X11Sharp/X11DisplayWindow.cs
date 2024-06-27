@@ -202,6 +202,8 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
         return success ? new WindowAttributes(windowAttributes) : null;
     }
 
+    #region Window Property
+
     /// <summary>
     /// 获取窗口的属性。
     /// </summary>
@@ -223,37 +225,37 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
         switch (actualFormatReturn)
         {
             case 8:
-                {
-                    var prop = (byte*)propReturn;
-                    var value = new byte[nitemsReturn];
-                    fixed (void* pValue = value)
-                        Unsafe.CopyBlock(pValue, prop, (uint)nitemsReturn);
-                    result = new X11PropertyData.Format8Array(actualTypeReturn, value);
-                    break;
-                }
+            {
+                var prop = (byte*)propReturn;
+                var value = new byte[nitemsReturn];
+                fixed (void* pValue = value)
+                    Unsafe.CopyBlock(pValue, prop, (uint)nitemsReturn);
+                result = new X11PropertyData.Format8Array(actualTypeReturn, value);
+                break;
+            }
             case 16:
-                {
-                    var prop = (short*)propReturn;
-                    var value = new short[nitemsReturn];
-                    fixed (void* pValue = value)
-                        Unsafe.CopyBlock(pValue, prop, (uint)nitemsReturn * 2);
-                    result = new X11PropertyData.Format16Array(actualTypeReturn, value);
-                    break;
-                }
+            {
+                var prop = (short*)propReturn;
+                var value = new short[nitemsReturn];
+                fixed (void* pValue = value)
+                    Unsafe.CopyBlock(pValue, prop, (uint)nitemsReturn * 2);
+                result = new X11PropertyData.Format16Array(actualTypeReturn, value);
+                break;
+            }
             case 32:
-                {
-                    var prop = (nint*)propReturn;
-                    var value = new nint[nitemsReturn];
-                    fixed (void* pValue = value)
-                        Unsafe.CopyBlock(pValue, prop, (uint)((int)nitemsReturn * sizeof(nint)));
-                    result = new X11PropertyData.Format32Array(actualTypeReturn, value);
-                    break;
-                }
+            {
+                var prop = (Long*)propReturn;
+                var value = new Long[nitemsReturn];
+                fixed (void* pValue = value)
+                    Unsafe.CopyBlock(pValue, prop, (uint)((int)nitemsReturn * sizeof(Long)));
+                result = new X11PropertyData.Format32Array(actualTypeReturn, value);
+                break;
+            }
             default:
-                {
-                    Debug.Assert(false, "Unexpected actualFormatReturn.");
-                    break;
-                }
+            {
+                Debug.Assert(false, "Unexpected actualFormatReturn.");
+                break;
+            }
         }
 
         XLib.XFree(propReturn);
@@ -262,21 +264,117 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     }
 
     /// <summary>
+    /// 改变窗口的属性。
+    /// </summary>
+    /// <param name="property">要改变的属性的原子。</param>
+    /// <param name="propertyData">属性的数据。</param>
+    /// <param name="mode">修改属性的模式。</param>
+    /// <exception cref="ArgumentException">属性数据类型不符合预期。</exception>
+    public unsafe void ChangeProperty(X11Atom property, X11PropertyData propertyData, PropertyMode mode)
+    {
+        switch (propertyData)
+        {
+            case X11PropertyData.Format8Array format8ArrayData:
+            {
+                var value = format8ArrayData.Value;
+                fixed (byte* pValue = value)
+                {
+                    XLib.XChangeProperty(Display.XDisplay, Value, property, format8ArrayData.PropertyType, 8, mode, pValue,
+                        value.Length);
+                }
+
+                break;
+            }
+            case X11PropertyData.Format16Array format16ArrayData:
+            {
+                var value = format16ArrayData.Value;
+                fixed (short* pValue = value)
+                {
+                    XLib.XChangeProperty(Display.XDisplay, Value, property, format16ArrayData.PropertyType, 16, mode, pValue,
+                        value.Length);
+                }
+
+                break;
+            }
+            case X11PropertyData.Format32Array format32ArrayData:
+            {
+                var value = format32ArrayData.Value;
+                fixed (Long* pValue = value)
+                {
+                    XLib.XChangeProperty(Display, Value, property, format32ArrayData.PropertyType, sizeof(Long) * 8, mode, pValue,
+                        value.Length);
+                }
+
+                break;
+            }
+            default:
+            {
+                throw new ArgumentException("Unexpected property data type.", nameof(propertyData));
+            }
+        }
+    }
+
+    /// <summary>
     /// 获取窗口的 utf8 类型的属性。
     /// </summary>
     /// <param name="property">属性的原子。</param>
-    /// <returns>如果不存在该属性或者属性格式不是 8 bit 为单元，则返回 <see langword="null" />；否则返回属性的值使用 utf8 解码的结果。</returns>
+    /// <returns>如果不存在该属性或者属性不是 utf8 类型，则返回 <see langword="null" />；否则返回属性的值。</returns>
     public string? GetUtf8Property(X11Atom property)
     {
         var propertyData = GetProperty(property);
-        if (propertyData is null)
-            return null;
-
         return propertyData switch
         {
-            X11PropertyData.Format8Array { Value: var value } => Encoding.UTF8.GetString(value),
+            X11PropertyData.Format8Array { PropertyType: var type, Value: var value } when type == Display.Atoms.Utf8String.Value =>
+                Encoding.UTF8.GetString(value),
             _ => null,
         };
+    }
+
+    /// <summary>
+    /// 改变窗口的 utf8 类型的属性。
+    /// </summary>
+    /// <param name="property">要改变的属性的原子。</param>
+    /// <param name="value">属性的值。</param>
+    /// <param name="mode">修改属性的模式。</param>
+    public void ChangeUtf8Property(X11Atom property, string value, PropertyMode mode)
+    {
+        var bytes = Encoding.UTF8.GetBytes(value);
+        ChangeProperty(property, new X11PropertyData.Format8Array(Display.Atoms.Utf8String.Value, bytes), mode);
+    }
+
+    /// <summary>
+    /// 获取窗口的原子数组类型的属性。
+    /// </summary>
+    /// <param name="property">属性的原子。</param>
+    /// <returns>如果不存在该属性或者属性不是原子数组类型，则返回空数组；否则返回属性的值。</returns>
+    public X11DisplayAtom[] GetAtomProperty(X11Atom property)
+    {
+        var propertyData = GetProperty(property);
+        switch (propertyData)
+        {
+            case X11PropertyData.Format32Array { PropertyType: var type, Value: var value } when type == Display.Atoms.Atom.Value:
+                var result = new X11DisplayAtom[value.Length];
+                for (var i = 0; i < value.Length; i++)
+                    result[i] = new X11Atom((ulong)value[i]).WithDisplay(Display);
+                return result;
+            default:
+                return [];
+        }
+    }
+
+    /// <summary>
+    /// 改变窗口的原子数组类型的属性。
+    /// </summary>
+    /// <param name="property">要改变的属性的原子。</param>
+    /// <param name="value">属性的值。</param>
+    /// <param name="mode">修改属性的模式。</param>
+    public void ChangeAtomProperty(X11Atom property, X11Atom[] value, PropertyMode mode)
+    {
+        var valueArray = new Long[value.Length];
+        for (var i = 0; i < value.Length; i++)
+            valueArray[i] = value[i].Handle;
+
+        ChangeProperty(property, new X11PropertyData.Format32Array(Display.Atoms.Atom.Value, valueArray), mode);
     }
 
     /// <summary>
@@ -295,70 +393,6 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     }
 
     /// <summary>
-    /// 改变窗口的属性。
-    /// </summary>
-    /// <param name="property">要改变的属性的原子。</param>
-    /// <param name="propertyData">属性的数据。</param>
-    /// <param name="mode">修改属性的模式。</param>
-    /// <exception cref="ArgumentException">属性数据类型不符合预期。</exception>
-    public unsafe void ChangeProperty(X11Atom property, X11PropertyData propertyData, PropertyMode mode)
-    {
-        switch (propertyData)
-        {
-            case X11PropertyData.Format8Array format8ArrayData:
-                {
-                    var value = format8ArrayData.Value;
-                    fixed (byte* pValue = value)
-                    {
-                        XLib.XChangeProperty(Display.XDisplay, Value, property, format8ArrayData.PropertyType, 8, mode, pValue,
-                            value.Length);
-                    }
-
-                    break;
-                }
-            case X11PropertyData.Format16Array format16ArrayData:
-                {
-                    var value = format16ArrayData.Value;
-                    fixed (short* pValue = value)
-                    {
-                        XLib.XChangeProperty(Display.XDisplay, Value, property, format16ArrayData.PropertyType, 16, mode, pValue,
-                            value.Length);
-                    }
-
-                    break;
-                }
-            case X11PropertyData.Format32Array format32ArrayData:
-                {
-                    var value = format32ArrayData.Value;
-                    fixed (nint* pValue = value)
-                    {
-                        XLib.XChangeProperty(Display, Value, property, format32ArrayData.PropertyType, sizeof(nint) * 8, mode, pValue,
-                            value.Length);
-                    }
-
-                    break;
-                }
-            default:
-                {
-                    throw new ArgumentException("Unexpected property data type.", nameof(propertyData));
-                }
-        }
-    }
-
-    /// <summary>
-    /// 改变窗口的 utf8 类型的属性。
-    /// </summary>
-    /// <param name="property">要改变的属性的原子。</param>
-    /// <param name="propertyType">属性的类型的原子。</param>
-    /// <param name="value">属性的值。</param>
-    /// <param name="mode">修改属性的模式。</param>
-    public void ChangeUtf8Property(X11Atom property, X11Atom propertyType, string value, PropertyMode mode)
-    {
-        var bytes = Encoding.UTF8.GetBytes(value);
-        ChangeProperty(property, new X11PropertyData.Format8Array(propertyType, bytes), mode);
-    }
-
-    /// <summary>
     /// 删除窗口的属性。
     /// </summary>
     /// <param name="property">要删除的属性的原子。</param>
@@ -367,5 +401,5 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
         XLib.XDeleteProperty(Display.XDisplay, Value, property);
     }
 
-
+    #endregion
 }

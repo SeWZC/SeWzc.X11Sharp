@@ -22,6 +22,8 @@ public sealed class X11Display : IDisposable
 
     private static WeakReferenceValueDictionary<nint, X11Display> Cache { get; } = new();
 
+    public X11DisplayAtoms Atoms => new(this);
+
     /// <summary>
     /// 获取连接编号。
     /// </summary>
@@ -266,6 +268,22 @@ public sealed class X11Display : IDisposable
     public X11DisplayAtom InternAtom(string atomName, bool onlyIfExists = false)
     {
         return XLib.XInternAtom(XDisplay, atomName, onlyIfExists).WithDisplay(this);
+    }
+
+    /// <summary>
+    /// 获取指定名称的原子。相比于 <see cref="InternAtom(string,bool)" />，该方法可以一次获取多个原子。
+    /// </summary>
+    /// <param name="atomName">原子名称。</param>
+    /// <param name="onlyIfExists">是否仅获取已存在的原子。</param>
+    /// <returns></returns>
+    public X11DisplayAtom[] InternAtoms(string[] atomName, bool onlyIfExists = false)
+    {
+        var atoms = new X11Atom[atomName.Length];
+        XLib.XInternAtoms(XDisplay, atomName, atomName.Length, onlyIfExists, atoms);
+        var result = new X11DisplayAtom[atomName.Length];
+        for (var i = 0; i < atomName.Length; i++)
+            result[i] = atoms[i].WithDisplay(this);
+        return result;
     }
 
     /// <summary>
