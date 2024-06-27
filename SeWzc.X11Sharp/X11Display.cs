@@ -1,7 +1,7 @@
 ﻿using JetBrains.Annotations;
-using SeWzc.X11Sharp.Handles;
 using SeWzc.X11Sharp.Internal;
 using SeWzc.X11Sharp.Structs;
+using SeWzc.X11Sharp.Xid;
 
 namespace SeWzc.X11Sharp;
 

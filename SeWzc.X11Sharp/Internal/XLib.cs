@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
-using SeWzc.X11Sharp.Handles;
 using SeWzc.X11Sharp.Structs;
+using SeWzc.X11Sharp.Xid;
 
 // ReSharper disable UnusedMember.Local
 // ReSharper disable InconsistentNaming
