@@ -355,7 +355,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
             case X11PropertyData.Format32Array { PropertyType: var type, Value: var value } when type == Display.Atoms.Atom.Value:
                 var result = new X11DisplayAtom[value.Length];
                 for (var i = 0; i < value.Length; i++)
-                    result[i] = new X11Atom((ulong)value[i]).WithDisplay(Display);
+                    result[i] = new X11Atom(value[i]).WithDisplay(Display);
                 return result;
             default:
                 return [];
