@@ -7,6 +7,8 @@ public readonly record struct Pixel
         this.PixelValue = PixelValue;
     }
 
+    internal ULong PixelValue { get; init; }
+
     public static implicit operator ULong(Pixel pixel)
     {
         return pixel.PixelValue;
@@ -26,6 +28,4 @@ public readonly record struct Pixel
     {
         return (uint)pixel.PixelValue;
     }
-
-    internal ULong PixelValue { get; init; }
 }
