@@ -1,4 +1,5 @@
 ﻿using SeWzc.X11Sharp.Handles;
+using SeWzc.X11Sharp.Structs;
 
 namespace SeWzc.X11Sharp;
 
@@ -43,5 +44,5 @@ public abstract record X11PropertyData
     /// </remarks>
     /// <param name="PropertyType">属性类型的原子。</param>
     /// <param name="Value">属性的值。</param>
-    public record Format32Array(X11Atom PropertyType, nint[] Value) : X11PropertyData(PropertyType);
+    public record Format32Array(X11Atom PropertyType, Long[] Value) : X11PropertyData(PropertyType);
 }
