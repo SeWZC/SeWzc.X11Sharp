@@ -1,32 +1,37 @@
 ﻿using SeWzc.X11Sharp.Structs;
 
-namespace SeWzc.X11Sharp.Handles;
+namespace SeWzc.X11Sharp.Xid;
 
 /// <summary>
 /// X11 窗口。
 /// </summary>
 public readonly record struct X11Window
 {
-    public X11Window(ulong Handle)
+    public X11Window(ulong Id)
     {
-        this.Handle = (ULong)Handle;
+        this.Id = (ULong)Id;
     }
 
-    internal ULong Handle { get; }
+    public X11Window(nint Id)
+    {
+        this.Id = (ULong)Id;
+    }
+
+    internal ULong Id { get; }
 
     public static implicit operator ULong(X11Window value)
     {
-        return value.Handle;
+        return value.Id;
     }
 
     public static implicit operator nuint(X11Window value)
     {
-        return value.Handle;
+        return value.Id;
     }
 
     public static implicit operator nint(X11Window value)
     {
-        return (nint)value.Handle;
+        return (nint)value.Id;
     }
 
     /// <summary>

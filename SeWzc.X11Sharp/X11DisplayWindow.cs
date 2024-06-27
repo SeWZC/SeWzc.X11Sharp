@@ -2,9 +2,9 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Text;
-using SeWzc.X11Sharp.Handles;
 using SeWzc.X11Sharp.Internal;
 using SeWzc.X11Sharp.Structs;
+using SeWzc.X11Sharp.Xid;
 
 namespace SeWzc.X11Sharp;
 
@@ -372,7 +372,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     {
         var valueArray = new Long[value.Length];
         for (var i = 0; i < value.Length; i++)
-            valueArray[i] = value[i].Handle;
+            valueArray[i] = value[i].Id;
 
         ChangeProperty(property, new X11PropertyData.Format32Array(Display.Atoms.Atom.Value, valueArray), mode);
     }

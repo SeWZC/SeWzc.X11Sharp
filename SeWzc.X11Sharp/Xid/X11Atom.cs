@@ -1,29 +1,34 @@
 ﻿using SeWzc.X11Sharp.Structs;
 
-namespace SeWzc.X11Sharp.Handles;
+namespace SeWzc.X11Sharp.Xid;
 
 public readonly record struct X11Atom
 {
-    public X11Atom(ulong Handle)
+    public X11Atom(nuint Id)
     {
-        this.Handle = (ULong)Handle;
+        this.Id = (ULong)Id;
     }
 
-    internal ULong Handle { get; }
+    public X11Atom(nint Id)
+    {
+        this.Id = (ULong)Id;
+    }
+
+    internal ULong Id { get; }
 
     public static implicit operator ULong(X11Atom value)
     {
-        return value.Handle;
+        return value.Id;
     }
 
     public static implicit operator nuint(X11Atom value)
     {
-        return value.Handle;
+        return value.Id;
     }
 
     public static implicit operator nint(X11Atom value)
     {
-        return (nint)value.Handle;
+        return (nint)value.Id;
     }
 
     /// <summary>
