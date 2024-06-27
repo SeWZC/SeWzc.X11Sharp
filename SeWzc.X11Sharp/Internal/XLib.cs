@@ -575,7 +575,7 @@ internal static partial class XLib
     // Atom XInternAtom(Display *display, char *atom_name, Bool only_if_exists);
     [LibraryImport(libX11, StringMarshalling = StringMarshalling.Utf8)]
     public static partial X11Atom XInternAtom(DisplayPtr display, string atom_name, Bool only_if_exists);
-    
+
     // TODO 暂未使用
     // Status XInternAtoms(Display *display, char **names, int count, Bool only_if_exists, Atom *atoms_return);
     [LibraryImport(libX11, StringMarshalling = StringMarshalling.Utf8)]
@@ -606,7 +606,8 @@ internal static partial class XLib
 
     // XChangeProperty(Display *display, Window w, Atom property, Atom type, int format, int mode, unsignedchar *data, int nelements);
     [LibraryImport(libX11)]
-    public static unsafe partial int XChangeProperty(DisplayPtr display, X11Window window, X11Atom property, X11Atom type, int format, PropertyMode mode, void* data, int nelements);
+    public static unsafe partial int XChangeProperty(DisplayPtr display, X11Window window, X11Atom property, X11Atom type, int format, PropertyMode mode,
+        void* data, int nelements);
 
     // TODO 暂未使用
     // XRotateWindowProperties(Display *display, Window w, Atom properties[], int num_prop, int npositions);

@@ -125,62 +125,77 @@ public enum GraphicsFunctions : int
     /// 0
     /// </summary>
     Clear = 0,
+
     /// <summary>
     /// src && dst
     /// </summary>
     And = 1,
+
     /// <summary>
     /// src && !dst
     /// </summary>
     AndReverse = 2,
+
     /// <summary>
     /// src
     /// </summary>
     Copy = 3,
+
     /// <summary>
     /// !src && dst
     /// </summary>
     AndInverted = 4,
+
     /// <summary>
     /// dst
     /// </summary>
     Noop = 5,
+
     /// <summary>
     /// src ^ dst
     /// </summary>
     Xor = 6,
+
     /// <summary>
     /// src || dst
     /// </summary>
     Or = 7,
+
     /// <summary>
     /// !(src || dst)
     /// </summary>
     Nor = 8,
+
     /// <summary>
     /// !(src ^ dst)
     /// </summary>
     Equiv = 9,
+
     /// <summary>
     /// !dst
     /// </summary>
     Invert = 10,
+
     /// <summary>
     /// src || !dst
     /// </summary>
     OrReverse = 11,
+
     /// <summary>
     /// !src
     /// </summary>
     CopyInverted = 12,
+
     /// <summary>
     /// !src || dst
     /// </summary>
     OrInverted = 13,
+
     /// <summary>
     /// !(src && dst)
     /// </summary>
     Nand = 14,
+
     /// <summary>
     /// 1
     /// </summary>
