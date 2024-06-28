@@ -402,4 +402,10 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     }
 
     #endregion
+
+    #region 运算符重载
+
+    public static implicit operator X11Window(X11DisplayWindow displayAtom) => displayAtom.Value;
+
+    #endregion
 }

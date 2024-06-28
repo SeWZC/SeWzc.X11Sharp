@@ -29,4 +29,6 @@ public readonly record struct X11DisplayAtom(X11Display Display, X11Atom Value)
     {
         return GetAtomName() ?? "";
     }
+
+    public static implicit operator X11Atom(X11DisplayAtom displayAtom) => displayAtom.Value;
 }
