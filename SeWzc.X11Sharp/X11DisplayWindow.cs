@@ -267,10 +267,10 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     /// 改变窗口的属性。
     /// </summary>
     /// <param name="property">要改变的属性的原子。</param>
-    /// <param name="propertyData">属性的数据。</param>
     /// <param name="mode">修改属性的模式。</param>
+    /// <param name="propertyData">属性的数据。</param>
     /// <exception cref="ArgumentException">属性数据类型不符合预期。</exception>
-    public unsafe void ChangeProperty(X11Atom property, X11PropertyData propertyData, PropertyMode mode)
+    public unsafe void ChangeProperty(X11Atom property, PropertyMode mode, X11PropertyData propertyData)
     {
         switch (propertyData)
         {
@@ -334,12 +334,12 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     /// 改变窗口的 utf8 类型的属性。
     /// </summary>
     /// <param name="property">要改变的属性的原子。</param>
-    /// <param name="value">属性的值。</param>
     /// <param name="mode">修改属性的模式。</param>
-    public void ChangeUtf8Property(X11Atom property, string value, PropertyMode mode)
+    /// <param name="value">属性的值。</param>
+    public void ChangeUtf8Property(X11Atom property, PropertyMode mode, string value)
     {
         var bytes = Encoding.UTF8.GetBytes(value);
-        ChangeProperty(property, new X11PropertyData.Format8Array(Display.Atoms.Utf8String.Value, bytes), mode);
+        ChangeProperty(property, mode, new X11PropertyData.Format8Array(Display.Atoms.Utf8String.Value, bytes));
     }
 
     /// <summary>
@@ -366,15 +366,15 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     /// 改变窗口的原子数组类型的属性。
     /// </summary>
     /// <param name="property">要改变的属性的原子。</param>
-    /// <param name="value">属性的值。</param>
     /// <param name="mode">修改属性的模式。</param>
-    public void ChangeAtomProperty(X11Atom property, X11Atom[] value, PropertyMode mode)
+    /// <param name="value">属性的值。</param>
+    public void ChangeAtomProperty(X11Atom property, PropertyMode mode, X11Atom[] value)
     {
         var valueArray = new Long[value.Length];
         for (var i = 0; i < value.Length; i++)
             valueArray[i] = value[i].Id;
 
-        ChangeProperty(property, new X11PropertyData.Format32Array(Display.Atoms.Atom.Value, valueArray), mode);
+        ChangeProperty(property, mode, new X11PropertyData.Format32Array(Display.Atoms.Atom.Value, valueArray));
     }
 
     /// <summary>
