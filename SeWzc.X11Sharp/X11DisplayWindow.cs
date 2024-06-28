@@ -301,7 +301,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
                 var value = format32ArrayData.Value;
                 fixed (Long* pValue = value)
                 {
-                    XLib.XChangeProperty(Display, Value, property, format32ArrayData.PropertyType, sizeof(Long) * 8, mode, pValue,
+                    XLib.XChangeProperty(Display, Value, property, format32ArrayData.PropertyType, 32, mode, pValue,
                         value.Length);
                 }
 
