@@ -667,5 +667,17 @@ internal static partial class XLib
 
     #endregion
 
+    // TODO Using Graphics Context Convenience Routines
+
+    #endregion
+
+    #region Events
+
+    #region Event Types
+
+
+
+    #endregion
+    
     #endregion
 }

@@ -9,7 +9,7 @@ namespace SeWzc.X11Sharp.Internal;
 internal struct XEvent
 {
     [FieldOffset(0)]
-    public int type;
+    public EventType type;
     [FieldOffset(0)]
     public XAnyEvent xany;
     [FieldOffset(0)]
@@ -90,7 +90,7 @@ internal struct XEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XAnyEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -100,7 +100,7 @@ internal struct XAnyEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XKeyEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -120,7 +120,7 @@ internal struct XKeyEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XButtonEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -140,7 +140,7 @@ internal struct XButtonEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XMotionEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -160,7 +160,7 @@ internal struct XMotionEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XCrossingEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -182,7 +182,7 @@ internal struct XCrossingEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XFocusChangeEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -194,7 +194,7 @@ internal struct XFocusChangeEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XExposeEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -209,7 +209,7 @@ internal struct XExposeEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XGraphicsExposeEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -226,7 +226,7 @@ internal struct XGraphicsExposeEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XNoExposeEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -238,7 +238,7 @@ internal struct XNoExposeEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XVisibilityEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -249,7 +249,7 @@ internal struct XVisibilityEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XCreateWindowEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -266,7 +266,7 @@ internal struct XCreateWindowEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XDestroyWindowEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -277,7 +277,7 @@ internal struct XDestroyWindowEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XUnmapEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -289,7 +289,7 @@ internal struct XUnmapEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XMapEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -301,7 +301,7 @@ internal struct XMapEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XMapRequestEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -312,7 +312,7 @@ internal struct XMapRequestEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XReparentEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -327,7 +327,7 @@ internal struct XReparentEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XConfigureEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -345,7 +345,7 @@ internal struct XConfigureEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XGravityEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -358,7 +358,7 @@ internal struct XGravityEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XResizeRequestEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -371,7 +371,7 @@ internal struct XResizeRequestEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XConfigureRequestEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -390,7 +390,7 @@ internal struct XConfigureRequestEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XCirculateEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -402,7 +402,7 @@ internal struct XCirculateEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XCirculateRequestEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -414,7 +414,7 @@ internal struct XCirculateRequestEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XPropertyEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -428,7 +428,7 @@ internal struct XPropertyEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XSelectionClearEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -440,7 +440,7 @@ internal struct XSelectionClearEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XSelectionRequestEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -454,7 +454,7 @@ internal struct XSelectionRequestEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XSelectionEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -468,7 +468,7 @@ internal struct XSelectionEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XColormapEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -481,7 +481,7 @@ internal struct XColormapEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XClientMessageEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -500,7 +500,7 @@ internal struct XClientMessageEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XMappingEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -512,7 +512,7 @@ internal struct XMappingEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XErrorEvent
 {
-    public int type;
+    public EventType type;
     public DisplayPtr display;
     public ULong resourceid;
     public ULong serial;
@@ -524,7 +524,7 @@ internal struct XErrorEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XKeymapEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -540,7 +540,7 @@ internal struct XKeymapEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XGenericEvent
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
@@ -551,7 +551,7 @@ internal struct XGenericEvent
 [StructLayout(LayoutKind.Sequential)]
 internal struct XGenericEventCookie
 {
-    public int type;
+    public EventType type;
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
