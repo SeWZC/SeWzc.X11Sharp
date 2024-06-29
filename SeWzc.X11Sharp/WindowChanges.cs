@@ -1,4 +1,5 @@
 ﻿using SeWzc.X11Sharp.Internal;
+using SeWzc.X11Sharp.Xid;
 
 namespace SeWzc.X11Sharp;
 
@@ -9,6 +10,8 @@ public sealed class WindowChanges
     public int? Width { get; set; }
     public int? Height { get; set; }
     public int? BorderWidth { get; set; }
+    public X11Window? Sibling { get; set; }
+    public StackMode? StackMode { get; set; }
 
     internal WindowChangeMask GetValueMask()
     {
@@ -24,6 +27,10 @@ public sealed class WindowChanges
             valuemask |= WindowChangeMask.Height;
         if (BorderWidth != null)
             valuemask |= WindowChangeMask.BorderWidth;
+        if (Sibling != null)
+            valuemask |= WindowChangeMask.Sibling;
+        if (StackMode != null)
+            valuemask |= WindowChangeMask.StackMode;
         return valuemask;
     }
 
@@ -36,6 +43,8 @@ public sealed class WindowChanges
             width = Width ?? 0,
             height = Height ?? 0,
             border_width = BorderWidth ?? 0,
+            sibling = Sibling ?? default,
+            stack_mode = StackMode ?? 0,
         };
     }
 }
