@@ -5,6 +5,45 @@ using SeWzc.X11Sharp.Xid;
 
 namespace SeWzc.X11Sharp.Internal;
 
+internal enum EventType
+{
+    KeyPress = 2,
+    KeyRelease = 3,
+    ButtonPress = 4,
+    ButtonRelease = 5,
+    MotionNotify = 6,
+    EnterNotify = 7,
+    LeaveNotify = 8,
+    FocusIn = 9,
+    FocusOut = 10,
+    KeymapNotify = 11,
+    Expose = 12,
+    GraphicsExpose = 13,
+    NoExpose = 14,
+    VisibilityNotify = 15,
+    CreateNotify = 16,
+    DestroyNotify = 17,
+    UnmapNotify = 18,
+    MapNotify = 19,
+    MapRequest = 20,
+    ReparentNotify = 21,
+    ConfigureNotify = 22,
+    ConfigureRequest = 23,
+    GravityNotify = 24,
+    ResizeRequest = 25,
+    CirculateNotify = 26,
+    CirculateRequest = 27,
+    PropertyNotify = 28,
+    SelectionClear = 29,
+    SelectionRequest = 30,
+    SelectionNotify = 31,
+    ColormapNotify = 32,
+    ClientMessage = 33,
+    MappingNotify = 34,
+    GenericEvent = 35,
+    LastEvent = 36,
+}
+
 [StructLayout(LayoutKind.Explicit)]
 internal struct XEvent
 {
@@ -112,7 +151,7 @@ internal struct XKeyEvent
     public int y;
     public int x_root;
     public int y_root;
-    public uint state;
+    public KeyOrButtonMask state;
     public uint keycode;
     public Bool same_screen;
 }
@@ -132,7 +171,7 @@ internal struct XButtonEvent
     public int y;
     public int x_root;
     public int y_root;
-    public uint state;
+    public KeyOrButtonMask state;
     public uint button;
     public Bool same_screen;
 }
@@ -152,8 +191,8 @@ internal struct XMotionEvent
     public int y;
     public int x_root;
     public int y_root;
-    public uint state;
-    public char is_hint;
+    public KeyOrButtonMask state;
+    public byte is_hint;
     public Bool same_screen;
 }
 
@@ -176,7 +215,7 @@ internal struct XCrossingEvent
     public NotifyDetail detail;
     public Bool same_screen;
     public Bool focus;
-    public uint state;
+    public KeyOrButtonMask state;
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -187,7 +226,7 @@ internal struct XFocusChangeEvent
     public Bool send_event;
     public DisplayPtr display;
     public X11Window window;
-    public int mode;
+    public NotifyMode mode;
     public NotifyDetail detail;
 }
 
@@ -213,7 +252,7 @@ internal struct XGraphicsExposeEvent
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
-    public X11Window drawable;
+    public X11Drawable drawable;
     public int x;
     public int y;
     public int width;
@@ -230,7 +269,7 @@ internal struct XNoExposeEvent
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
-    public X11Window drawable;
+    public X11Drawable drawable;
     public int major_code;
     public int minor_code;
 }
@@ -243,7 +282,7 @@ internal struct XVisibilityEvent
     public Bool send_event;
     public DisplayPtr display;
     public X11Window window;
-    public int state;
+    public VisibilityNotify state;
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -305,7 +344,7 @@ internal struct XMapRequestEvent
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
-    public X11Window @event;
+    public X11Window parent;
     public X11Window window;
 }
 
@@ -375,7 +414,7 @@ internal struct XConfigureRequestEvent
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
-    public X11Window @event;
+    public X11Window parent;
     public X11Window window;
     public int x;
     public int y;
@@ -406,7 +445,7 @@ internal struct XCirculateRequestEvent
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
-    public X11Window @event;
+    public X11Window parent;
     public X11Window window;
     public CirculationRequest place;
 }
@@ -418,11 +457,10 @@ internal struct XPropertyEvent
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
-    public X11Window @event;
     public X11Window window;
     public X11Atom atom;
     public Time time;
-    public int state;
+    public PropertyNotification state;
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -432,7 +470,7 @@ internal struct XSelectionClearEvent
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
-    public X11Window @event;
+    public X11Window window;
     public X11Atom selection;
     public Time time;
 }
@@ -444,7 +482,8 @@ internal struct XSelectionRequestEvent
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
-    public X11Window @event;
+    public X11Window owner;
+    public X11Window requestor;
     public X11Atom selection;
     public X11Atom target;
     public X11Atom property;
@@ -458,7 +497,7 @@ internal struct XSelectionEvent
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
-    public X11Window @event;
+    public X11Window requestor;
     public X11Atom selection;
     public X11Atom target;
     public X11Atom property;
@@ -472,7 +511,7 @@ internal struct XColormapEvent
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
-    public X11Window @event;
+    public X11Window window;
     public X11Colormap colormap;
     public Bool c_new;
     public ColorMapNotification state;
@@ -490,10 +529,33 @@ internal struct XClientMessageEvent
     public int format;
     public XClientMessageData data;
 
-    [InlineArray(5)]
+    [StructLayout(LayoutKind.Explicit)]
     public struct XClientMessageData
     {
-        public Long _data;
+        [FieldOffset(0)]
+        public Format8Data format8;
+        [FieldOffset(0)]
+        public Format16Data format16;
+        [FieldOffset(0)]
+        public Format32Data format32;
+    }
+    
+    [InlineArray(20)]
+    public struct Format8Data
+    {
+        private byte _data;
+    }
+
+    [InlineArray(10)]
+    public struct Format16Data
+    {
+        private short _data;
+    }
+
+    [InlineArray(5)]
+    public struct Format32Data
+    {
+        private Long _data;
     }
 }
 
@@ -504,7 +566,7 @@ internal struct XMappingEvent
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
-    public int request;
+    public MappingRequest request;
     public int first_keycode;
     public int count;
 }
@@ -528,6 +590,7 @@ internal struct XKeymapEvent
     public ULong serial;
     public Bool send_event;
     public DisplayPtr display;
+    public X11Window window;
     public KeyVector key_vector;
 
     [InlineArray(32)]

@@ -34,6 +34,16 @@ public readonly record struct X11Window
         return (nint)value.Id;
     }
 
+    public static implicit operator X11Drawable(X11Window value)
+    {
+        return new X11Drawable(value.Id);
+    }
+
+    public static explicit operator X11Window(X11Drawable value)
+    {
+        return new X11Window(value.Id);
+    }
+
     /// <summary>
     /// 与 Display 进行组合，以便进行操作。
     /// </summary>

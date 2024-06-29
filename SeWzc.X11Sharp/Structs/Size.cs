@@ -1,3 +1,5 @@
 namespace SeWzc.X11Sharp.Structs;
 
 public record struct Size(uint Width, uint Height);
+
+public record struct SSize(int Width, int Height);
