@@ -64,6 +64,11 @@ public sealed class X11Display : IDisposable
     public string? DisplayString => XLib.XDisplayString(XDisplay);
 
     /// <summary>
+    /// 下一个请求的序列号。
+    /// </summary>
+    public uint NextRequest => (uint)XLib.XNextRequest(XDisplay);
+
+    /// <summary>
     /// 获取 X 协议的版本。
     /// </summary>
     public Version ProtocolVersion => new(XLib.XProtocolVersion(XDisplay), XLib.XProtocolRevision(XDisplay));
@@ -72,6 +77,11 @@ public sealed class X11Display : IDisposable
     /// 获取可用的屏幕数量。
     /// </summary>
     public int ScreenCount => XLib.XScreenCount(XDisplay);
+
+    /// <summary>
+    /// 获取 XY 格式中每个扫描线单元或 Z 格式中每个像素值的图像的字节顺序。
+    /// </summary>
+    public ByteOrder ImageByteOrder => XLib.XImageByteOrder(XDisplay);
 
     /// <summary>
     /// 不要自动关闭连接。相当于 <see cref="GC.SuppressFinalize(object)" />。
@@ -219,6 +229,24 @@ public sealed class X11Display : IDisposable
     public X11DisplayWindow GetRootWindow(int screenNumber)
     {
         return XLib.XRootWindow(XDisplay, screenNumber).WithDisplay(this);
+    }
+
+    /// <summary>
+    /// 列出支持的 Z 格式图像的类型。
+    /// </summary>
+    /// <returns>支持的 Z 格式图像的类型数组。</returns>
+    public unsafe X11PixmapFormat[] ListPixmapFormats()
+    {
+        var pixmapFormats = XLib.XListPixmapFormats(this, out var count);
+        if (pixmapFormats == default)
+            return [];
+
+        var result = new X11PixmapFormat[count];
+        for (var i = 0; i < count; i++)
+            result[i] = pixmapFormats[i];
+
+        _ = XLib.XFree(pixmapFormats);
+        return result;
     }
 
     /// <summary>
