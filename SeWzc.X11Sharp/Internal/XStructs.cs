@@ -145,14 +145,6 @@ internal unsafe struct XScreen
 }
 
 [StructLayout(LayoutKind.Sequential)]
-internal struct XPixmapFormatValues
-{
-    public int depth;
-    public int bits_per_pixel;
-    public int scanline_pad;
-}
-
-[StructLayout(LayoutKind.Sequential)]
 internal struct XWindowChanges
 {
     public int x;

@@ -106,7 +106,6 @@ internal static partial class XLib
     [LibraryImport(libX11)]
     public static partial ULong XLastKnownRequestProcessed(DisplayPtr display);
 
-    // TODO 暂未使用
     // unsigned long XNextRequest(Display *display);
     [LibraryImport(libX11)]
     public static partial ULong XNextRequest(DisplayPtr display);
@@ -145,13 +144,10 @@ internal static partial class XLib
 
     #region Image Format Functions and Macros
 
-    // TODO 暂未使用
     // XPixmapFormatValues *XListPixmapFormats(Display *display, int *count_return);
     [LibraryImport(libX11)]
-    public static unsafe partial XPixmapFormatValues* XListPixmapFormats(DisplayPtr display, out int count);
+    public static unsafe partial X11PixmapFormat* XListPixmapFormats(DisplayPtr display, out int count);
 
-    // TODO 暂未使用
-    // int XImageByteOrder(Display *display);
     [LibraryImport(libX11)]
     public static partial ByteOrder XImageByteOrder(DisplayPtr display);
 
