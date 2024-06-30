@@ -3,35 +3,35 @@ using SeWzc.X11Sharp.Structs;
 namespace SeWzc.X11Sharp.Xid;
 
 /// <summary>
-/// X11 Î»Í¼¡£
+/// X11 ä½å›¾ã€‚
 /// </summary>
 public readonly record struct X11Pixmap
 {
     /// <summary>
-    /// Í¨¹ı Id ¹¹Ôì X11Pixmap¡£
+    /// é€šè¿‡ Id æ„é€  X11Pixmapã€‚
     /// </summary>
-    /// <param name="Id">Í¼ÏñÓ³ÉäµÄ ID¡£</param>
+    /// <param name="Id">å›¾åƒæ˜ å°„çš„ IDã€‚</param>
     public X11Pixmap(ulong Id)
     {
         this.Id = (ULong)Id;
     }
 
     /// <summary>
-    /// Í¨¹ı Id ¹¹Ôì X11Pixmap¡£
+    /// é€šè¿‡ Id æ„é€  X11Pixmapã€‚
     /// </summary>
-    /// <param name="Id">Í¼ÏñÓ³ÉäµÄ ID¡£</param>
+    /// <param name="Id">å›¾åƒæ˜ å°„çš„ IDã€‚</param>
     public X11Pixmap(nint Id)
     {
         this.Id = (ULong)Id;
     }
 
     /// <summary>
-    /// Î»Í¼µÄ ID¡£
+    /// ä½å›¾çš„ IDã€‚
     /// </summary>
     internal ULong Id { get; }
 
     /// <summary>
-    /// Ç¿ÖÆ×ª»»Îª ULong¡£
+    /// å¼ºåˆ¶è½¬æ¢ä¸º ULongã€‚
     /// </summary>
     public static implicit operator ULong(X11Pixmap value)
     {
@@ -39,7 +39,7 @@ public readonly record struct X11Pixmap
     }
 
     /// <summary>
-    /// Ç¿ÖÆ×ª»»Îª nuint¡£
+    /// å¼ºåˆ¶è½¬æ¢ä¸º nuintã€‚
     /// </summary>
     public static implicit operator nuint(X11Pixmap value)
     {
@@ -47,7 +47,7 @@ public readonly record struct X11Pixmap
     }
 
     /// <summary>
-    /// Ç¿ÖÆ×ª»»Îª nint¡£
+    /// å¼ºåˆ¶è½¬æ¢ä¸º nintã€‚
     /// </summary>
     public static implicit operator nint(X11Pixmap value)
     {

@@ -1,7 +1,7 @@
 namespace SeWzc.X11Sharp.Structs;
 
 /// <summary>
-/// ÏñËØ¡£
+/// åƒç´ ã€‚
 /// </summary>
 public readonly record struct Pixel
 {
@@ -11,7 +11,7 @@ public readonly record struct Pixel
     }
 
     /// <summary>
-    /// Í¨¹ıÏñËØÖµ¹¹ÔìÏñËØ¡£
+    /// é€šè¿‡åƒç´ å€¼æ„é€ åƒç´ ã€‚
     /// </summary>
     /// <param name="PixelValue"></param>
     public Pixel(uint PixelValue)
@@ -21,9 +21,9 @@ public readonly record struct Pixel
 
     internal ULong PixelValue { get; init; }
 
-    #region ÔËËã·ûÖØÔØ
+    #region è¿ç®—ç¬¦é‡è½½
 
-    // Ç¿ÖÆ×ª»»¾Í²»ÓÃÎÄµµÁË
+    // å¼ºåˆ¶è½¬æ¢å°±ä¸ç”¨æ–‡æ¡£äº†
 #pragma warning disable CS1591
 
     public static implicit operator ULong(Pixel pixel)

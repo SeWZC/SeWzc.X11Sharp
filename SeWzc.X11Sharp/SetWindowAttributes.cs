@@ -5,68 +5,68 @@ using SeWzc.X11Sharp.Xid;
 namespace SeWzc.X11Sharp;
 
 /// <summary>
-/// ÉèÖÃ´°¿ÚÊôĞÔ¡£
+/// è®¾ç½®çª—å£å±æ€§ã€‚
 /// </summary>
 public sealed class SetWindowAttributes
 {
     /// <summary>
-    /// ÓÃ×÷±³¾°µÄÎ»Í¼¡£
+    /// ç”¨ä½œèƒŒæ™¯çš„ä½å›¾ã€‚
     /// </summary>
     public X11Pixmap? BackgroundPixmap { get; set; }
     /// <summary>
-    /// ÓÃ×÷±³¾°µÄÏñËØ¡£
+    /// ç”¨ä½œèƒŒæ™¯çš„åƒç´ ã€‚
     /// </summary>
     public Pixel? BackgroundPixel { get; set; }
     /// <summary>
-    /// ÓÃ×÷±ß¿òµÄÎ»Í¼¡£
+    /// ç”¨ä½œè¾¹æ¡†çš„ä½å›¾ã€‚
     /// </summary>
     public X11Pixmap? BorderPixmap { get; set; }
     /// <summary>
-    /// ÓÃ×÷±ß¿òµÄÏñËØ¡£
+    /// ç”¨ä½œè¾¹æ¡†çš„åƒç´ ã€‚
     /// </summary>
     public Pixel? BorderPixel { get; set; }
     /// <summary>
-    /// Î»ÖØÁ¦¡£±íÊ¾´°¿Ú´óĞ¡¸Ä±äÊ±£¬´°¿ÚÖĞµÄÄÚÈİ±£³ÖÓë´°¿ÚµÄÄÄ¸ö·½ÏòµÄ¶ÔÆë¡£
+    /// ä½é‡åŠ›ã€‚è¡¨ç¤ºçª—å£å¤§å°æ”¹å˜æ—¶ï¼Œçª—å£ä¸­çš„å†…å®¹ä¿æŒä¸çª—å£çš„å“ªä¸ªæ–¹å‘çš„å¯¹é½ã€‚
     /// </summary>
     public Gravity? BitGravity { get; set; }
     /// <summary>
-    /// ´°¿ÚÖØÁ¦¡£±íÊ¾µ±¸¸´°¿ÚµÄ´óĞ¡¸Ä±äÊ±£¬´°¿Ú±£³ÖÓë¸¸´°¿ÚÄÄ¸ö·½ÏòµÄ¶ÔÆë¡£
+    /// çª—å£é‡åŠ›ã€‚è¡¨ç¤ºå½“çˆ¶çª—å£çš„å¤§å°æ”¹å˜æ—¶ï¼Œçª—å£ä¿æŒä¸çˆ¶çª—å£å“ªä¸ªæ–¹å‘çš„å¯¹é½ã€‚
     /// </summary>
     public Gravity? WinGravity { get; set; }
     /// <summary>
-    /// ´°¿Ú²»¿É¼ûÊ±ÊÇ·ñ±£´æÆäÄÚÈİ¡£Èç¹û´°¿Ú²»¿É¼ûÊ±Ã»ÓĞ±£´æÆäÄÚÈİ£¬ÔòÔÚ´°¿ÚÖØĞÂ±äÎª¿É¼ûÊ±£¬´°¿ÚÄÚÈİĞèÒªÖØĞÂ»æÖÆ¡£
+    /// çª—å£ä¸å¯è§æ—¶æ˜¯å¦ä¿å­˜å…¶å†…å®¹ã€‚å¦‚æœçª—å£ä¸å¯è§æ—¶æ²¡æœ‰ä¿å­˜å…¶å†…å®¹ï¼Œåˆ™åœ¨çª—å£é‡æ–°å˜ä¸ºå¯è§æ—¶ï¼Œçª—å£å†…å®¹éœ€è¦é‡æ–°ç»˜åˆ¶ã€‚
     /// </summary>
     public BackingStore? BackingStore { get; set; }
     /// <summary>
-    /// Òª±£´æµÄÆ½Ãæ¡£
+    /// è¦ä¿å­˜çš„å¹³é¢ã€‚
     /// </summary>
     public uint? BackingPlanes { get; set; }
     /// <summary>
-    /// Èç¹û´°¿ÚÄ³Ğ©Î»ÖÃµÄÄÚÈİ¶ªÊ§£¬Ó¦¸ÃÓÃÊ²Ã´ÏñËØÌî³ä¡£
+    /// å¦‚æœçª—å£æŸäº›ä½ç½®çš„å†…å®¹ä¸¢å¤±ï¼Œåº”è¯¥ç”¨ä»€ä¹ˆåƒç´ å¡«å……ã€‚
     /// </summary>
     public Pixel? BackingPixel { get; set; }
     /// <summary>
-    /// ÊÇ·ñ±£´æ´°¿ÚÏÂ·½µÄÄÚÈİ¡£
+    /// æ˜¯å¦ä¿å­˜çª—å£ä¸‹æ–¹çš„å†…å®¹ã€‚
     /// </summary>
     public bool? SaveUnder { get; set; }
     /// <summary>
-    /// Ó¦¸Ã½ÓÊÕµÄÊÂ¼şÑÚÂë¡£
+    /// åº”è¯¥æ¥æ”¶çš„äº‹ä»¶æ©ç ã€‚
     /// </summary>
     public EventMask? EventMask { get; set; }
     /// <summary>
-    /// ²»Ó¦¸Ã´«²¥µÄÊÂ¼şÑÚÂë¡£
+    /// ä¸åº”è¯¥ä¼ æ’­çš„äº‹ä»¶æ©ç ã€‚
     /// </summary>
     public EventMask? DoNotPropagateMask { get; set; }
     /// <summary>
-    /// ¸²¸ÇÖØ¶¨Ïò¡£
+    /// è¦†ç›–é‡å®šå‘ã€‚
     /// </summary>
     public bool? OverrideRedirect { get; set; }
     /// <summary>
-    /// ÑÕÉ«Ó³Éä±í¡£
+    /// é¢œè‰²æ˜ å°„è¡¨ã€‚
     /// </summary>
     public X11Colormap? Colormap { get; set; }
     /// <summary>
-    /// ÔÚ´°¿ÚÉÏÏÔÊ¾µÄ¹â±ê¡£
+    /// åœ¨çª—å£ä¸Šæ˜¾ç¤ºçš„å…‰æ ‡ã€‚
     /// </summary>
     public X11Cursor? Cursor { get; set; }
 
