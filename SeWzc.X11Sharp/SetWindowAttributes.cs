@@ -13,58 +13,72 @@ public sealed class SetWindowAttributes
     /// 用作背景的位图。
     /// </summary>
     public X11Pixmap? BackgroundPixmap { get; set; }
+
     /// <summary>
     /// 用作背景的像素。
     /// </summary>
     public Pixel? BackgroundPixel { get; set; }
+
     /// <summary>
     /// 用作边框的位图。
     /// </summary>
     public X11Pixmap? BorderPixmap { get; set; }
+
     /// <summary>
     /// 用作边框的像素。
     /// </summary>
     public Pixel? BorderPixel { get; set; }
+
     /// <summary>
     /// 位重力。表示窗口大小改变时，窗口中的内容保持与窗口的哪个方向的对齐。
     /// </summary>
     public Gravity? BitGravity { get; set; }
+
     /// <summary>
     /// 窗口重力。表示当父窗口的大小改变时，窗口保持与父窗口哪个方向的对齐。
     /// </summary>
     public Gravity? WinGravity { get; set; }
+
     /// <summary>
     /// 窗口不可见时是否保存其内容。如果窗口不可见时没有保存其内容，则在窗口重新变为可见时，窗口内容需要重新绘制。
     /// </summary>
     public BackingStore? BackingStore { get; set; }
+
     /// <summary>
     /// 要保存的平面。
     /// </summary>
     public uint? BackingPlanes { get; set; }
+
     /// <summary>
     /// 如果窗口某些位置的内容丢失，应该用什么像素填充。
     /// </summary>
     public Pixel? BackingPixel { get; set; }
+
     /// <summary>
     /// 是否保存窗口下方的内容。
     /// </summary>
     public bool? SaveUnder { get; set; }
+
     /// <summary>
     /// 应该接收的事件掩码。
     /// </summary>
     public EventMask? EventMask { get; set; }
+
     /// <summary>
     /// 不应该传播的事件掩码。
     /// </summary>
     public EventMask? DoNotPropagateMask { get; set; }
+
     /// <summary>
     /// 覆盖重定向。
     /// </summary>
     public bool? OverrideRedirect { get; set; }
+
     /// <summary>
     /// 颜色映射表。
     /// </summary>
     public X11Colormap? Colormap { get; set; }
+
     /// <summary>
     /// 在窗口上显示的光标。
     /// </summary>

@@ -1,8 +1,8 @@
 namespace SeWzc.X11Sharp.Structs;
 
 /// <summary>
-/// µã¡£
+/// ç‚¹ã€‚
 /// </summary>
-/// <param name="X">X ×ø±ê¡£</param>
-/// <param name="Y">Y ×ø±ê¡£</param>
+/// <param name="X">X åæ ‡ã€‚</param>
+/// <param name="Y">Y åæ ‡ã€‚</param>
 public record struct Point(int X, int Y);
