@@ -90,23 +90,18 @@ public struct Bool
     }
 }
 
-internal unsafe struct XPointer(byte* value)
-{
-    public byte* Value = value;
-}
-
 [StructLayout(LayoutKind.Sequential)]
 internal unsafe struct XExtData
 {
     public int number;
     public XExtData* next;
     public delegate*<int> free_private;
-    public XPointer private_data;
+    public void* private_data;
 }
 
 // ReSharper disable InconsistentNaming
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-internal unsafe delegate void XConnectionWatchProc(DisplayPtr display, XPointer client_data, int fd, Bool opening, XPointer* watch_data);
+internal unsafe delegate void XConnectionWatchProc(DisplayPtr display, void* client_data, int fd, Bool opening, void** watch_data);
 // ReSharper restore InconsistentNaming
 
 internal readonly record struct XVisualId(Long Value);
@@ -249,3 +244,6 @@ internal struct XGCValues
     public int dash_offset;
     public byte dashes;
 }
+
+[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+internal unsafe delegate Bool XEventPredicate(DisplayPtr display, XEvent* @event, void* arg);

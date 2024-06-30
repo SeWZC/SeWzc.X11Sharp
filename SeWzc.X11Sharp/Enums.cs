@@ -82,6 +82,45 @@ public enum EventMask : ulong
     OwnerGrabButton = 1 << 24,
 }
 
+public enum EventType
+{
+    KeyPress = 2,
+    KeyRelease = 3,
+    ButtonPress = 4,
+    ButtonRelease = 5,
+    MotionNotify = 6,
+    EnterNotify = 7,
+    LeaveNotify = 8,
+    FocusIn = 9,
+    FocusOut = 10,
+    KeymapNotify = 11,
+    Expose = 12,
+    GraphicsExpose = 13,
+    NoExpose = 14,
+    VisibilityNotify = 15,
+    CreateNotify = 16,
+    DestroyNotify = 17,
+    UnmapNotify = 18,
+    MapNotify = 19,
+    MapRequest = 20,
+    ReparentNotify = 21,
+    ConfigureNotify = 22,
+    ConfigureRequest = 23,
+    GravityNotify = 24,
+    ResizeRequest = 25,
+    CirculateNotify = 26,
+    CirculateRequest = 27,
+    PropertyNotify = 28,
+    SelectionClear = 29,
+    SelectionRequest = 30,
+    SelectionNotify = 31,
+    ColormapNotify = 32,
+    ClientMessage = 33,
+    MappingNotify = 34,
+    GenericEvent = 35,
+    LastEvent = 36,
+}
+
 public enum CloseDownMode : int
 {
     /*
@@ -612,4 +651,87 @@ public enum PropertyNotification
 
     NewValue = 0,
     Delete = 1,
+}
+
+/// <summary>
+/// 事件队列数量查询模式。
+/// </summary>
+public enum EventsQueuedMode
+{
+    /*
+       #define QueuedAlready 0
+       #define QueuedAfterReading 1
+       #define QueuedAfterFlush 2
+     */
+
+    /// <summary>
+    /// 返回队列中已经存在的事件。
+    /// </summary>
+    Already = 0,
+    /// <summary>
+    /// 如果队列中已经有事件，则返回事件数量；如果队列中没有事件，则尝试从服务器读取事件，再返回事件数量。
+    /// </summary>
+    AfterReading = 1,
+    /// <summary>
+    /// 如果队列中已经有事件，则返回事件数量；如果队列中没有事件，则先清空输出缓冲区，然后尝试从服务器读取事件，再返回事件数量。
+    /// </summary>
+    AfterFlush = 2,
+}
+
+public enum ErrorCode
+{
+    /*
+       /*****************************************************************
+        * ERROR CODES
+        ***************************************************************** /
+       
+       #define Success 0 /* everything's okay * /
+       #define BadRequest 1 /* bad request code * /
+       #define BadValue 2 /* int parameter out of range * /
+       #define BadWindow 3 /* parameter not a Window * /
+       #define BadPixmap 4 /* parameter not a Pixmap * /
+       #define BadAtom 5 /* parameter not an Atom * /
+       #define BadCursor 6 /* parameter not a Cursor * /
+       #define BadFont 7 /* parameter not a Font * /
+       #define BadMatch 8 /* parameter mismatch * /
+       #define BadDrawable 9 /* parameter not a Pixmap or Window * /
+       #define BadAccess 10 /* depending on context:
+        - key/button already grabbed
+        - attempt to free an illegal
+        cmap entry
+        - attempt to store into a read-only
+        color map entry.
+        - attempt to modify the access control
+        list from other than the local host.
+        * /
+       #define BadAlloc 11 /* insufficient resources * /
+       #define BadColor 12 /* no such colormap * /
+       #define BadGC 13 /* parameter not a GC * /
+       #define BadIDChoice 14 /* choice not in range or already used * /
+       #define BadName 15 /* font or color name doesn't exist * /
+       #define BadLength 16 /* Request length incorrect * /
+       #define BadImplementation 17 /* server is defective * /
+       
+       #define FirstExtensionError 128
+       #define LastExtensionError 255
+     */
+
+    Success = 0,
+    BadRequest = 1,
+    BadValue = 2,
+    BadWindow = 3,
+    BadPixmap = 4,
+    BadAtom = 5,
+    BadCursor = 6,
+    BadFont = 7,
+    BadMatch = 8,
+    BadDrawable = 9,
+    BadAccess = 10,
+    BadAlloc = 11,
+    BadColor = 12,
+    BadGC = 13,
+    BadIDChoice = 14,
+    BadImage = 15,
+    BadLength = 16,
+    BadImplementation = 17,
 }

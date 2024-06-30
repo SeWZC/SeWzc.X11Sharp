@@ -119,7 +119,6 @@ internal static partial class XLib
     [LibraryImport(libX11)]
     public static partial int XProtocolRevision(DisplayPtr display);
 
-    // TODO 暂未使用
     // int XQLength(Display *display);
     [LibraryImport(libX11)]
     public static partial int XQLength(DisplayPtr display);
@@ -336,12 +335,12 @@ internal static partial class XLib
     // TODO 暂未使用
     // Status XAddConnectionWatch(Display *display, XConnectionWatchProc procedure, XPointer client_data);
     [LibraryImport(libX11)]
-    public static partial Bool XAddConnectionWatch(DisplayPtr display, XConnectionWatchProc procedure, XPointer client_data);
+    public static unsafe partial Bool XAddConnectionWatch(DisplayPtr display, XConnectionWatchProc procedure, void* client_data);
 
     // TODO 暂未使用
     // Status XRemoveConnectionWatch(Display *display, XConnectionWatchProc procedure, XPointer client_data);
     [LibraryImport(libX11)]
-    public static partial Bool XRemoveConnectionWatch(DisplayPtr display, XConnectionWatchProc procedure, XPointer client_data);
+    public static unsafe partial Bool XRemoveConnectionWatch(DisplayPtr display, XConnectionWatchProc procedure, void* client_data);
 
     // TODO 暂未使用
     // void XProcessInternalConnection(Display *display, int fd);
@@ -671,11 +670,163 @@ internal static partial class XLib
 
     #endregion
 
-    #region Events
+    #region Event Handling Functions
 
-    #region Event Types
+    #region Selecting Events
 
+    // XSelectInput(Display *display, Window w, long event_mask);
+    [LibraryImport(libX11)]
+    public static partial int XSelectInput(DisplayPtr display, X11Window window, EventMask event_mask);
 
+    #endregion
+
+    #region Handling the Output Buffer
+
+    // XFlush(Display *display);
+    [LibraryImport(libX11)]
+    public static partial int XFlush(DisplayPtr display);
+
+    // XSync(Display *display, Bool discard);
+    [LibraryImport(libX11)]
+    public static partial int XSync(DisplayPtr display, Bool discard);
+
+    #endregion
+
+    #region Event Queue Management
+
+    // int XEventsQueued(Display *display, int mode);
+    [LibraryImport(libX11)]
+    public static partial int XEventsQueued(DisplayPtr display, EventsQueuedMode mode);
+
+    // int XPending(Display *display);
+    [LibraryImport(libX11)]
+    public static partial int XPending(DisplayPtr display);
+
+    #endregion
+
+    #region Manipulating the Event Queue
+
+    // XNextEvent(Display *display, XEvent *event_return);
+    [LibraryImport(libX11)]
+    public static partial int XNextEvent(DisplayPtr display, out XEvent event_return);
+
+    // XPeekEvent(Display *display, XEvent *event_return);
+    [LibraryImport(libX11)]
+    public static partial int XPeekEvent(DisplayPtr display, out XEvent event_return);
+
+    #endregion
+
+    #region Selecting Events Using a Predicate Procedure
+
+    // TODO 暂未使用
+    // XIfEvent(Display *display, XEvent *event_return, Bool (*predicate)(), XPointer arg);
+    [LibraryImport(libX11)]
+    public static unsafe partial int XIfEvent(DisplayPtr display, out XEvent event_return, XEventPredicate predicate, void* arg);
+    
+    // TODO 暂未使用
+    // Bool XCheckIfEvent(Display *display, XEvent *event_return, Bool (*predicate)(), XPointer arg);
+    [LibraryImport(libX11)]
+    public static unsafe partial Bool XCheckIfEvent(DisplayPtr display, out XEvent event_return, XEventPredicate predicate, void* arg);
+    
+    // TODO 暂未使用
+    // XPeekIfEvent(Display *display, XEvent *event_return, Bool (*predicate)(), XPointer arg);
+    [LibraryImport(libX11)]
+    public static unsafe partial int XPeekIfEvent(DisplayPtr display, out XEvent event_return, XEventPredicate predicate, void* arg);
+
+    #endregion
+
+    #region Selecting Events Using a Window or Event Mask
+
+    // XWindowEvent(Display *display, Window w, long event_mask, XEvent *event_return);
+    [LibraryImport(libX11)]
+    public static partial int XWindowEvent(DisplayPtr display, X11Window window, EventMask event_mask, out XEvent event_return);
+
+    // Bool XCheckWindowEvent(Display *display, Window w, long event_mask, XEvent *event_return);
+    [LibraryImport(libX11)]
+    public static partial Bool XCheckWindowEvent(DisplayPtr display, X11Window window, EventMask event_mask, out XEvent event_return);
+
+    // XMaskEvent(Display *display, long event_mask, XEvent *event_return);
+    [LibraryImport(libX11)]
+    public static partial int XMaskEvent(DisplayPtr display, EventMask event_mask, out XEvent event_return);
+
+    // Bool XCheckMaskEvent(Display *display, long event_mask, XEvent *event_return);
+    [LibraryImport(libX11)]
+    public static partial Bool XCheckMaskEvent(DisplayPtr display, EventMask event_mask, out XEvent event_return);
+
+    // Bool XCheckTypedEvent(Display *display, int event_type, XEvent *event_return);
+    [LibraryImport(libX11)]
+    public static partial Bool XCheckTypedEvent(DisplayPtr display, EventType event_type, out XEvent event_return);
+
+    // Bool XCheckTypedWindowEvent(Display *display, Window w, int event_type, XEvent *event_return);
+    [LibraryImport(libX11)]
+    public static partial Bool XCheckTypedWindowEvent(DisplayPtr display, X11Window window, EventType event_type, out XEvent event_return);
+
+    #endregion
+
+    #region Putting an Event Back into the Queue
+
+    // XPutBackEvent(Display *display, XEvent *event);
+    [LibraryImport(libX11)]
+    public static partial int XPutBackEvent(DisplayPtr display, in XEvent @event);
+
+    #endregion
+
+    #region Sending Events to Other Applications
+
+    // Status XSendEvent(Display *display, Window w, Bool propagate, long event_mask, XEvent *event_send);
+    [LibraryImport(libX11)]
+    public static partial Bool XSendEvent(DisplayPtr display, X11Window window, Bool propagate, EventMask event_mask, in XEvent event_send);
+
+    #endregion
+
+    #region Getting Pointer Motion History
+
+    // XTimeCoord *XGetMotionEvents(Display *display, Window w, Time start, Time stop, int *nevents_return);
+    [LibraryImport(libX11)]
+    public static unsafe partial TimeCoord* XGetMotionEvents(DisplayPtr display, X11Window window, Time start, Time stop, out int nevents_return);
+
+    #endregion
+
+    #region Handling Protocol Errors
+
+    // TODO 暂未使用
+    // int(Display *display, int (*procedure)());
+    [LibraryImport(libX11)]
+    public static unsafe partial delegate*<DisplayPtr, int> XSetAfterFunction(DisplayPtr display, delegate*<DisplayPtr, int> procedure);
+    
+    // TODO 暂未使用
+    // int(Display *display, Bool onoff);
+    [LibraryImport(libX11)]
+    public static unsafe partial delegate*<DisplayPtr, int> XSynchronize(DisplayPtr display, Bool onoff);
+
+    #endregion
+
+    #region Using the Default Error Handlers
+    
+    // TODO 暂未使用
+    // int *XSetErrorHandler(int *handler);
+    [LibraryImport(libX11)]
+    public static unsafe partial delegate*<DisplayPtr, XErrorEvent*, int> XSetErrorHandler(delegate*<DisplayPtr, XErrorEvent*, int> handler);
+    
+    // TODO 暂未使用
+    // XGetErrorText(Display *display, int code, char *buffer_return, int length);
+    [LibraryImport(libX11, StringMarshalling = StringMarshalling.Utf8)]
+    public static unsafe partial int XGetErrorText(DisplayPtr display, int code, byte* buffer_return, int length);
+    
+    // TODO 暂未使用
+    // XGetErrorDatabaseText(Display *display, char *name, char *message, char *default_string, char *buffer_return, int length);
+    [LibraryImport(libX11, StringMarshalling = StringMarshalling.Utf8)]
+    public static unsafe partial int XGetErrorDatabaseText(DisplayPtr display, string name, string message, string default_string, byte* buffer_return, int length);
+
+    // TODO 暂未使用
+    // char *XDisplayName(char *string);
+    [LibraryImport(libX11, StringMarshalling = StringMarshalling.Utf8)]
+    public static unsafe partial byte* XDisplayName(string @string);
+
+    // TODO 暂未使用
+    // int(int(*handler)(Display *));
+    [LibraryImport(libX11)]
+    public static unsafe partial delegate*<DisplayPtr, int> XSetIOErrorHandler(delegate*<DisplayPtr, int> handler);
 
     #endregion
     
