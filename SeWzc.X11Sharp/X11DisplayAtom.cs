@@ -30,5 +30,17 @@ public readonly record struct X11DisplayAtom(X11Display Display, X11Atom Value)
         return GetAtomName() ?? "";
     }
 
-    public static implicit operator X11Atom(X11DisplayAtom displayAtom) => displayAtom.Value;
+    #region 运算符重载
+
+    // 强制转换就不用文档了
+#pragma warning disable CS1591
+
+    public static implicit operator X11Atom(X11DisplayAtom displayAtom)
+    {
+        return displayAtom.Value;
+    }
+
+#pragma warning restore CS1591
+
+    #endregion
 }

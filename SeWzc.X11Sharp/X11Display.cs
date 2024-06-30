@@ -12,16 +12,29 @@ public sealed class X11Display : IDisposable
 {
     internal readonly DisplayPtr XDisplay;
 
-    private X11Display(DisplayPtr xDisplay)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="xDisplay"></param>
+    /// <param name="isCreateByOpen">是否由 <see cref="Open(string?)" /> 创建。</param>
+    /// <exception cref="ArgumentNullException"></exception>
+    private X11Display(DisplayPtr xDisplay, bool isCreateByOpen = false)
     {
         if (xDisplay == default)
             throw new ArgumentNullException(nameof(xDisplay));
 
         XDisplay = xDisplay;
+        // 如果是 Open 方法创建的，需要主动释放资源
+        // 如果是通过其他方式创建的，不需要主动释放资源
+        if (!isCreateByOpen)
+            GC.SuppressFinalize(this);
     }
 
     private static WeakReferenceValueDictionary<nint, X11Display> Cache { get; } = new();
 
+    /// <summary>
+    /// 该 Display 相关的原子。
+    /// </summary>
     public X11DisplayAtoms Atoms => new(this);
 
     /// <summary>
@@ -62,17 +75,28 @@ public sealed class X11Display : IDisposable
     public int ScreenCount => XLib.XScreenCount(XDisplay);
 
     /// <summary>
-    /// 连接到 X 服务器。
+    /// 不要自动关闭连接。相当于 <see cref="GC.SuppressFinalize(object)" />。
+    /// </summary>
+    /// <remarks>
+    /// 只有通过 <see cref="Open(string?)" /> 方法创建的 Display 不希望在 GC 时关闭连接，才需要调用这个方法。
+    /// </remarks>
+    public void DisableAutoClose()
+    {
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// 连接到 X 服务器。通过这个方法创建的 Display，在 GC 清理时会自动关闭连接。
     /// </summary>
     /// <param name="displayName">Display 名称。如果为 <see langword="null" />，则默认为 DISPLAY 环境变量。</param>
     /// <returns></returns>
-    [MustDisposeResource]
+    [MustDisposeResource(true)]
     public static X11Display Open(string? displayName = null)
     {
         var display = XLib.XOpenDisplay(displayName);
         if (display == default)
             throw new InvalidOperationException("连接到 X 服务器失败。");
-        return new X11Display(display);
+        return new X11Display(display, true);
     }
 
     /// <summary>
@@ -102,10 +126,10 @@ public sealed class X11Display : IDisposable
     }
 
     /// <summary>
-    /// 获取指定屏幕上的默认颜色图。
+    /// 获取指定屏幕上的默认颜色映射表。
     /// </summary>
     /// <param name="screenNumber">屏幕的编号。</param>
-    /// <returns>指定屏幕上的默认颜色图。</returns>
+    /// <returns>指定屏幕上的默认颜色映射表。</returns>
     public X11Colormap GetDefaultColormap(int screenNumber)
     {
         return XLib.XDefaultColormap(XDisplay, screenNumber);
@@ -125,7 +149,7 @@ public sealed class X11Display : IDisposable
     /// 获取指定屏幕上的所有深度。
     /// </summary>
     /// <param name="screenNumber">屏幕的编号。</param>
-    /// <returns>如果 <see cref="screenNumber" /> 屏幕无效，则返回 <see langword="null" />；否则返回指定屏幕上的所有深度。</returns>
+    /// <returns>如果 <paramref name="screenNumber"/> 屏幕无效，则返回 <see langword="null" />；否则返回指定屏幕上的所有深度。</returns>
     public unsafe int[]? GetDepths(int screenNumber)
     {
         var depths = XLib.XListDepths(XDisplay, screenNumber, out var count);
@@ -169,10 +193,10 @@ public sealed class X11Display : IDisposable
     }
 
     /// <summary>
-    /// 获取指定屏幕上颜色图的条目数。
+    /// 获取指定屏幕上颜色映射表的条目数。
     /// </summary>
     /// <param name="screenNumber">屏幕的编号。</param>
-    /// <returns>指定屏幕上颜色图的条目数。</returns>
+    /// <returns>指定屏幕上颜色映射表的条目数。</returns>
     public int GetDisplayCells(int screenNumber)
     {
         return XLib.XDisplayCells(XDisplay, screenNumber);
@@ -345,11 +369,19 @@ public sealed class X11Display : IDisposable
 
     #region 运算符重载
 
+    /// <summary>
+    /// 强制转换为 <see cref="nint" />。
+    /// </summary>
+    /// <param name="display"></param>
     public static explicit operator nint(X11Display display)
     {
         return display.XDisplay.Value;
     }
 
+    /// <summary>
+    /// 将一个 <see cref="nint" /> 转换为 <see cref="X11Display" />。如果 <paramref name="ptr" /> 为 0，则返回 <see langword="null" />。
+    /// </summary>
+    /// <param name="ptr"></param>
     public static explicit operator X11Display?(nint ptr)
     {
         return ptr is 0 ? null : Cache.GetOrAdd(ptr, static ptr => new X11Display(new DisplayPtr(ptr)));
@@ -383,12 +415,13 @@ public sealed class X11Display : IDisposable
         GC.SuppressFinalize(this);
     }
 
+    // 终结器不需要文档
+#pragma warning disable CS1591
     ~X11Display()
     {
         Close();
     }
+#pragma warning restore CS1591
 
     #endregion
 }
-
-public delegate int AfterFunction(X11Display? display);

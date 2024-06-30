@@ -16,6 +16,11 @@ public sealed class X11GC
 
     private static WeakReferenceValueDictionary<nint, X11GC> Cache { get; } = new();
 
+    #region 运算符重载
+
+    // 强制转换不需要文档
+#pragma warning disable CS1591
+
     public static explicit operator nint(X11GC gc)
     {
         return gc.Ptr.Value;
@@ -25,4 +30,8 @@ public sealed class X11GC
     {
         return handle is 0 ? null : Cache.GetOrAdd(handle, static handle => new X11GC(new GCPtr(handle)));
     }
+
+#pragma warning restore CS1591
+
+    #endregion
 }

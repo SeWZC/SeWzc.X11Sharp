@@ -10,13 +10,26 @@ namespace SeWzc.X11Sharp.Structs;
 [EditorBrowsable(EditorBrowsableState.Advanced)]
 public readonly record struct Long(CLong Value)
 {
+    /// <summary>
+    /// 使用 nint 构造 Long。
+    /// </summary>
+    /// <param name="value"></param>
     public Long(nint value) : this(new CLong(value))
     {
     }
 
+    /// <summary>
+    /// 使用 int 构造 Long。
+    /// </summary>
+    /// <param name="value"></param>
     public Long(int value) : this(new CLong(value))
     {
     }
+
+    #region 运算符重载
+
+    // 强制转换就不用文档了
+#pragma warning disable CS1591
 
     public static implicit operator Long(ULong value)
     {
@@ -62,4 +75,8 @@ public readonly record struct Long(CLong Value)
     {
         return new Long((nint)value);
     }
+
+#pragma warning restore CS1591
+
+    #endregion
 }

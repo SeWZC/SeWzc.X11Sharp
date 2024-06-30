@@ -5,6 +5,9 @@ using SeWzc.X11Sharp.Xid;
 
 namespace SeWzc.X11Sharp;
 
+// 需要了解的消息太多了，看以后没有没时间再说
+#pragma warning disable CS1591
+
 /// <summary>
 /// X11 中的事件。
 /// </summary>
@@ -1813,7 +1816,7 @@ public abstract record X11Event
     }
 
     /// <summary>
-    /// 颜色图事件。
+    /// 颜色映射表事件。
     /// </summary>
     public sealed record ColormapEvent : X11Event
     {
