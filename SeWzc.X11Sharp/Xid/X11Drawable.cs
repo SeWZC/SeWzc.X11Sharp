@@ -37,7 +37,7 @@ public readonly record struct X11Drawable
     {
         return value.Id;
     }
-    
+
     /// <summary>
     /// 强制转换为 nuint。
     /// </summary>
@@ -45,7 +45,7 @@ public readonly record struct X11Drawable
     {
         return value.Id;
     }
-    
+
     /// <summary>
     /// 强制转换为 nint。
     /// </summary>

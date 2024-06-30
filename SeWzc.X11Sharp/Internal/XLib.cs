@@ -722,12 +722,12 @@ internal static partial class XLib
     // XIfEvent(Display *display, XEvent *event_return, Bool (*predicate)(), XPointer arg);
     [LibraryImport(libX11)]
     public static unsafe partial int XIfEvent(DisplayPtr display, out XEvent event_return, XEventPredicate predicate, void* arg);
-    
+
     // TODO 暂未使用
     // Bool XCheckIfEvent(Display *display, XEvent *event_return, Bool (*predicate)(), XPointer arg);
     [LibraryImport(libX11)]
     public static unsafe partial Bool XCheckIfEvent(DisplayPtr display, out XEvent event_return, XEventPredicate predicate, void* arg);
-    
+
     // TODO 暂未使用
     // XPeekIfEvent(Display *display, XEvent *event_return, Bool (*predicate)(), XPointer arg);
     [LibraryImport(libX11)]
@@ -793,7 +793,7 @@ internal static partial class XLib
     // int(Display *display, int (*procedure)());
     [LibraryImport(libX11)]
     public static unsafe partial delegate*<DisplayPtr, int> XSetAfterFunction(DisplayPtr display, delegate*<DisplayPtr, int> procedure);
-    
+
     // TODO 暂未使用
     // int(Display *display, Bool onoff);
     [LibraryImport(libX11)]
@@ -802,21 +802,22 @@ internal static partial class XLib
     #endregion
 
     #region Using the Default Error Handlers
-    
+
     // TODO 暂未使用
     // int *XSetErrorHandler(int *handler);
     [LibraryImport(libX11)]
     public static unsafe partial delegate*<DisplayPtr, XErrorEvent*, int> XSetErrorHandler(delegate*<DisplayPtr, XErrorEvent*, int> handler);
-    
+
     // TODO 暂未使用
     // XGetErrorText(Display *display, int code, char *buffer_return, int length);
     [LibraryImport(libX11, StringMarshalling = StringMarshalling.Utf8)]
     public static unsafe partial int XGetErrorText(DisplayPtr display, int code, byte* buffer_return, int length);
-    
+
     // TODO 暂未使用
     // XGetErrorDatabaseText(Display *display, char *name, char *message, char *default_string, char *buffer_return, int length);
     [LibraryImport(libX11, StringMarshalling = StringMarshalling.Utf8)]
-    public static unsafe partial int XGetErrorDatabaseText(DisplayPtr display, string name, string message, string default_string, byte* buffer_return, int length);
+    public static unsafe partial int XGetErrorDatabaseText(DisplayPtr display, string name, string message, string default_string, byte* buffer_return,
+        int length);
 
     // TODO 暂未使用
     // char *XDisplayName(char *string);
@@ -829,6 +830,6 @@ internal static partial class XLib
     public static unsafe partial delegate*<DisplayPtr, int> XSetIOErrorHandler(delegate*<DisplayPtr, int> handler);
 
     #endregion
-    
+
     #endregion
 }

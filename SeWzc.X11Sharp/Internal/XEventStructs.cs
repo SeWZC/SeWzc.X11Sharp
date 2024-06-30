@@ -10,70 +10,103 @@ internal struct XEvent
 {
     [FieldOffset(0)]
     public EventType type;
+
     [FieldOffset(0)]
     public XAnyEvent xany;
+
     [FieldOffset(0)]
     public XKeyEvent xkey;
+
     [FieldOffset(0)]
     public XButtonEvent xbutton;
+
     [FieldOffset(0)]
     public XMotionEvent xmotion;
+
     [FieldOffset(0)]
     public XCrossingEvent xcrossing;
+
     [FieldOffset(0)]
     public XFocusChangeEvent xfocus;
+
     [FieldOffset(0)]
     public XExposeEvent xexpose;
+
     [FieldOffset(0)]
     public XGraphicsExposeEvent xgraphicsexpose;
+
     [FieldOffset(0)]
     public XNoExposeEvent xnoexpose;
+
     [FieldOffset(0)]
     public XVisibilityEvent xvisibility;
+
     [FieldOffset(0)]
     public XCreateWindowEvent xcreatewindow;
+
     [FieldOffset(0)]
     public XDestroyWindowEvent xdestroywindow;
+
     [FieldOffset(0)]
     public XUnmapEvent xunmap;
+
     [FieldOffset(0)]
     public XMapEvent xmap;
+
     [FieldOffset(0)]
     public XMapRequestEvent xmaprequest;
+
     [FieldOffset(0)]
     public XReparentEvent xreparent;
+
     [FieldOffset(0)]
     public XConfigureEvent xconfigure;
+
     [FieldOffset(0)]
     public XGravityEvent xgravity;
+
     [FieldOffset(0)]
     public XResizeRequestEvent xresizerequest;
+
     [FieldOffset(0)]
     public XConfigureRequestEvent xconfigurerequest;
+
     [FieldOffset(0)]
     public XCirculateEvent xcirculate;
+
     [FieldOffset(0)]
     public XCirculateRequestEvent xcirculaterequest;
+
     [FieldOffset(0)]
     public XPropertyEvent xproperty;
+
     [FieldOffset(0)]
     public XSelectionClearEvent xselectionclear;
+
     [FieldOffset(0)]
     public XSelectionRequestEvent xselectionrequest;
+
     [FieldOffset(0)]
     public XSelectionEvent xselection;
+
     [FieldOffset(0)]
     public XColormapEvent xcolormap;
+
     [FieldOffset(0)]
     public XClientMessageEvent xclient;
+
     [FieldOffset(0)]
     public XMappingEvent xmapping;
+
     [FieldOffset(0)]
     public XErrorEvent xerror;
+
     [FieldOffset(0)]
     public XKeymapEvent xkeymap;
+
     [FieldOffset(0)]
     public XGenericEvent xgeneric;
+
     [FieldOffset(0)]
     public XGenericEventCookie xcookie;
 
@@ -495,12 +528,14 @@ internal struct XClientMessageEvent
     {
         [FieldOffset(0)]
         public Format8Data format8;
+
         [FieldOffset(0)]
         public Format16Data format16;
+
         [FieldOffset(0)]
         public Format32Data format32;
     }
-    
+
     [InlineArray(20)]
     public struct Format8Data
     {

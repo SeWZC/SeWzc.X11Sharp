@@ -13,7 +13,6 @@ public sealed class X11Display : IDisposable
     internal readonly DisplayPtr XDisplay;
 
     /// <summary>
-    /// 
     /// </summary>
     /// <param name="xDisplay"></param>
     /// <param name="isCreateByOpen">是否由 <see cref="Open(string?)" /> 创建。</param>
@@ -149,7 +148,7 @@ public sealed class X11Display : IDisposable
     /// 获取指定屏幕上的所有深度。
     /// </summary>
     /// <param name="screenNumber">屏幕的编号。</param>
-    /// <returns>如果 <paramref name="screenNumber"/> 屏幕无效，则返回 <see langword="null" />；否则返回指定屏幕上的所有深度。</returns>
+    /// <returns>如果 <paramref name="screenNumber" /> 屏幕无效，则返回 <see langword="null" />；否则返回指定屏幕上的所有深度。</returns>
     public unsafe int[]? GetDepths(int screenNumber)
     {
         var depths = XLib.XListDepths(XDisplay, screenNumber, out var count);

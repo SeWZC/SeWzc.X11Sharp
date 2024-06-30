@@ -29,7 +29,7 @@ public readonly record struct X11Cursor
     /// 光标的 ID。
     /// </summary>
     internal ULong Id { get; }
-    
+
     /// <summary>
     /// 强制转换为 ULong。
     /// </summary>
@@ -37,7 +37,7 @@ public readonly record struct X11Cursor
     {
         return value.Id;
     }
-    
+
     /// <summary>
     /// 强制转换为 nuint。
     /// </summary>
@@ -45,7 +45,7 @@ public readonly record struct X11Cursor
     {
         return value.Id;
     }
-    
+
     /// <summary>
     /// 强制转换为 nint。
     /// </summary>

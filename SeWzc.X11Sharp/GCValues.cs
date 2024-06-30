@@ -12,90 +12,112 @@ public sealed class GCValues
     /// 逻辑运算。指定如何将源和目标颜色组合在一起。
     /// </summary>
     public GraphicsFunctions? Function { get; set; }
+
     /// <summary>
     /// 平面掩码。哪些平面将受到影响。
     /// </summary>
     public uint? PlaneMask { get; set; }
+
     /// <summary>
     /// 前景色。
     /// </summary>
     public uint? Foreground { get; set; }
+
     /// <summary>
     /// 背景色。
     /// </summary>
     public uint? Background { get; set; }
+
     /// <summary>
     /// 线宽。
     /// </summary>
     public int? LineWidth { get; set; }
+
     /// <summary>
     /// 线型。
     /// </summary>
     public LineStyle? LineStyle { get; set; }
+
     /// <summary>
     /// 端点样式。
     /// </summary>
     public CapStyle? CapStyle { get; set; }
+
     /// <summary>
     /// 连接点样式。
     /// </summary>
     public JoinStyle? JoinStyle { get; set; }
+
     /// <summary>
     /// 填充样式。
     /// </summary>
     public FillStyle? FillStyle { get; set; }
+
     /// <summary>
     /// 填充规则。
     /// </summary>
     public FillRule? FillRule { get; set; }
+
     /// <summary>
     /// 弧线模式。
     /// </summary>
     public ArcMode? ArcMode { get; set; }
+
     /// <summary>
     /// 用于平铺的位图。
     /// </summary>
     public X11Pixmap? Tile { get; set; }
+
     /// <summary>
     /// 用于点画的位图。
     /// </summary>
     public X11Pixmap? Stipple { get; set; }
+
     /// <summary>
     /// 平铺位图的原点的 X 坐标。
     /// </summary>
     public int? TsXOrigin { get; set; }
+
     /// <summary>
     /// 平铺位图的原点的 Y 坐标。
     /// </summary>
     public int? TsYOrigin { get; set; }
+
     /// <summary>
     /// 字体。
     /// </summary>
     public X11Font? Font { get; set; }
+
     /// <summary>
     /// 子窗口模式。
     /// </summary>
     public SubwindowMode? SubwindowMode { get; set; }
+
     /// <summary>
     /// 是否产生 GraphicsExpose 和 NoExpose 事件。
     /// </summary>
     public bool? GraphicsExposures { get; set; }
+
     /// <summary>
     /// 裁剪区域原点的 X 坐标。
     /// </summary>
     public int? ClipXOrigin { get; set; }
+
     /// <summary>
     /// 裁剪区域原点的 Y 坐标。
     /// </summary>
     public int? ClipYOrigin { get; set; }
+
     /// <summary>
     /// 裁剪掩码。
     /// </summary>
     public X11Pixmap? ClipMask { get; set; }
+
     /// <summary>
     /// 虚线模式的偏移量。
     /// </summary>
     public int? DashOffset { get; set; }
+
     /// <summary>
     /// 虚线模式的长度。
     /// </summary>

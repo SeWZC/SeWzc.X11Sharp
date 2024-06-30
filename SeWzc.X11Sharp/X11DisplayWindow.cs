@@ -358,6 +358,18 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
         return timeCoords;
     }
 
+    #region 运算符重载
+
+    // 强制转换就不用文档了
+#pragma warning disable CS1591
+    public static implicit operator X11Window(X11DisplayWindow displayAtom)
+    {
+        return displayAtom.Value;
+    }
+#pragma warning restore CS1591
+
+    #endregion
+
     #region Window Property
 
     /// <summary>
@@ -556,18 +568,6 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     {
         XLib.XDeleteProperty(Display.XDisplay, Value, property);
     }
-
-    #endregion
-
-    #region 运算符重载
-
-    // 强制转换就不用文档了
-#pragma warning disable CS1591
-    public static implicit operator X11Window(X11DisplayWindow displayAtom)
-    {
-        return displayAtom.Value;
-    }
-#pragma warning restore CS1591
 
     #endregion
 }

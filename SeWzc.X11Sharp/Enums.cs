@@ -10,11 +10,11 @@ public enum ByteOrder : int
 {
     /*
        /* Byte order  used in imageByteOrder and bitmapBitOrder * /
-       
+
        #define LSBFirst 0
        #define MSBFirst 1
      */
-    
+
     /// <summary>
     /// 最低有效字节在最前面。
     /// </summary>
@@ -35,7 +35,7 @@ public enum EventMask : ulong
     /*
      /* Input Event Masks. Used as event-mask window attribute and as arguments
           to Grab requests.  Not to be confused with event names.  * /
-       
+
        #define NoEventMask 0L
        #define KeyPressMask (1L<<0)
        #define KeyReleaseMask (1L<<1)
@@ -138,7 +138,7 @@ public enum CloseDownMode : int
 {
     /*
        /* Used in ChangeCloseDownMode * /
-       
+
        #define DestroyAll 0
        #define RetainPermanent 1
        #define RetainTemporary 2
@@ -154,7 +154,7 @@ public enum WindowChangeMask : ulong
 {
     /*
        /* ConfigureWindow structure * /
-       
+
        #define CWX (1<<0)
        #define CWY (1<<1)
        #define CWWidth (1<<2)
@@ -177,7 +177,7 @@ public enum StackMode
 {
     /*
        /* Window stacking method (in configureWindow) * /
-       
+
        #define Above 0
        #define Below 1
        #define TopIf 2
@@ -203,7 +203,7 @@ public enum WindowClasses : uint
     /*
        /* Window classes used by CreateWindow * /
        /* Note that CopyFromParent is already defined as 0 above * /
-       
+
        #define InputOutput 1
        #define InputOnly 2
      */
@@ -217,7 +217,7 @@ public enum Gravity : uint
 {
     /*
        /* Bit Gravity * /
-       
+
        #define ForgetGravity 0
        #define NorthWestGravity 1
        #define NorthGravity 2
@@ -248,7 +248,7 @@ public enum BackingStore : int
 {
     /*
        /* Used in CreateWindow for backing-store hint * /
-       
+
        #define NotUseful 0
        #define WhenMapped 1
        #define Always 2
@@ -258,10 +258,12 @@ public enum BackingStore : int
     /// 不备份窗口内容。
     /// </summary>
     NotUseful = 0,
+
     /// <summary>
     /// 仅在窗口被映射时备份窗口内容。
     /// </summary>
     WhenMapped = 1,
+
     /// <summary>
     /// 总是备份窗口内容。
     /// </summary>
@@ -275,7 +277,7 @@ public enum MapState : int
 {
     /*
        /* Used in GetWindowAttributes reply * /
-       
+
        #define IsUnmapped 0
        #define IsUnviewable 1
        #define IsViewable 2
@@ -285,10 +287,12 @@ public enum MapState : int
     /// 未映射。
     /// </summary>
     IsUnmapped = 0,
+
     /// <summary>
     /// 已经映射，但不可见。
     /// </summary>
     IsUnviewable = 1,
+
     /// <summary>
     /// 映射而且可见。
     /// </summary>
@@ -403,7 +407,7 @@ public enum PropertyMode : int
 {
     /*
        /* Property modes * /
-       
+
        #define PropModeReplace 0
        #define PropModePrepend 1
        #define PropModeAppend 2
@@ -418,7 +422,7 @@ public enum LineStyle : int
 {
     /*
        /* LineStyle * /
-       
+
        #define LineSolid 0
        #define LineOnOffDash 1
        #define LineDoubleDash 2
@@ -433,7 +437,7 @@ public enum CapStyle : int
 {
     /*
        /* capStyle * /
-       
+
        #define CapNotLast 0
        #define CapButt 1
        #define CapRound 2
@@ -450,7 +454,7 @@ public enum JoinStyle : int
 {
     /*
        /* joinStyle * /
-       
+
        #define JoinMiter 0
        #define JoinRound 1
        #define JoinBevel 2
@@ -465,7 +469,7 @@ public enum FillStyle : int
 {
     /*
        /* fillStyle * /
-       
+
        #define FillSolid 0
        #define FillTiled 1
        #define FillStippled 2
@@ -482,7 +486,7 @@ public enum FillRule : int
 {
     /*
        /* fillRule * /
-       
+
        #define EvenOddRule 0
        #define WindingRule 1
      */
@@ -495,7 +499,7 @@ public enum SubwindowMode : int
 {
     /*
        /* subwindow mode * /
-       
+
        #define ClipByChildren 0
        #define IncludeInferiors 1
      */
@@ -508,7 +512,7 @@ public enum ArcMode : int
 {
     /*
        /* Arc modes for PolyFillArc * /
-       
+
        #define ArcChord 0 /* join endpoints of arc * /
        #define ArcPieSlice 1 /* join endpoints to center of arc * /
      */
@@ -521,7 +525,7 @@ public enum KeyOrButtonMask : uint
     /*
        /* GC components: masks used in CreateGC, CopyGC, ChangeGC, OR'ed into
         GC.stateChanges * /
-       
+
        #define GCFunction (1L<<0)
        #define GCPlaneMask (1L<<1)
        #define GCForeground (1L<<2)
@@ -566,7 +570,7 @@ public enum NotifyMode
 {
     /*
        /* Notify modes * /
-       
+
        #define NotifyNormal 0
        #define NotifyGrab 1
        #define NotifyUngrab 2
@@ -599,7 +603,7 @@ public enum NotifyDetail
 {
     /*
        /* Notify detail * /
-       
+
        #define NotifyAncestor 0
        #define NotifyVirtual 1
        #define NotifyInferior 2
@@ -624,7 +628,7 @@ public enum CirculationRequest
 {
     /*
        /* Circulation request * /
-       
+
        #define PlaceOnTop 0
        #define PlaceOnBottom 1
      */
@@ -650,7 +654,7 @@ public enum VisibilityNotify
 {
     /*
        /* Visibility notify * /
-       
+
        #define VisibilityUnobscured 0
        #define VisibilityPartiallyObscured 1
        #define VisibilityFullyObscured 2
@@ -665,7 +669,7 @@ public enum ColorMapNotification
 {
     /*
        /* Color Map notification * /
-       
+
        #define ColormapUninstalled 0
        #define ColormapInstalled 1
      */
@@ -678,7 +682,7 @@ public enum PropertyNotification
 {
     /*
        /* Property notification * /
-       
+
        #define PropertyNewValue 0
        #define PropertyDelete 1
      */
@@ -702,10 +706,12 @@ public enum EventsQueuedMode
     /// 返回队列中已经存在的事件。
     /// </summary>
     Already = 0,
+
     /// <summary>
     /// 如果队列中已经有事件，则返回事件数量；如果队列中没有事件，则尝试从服务器读取事件，再返回事件数量。
     /// </summary>
     AfterReading = 1,
+
     /// <summary>
     /// 如果队列中已经有事件，则返回事件数量；如果队列中没有事件，则先清空输出缓冲区，然后尝试从服务器读取事件，再返回事件数量。
     /// </summary>
@@ -718,7 +724,7 @@ public enum ErrorCode
        /*****************************************************************
         * ERROR CODES
         ***************************************************************** /
-       
+
        #define Success 0 /* everything's okay * /
        #define BadRequest 1 /* bad request code * /
        #define BadValue 2 /* int parameter out of range * /
@@ -745,7 +751,7 @@ public enum ErrorCode
        #define BadName 15 /* font or color name doesn't exist * /
        #define BadLength 16 /* Request length incorrect * /
        #define BadImplementation 17 /* server is defective * /
-       
+
        #define FirstExtensionError 128
        #define LastExtensionError 255
      */
