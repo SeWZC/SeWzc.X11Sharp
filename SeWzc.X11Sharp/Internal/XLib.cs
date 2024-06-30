@@ -644,25 +644,155 @@ internal static partial class XLib
     [LibraryImport(libX11)]
     public static partial GCPtr XCreateGC(DisplayPtr display, X11Drawable drawable, GCValueMarks valuemask, in XGCValues values);
 
+    // TODO 暂未使用
     // XCopyGC(Display *display, GC src, GC dest, unsigned long valuemask);
     [LibraryImport(libX11)]
     public static partial int XCopyGC(DisplayPtr display, GCPtr src, GCPtr dest, GCValueMarks valuemask);
-
+    
+    // TODO 暂未使用
     // XChangeGC(Display *display, GC gc, unsigned long valuemask, XGCValues *values);
     [LibraryImport(libX11)]
     public static partial int XChangeGC(DisplayPtr display, GCPtr gc, GCValueMarks valuemask, in XGCValues values);
-
+    
+    // TODO 暂未使用
     // Status XGetGCValues(Display *display, GC gc, unsigned long valuemask, XGCValues *values_return);
     [LibraryImport(libX11)]
     public static partial Bool XGetGCValues(DisplayPtr display, GCPtr gc, GCValueMarks valuemask, out XGCValues values_return);
-
+    
+    // TODO 暂未使用
     // XFreeGC(Display *display, GC gc);
     [LibraryImport(libX11)]
     public static partial int XFreeGC(DisplayPtr display, GCPtr gc);
 
+    // GContext XGContextFromGC(GC gc);
+    [LibraryImport(libX11)]
+    public static partial X11GContext XGContextFromGC(GCPtr gc);
+
+    // void XFlushGC(Display *display, GC gc);
+    [LibraryImport(libX11)]
+    public static partial void XFlushGC(DisplayPtr display, GCPtr gc);
+
     #endregion
 
-    // TODO Using Graphics Context Convenience Routines
+    #region Using Graphics Context Convenience Routines
+
+    #region Setting the Foreground, Background, Function, or Plane Mask
+
+    // XSetState(Display *display, GC gc, unsigned long foreground, unsigned long background, int function, unsigned long plane_mask);
+    [LibraryImport(libX11)]
+    public static partial int XSetState(DisplayPtr display, GCPtr gc, Pixel foreground, Pixel background, int function, ULong plane_mask);
+
+    // XSetForeground(Display *display, GC gc, unsigned long foreground);
+    [LibraryImport(libX11)]
+    public static partial int XSetForeground(DisplayPtr display, GCPtr gc, Pixel foreground);
+
+    // XSetBackground(Display *display, GC gc, unsigned long background);
+    [LibraryImport(libX11)]
+    public static partial int XSetBackground(DisplayPtr display, GCPtr gc, Pixel background);
+
+    // XSetFunction(Display *display, GC gc, int function);
+    [LibraryImport(libX11)]
+    public static partial int XSetFunction(DisplayPtr display, GCPtr gc, int function);
+
+    // XSetPlaneMask(Display *display, GC gc, unsigned long plane_mask);
+    [LibraryImport(libX11)]
+    public static partial int XSetPlaneMask(DisplayPtr display, GCPtr gc, ULong plane_mask);
+
+    #endregion
+
+    #region Setting the Line Attributes and Dashes
+
+    // XSetLineAttributes(Display *display, GC gc, unsigned int line_width, int line_style, int cap_style, int join_style);
+    [LibraryImport(libX11)]
+    public static partial int XSetLineAttributes(DisplayPtr display, GCPtr gc, uint line_width, LineStyle line_style, CapStyle cap_style, JoinStyle join_style);
+
+    // XSetDashes(Display *display, GC gc, int dash_offset, char dash_list[], int n);
+    [LibraryImport(libX11)]
+    public static unsafe partial int XSetDashes(DisplayPtr display, GCPtr gc, int dash_offset, byte* dash_list, int n);
+
+    #endregion
+
+    #region Setting the Fill Style and Fill Rule
+
+    // XSetFillStyle(Display *display, GC gc, int fill_style);
+    [LibraryImport(libX11)]
+    public static partial int XSetFillStyle(DisplayPtr display, GCPtr gc, FillStyle fill_style);
+
+    // XSetFillRule(Display *display, GC gc, int fill_rule);
+    [LibraryImport(libX11)]
+    public static partial int XSetFillRule(DisplayPtr display, GCPtr gc, FillRule fill_rule);
+
+    #endregion
+
+    #region Setting the Fill Tile and Stipple
+
+    // Status XQueryBestSize(Display *display, int class, Drawable which_screen, unsigned int width, unsigned int height, unsigned int *width_return, unsigned int *height_return);
+    [LibraryImport(libX11)]
+    public static partial Bool XQueryBestSize(DisplayPtr display, int @class, X11Drawable which_screen, uint width, uint height, out uint width_return, out uint height_return);
+
+    // Status XQueryBestTile(Display *display, Drawable which_screen, unsigned int width, unsigned int height, unsigned int *width_return, unsigned int *height_return);
+    [LibraryImport(libX11)]
+    public static partial Bool XQueryBestTile(DisplayPtr display, X11Drawable which_screen, uint width, uint height, out uint width_return, out uint height_return);
+
+    // Status XQueryBestStipple(Display *display, Drawable which_screen, unsigned int width, unsigned int height, unsigned int *width_return, unsigned int *height_return);
+    [LibraryImport(libX11)]
+    public static partial Bool XQueryBestStipple(DisplayPtr display, X11Drawable which_screen, uint width, uint height, out uint width_return, out uint height_return);
+
+    // XSetTile(Display *display, GC gc, Pixmap tile);
+    [LibraryImport(libX11)]
+    public static partial int XSetTile(DisplayPtr display, GCPtr gc, X11Pixmap tile);
+
+    // XSetStipple(Display *display, GC gc, Pixmap stipple);
+    [LibraryImport(libX11)]
+    public static partial int XSetStipple(DisplayPtr display, GCPtr gc, X11Pixmap stipple);
+
+    // XSetTSOrigin(Display *display, GC gc, int ts_x_origin, int ts_y_origin);
+    [LibraryImport(libX11)]
+    public static partial int XSetTSOrigin(DisplayPtr display, GCPtr gc, int ts_x_origin, int ts_y_origin);
+
+    #endregion
+
+    #region Setting the Current Font
+
+    // XSetFont(Display *display, GC gc, Font font);
+    [LibraryImport(libX11)]
+    public static partial int XSetFont(DisplayPtr display, GCPtr gc, X11Font font);
+
+    #endregion
+
+    #region Setting the Clip Region
+
+    // XSetClipOrigin(Display *display, GC gc, int clip_x_origin, int clip_y_origin);
+    [LibraryImport(libX11)]
+    public static partial int XSetClipOrigin(DisplayPtr display, GCPtr gc, int clip_x_origin, int clip_y_origin);
+
+    // XSetClipMask(Display *display, GC gc, Pixmap pixmap);
+    [LibraryImport(libX11)]
+    public static partial int XSetClipMask(DisplayPtr display, GCPtr gc, X11Pixmap pixmap);
+
+    // XSetClipRectangles(Display *display, GC gc, int clip_x_origin, int clip_y_origin, XRectangle rectangles[], int n, int ordering);
+    [LibraryImport(libX11)]
+    public static unsafe partial int XSetClipRectangles(DisplayPtr display, GCPtr gc, int clip_x_origin, int clip_y_origin, Rectangle* rectangles, int n, int ordering);
+
+    #endregion
+
+    #region Setting the Arc Mode, Subwindow Mode, and Graphics Exposure
+
+    // XSetArcMode(Display *display, GC gc, int arc_mode);
+    [LibraryImport(libX11)]
+    public static partial int XSetArcMode(DisplayPtr display, GCPtr gc, ArcMode arc_mode);
+
+    // XSetSubwindowMode(Display *display, GC gc, int subwindow_mode);
+    [LibraryImport(libX11)]
+    public static partial int XSetSubwindowMode(DisplayPtr display, GCPtr gc, SubwindowMode subwindow_mode);
+
+    // XSetGraphicsExposures(Display *display, GC gc, Bool graphics_exposures);
+    [LibraryImport(libX11)]
+    public static partial int XSetGraphicsExposures(DisplayPtr display, GCPtr gc, Bool graphics_exposures);
+
+    #endregion
+
+    #endregion
 
     #endregion
 

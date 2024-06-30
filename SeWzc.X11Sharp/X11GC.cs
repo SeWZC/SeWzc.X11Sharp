@@ -1,4 +1,5 @@
 ﻿using SeWzc.X11Sharp.Internal;
+using SeWzc.X11Sharp.Xid;
 
 namespace SeWzc.X11Sharp;
 
@@ -15,6 +16,11 @@ public sealed class X11GC
     internal GCPtr Ptr { get; }
 
     private static WeakReferenceValueDictionary<nint, X11GC> Cache { get; } = new();
+
+    /// <summary>
+    /// GContext 资源。
+    /// </summary>
+    public X11GContext GContext => XLib.XGContextFromGC(Ptr);
 
     #region 运算符重载
 

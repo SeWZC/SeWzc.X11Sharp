@@ -352,6 +352,15 @@ public sealed class X11Display : IDisposable
     }
 
     /// <summary>
+    /// 强制发送 GC 更改。
+    /// </summary>
+    /// <param name="gc">图形上下文。</param>
+    public void FlushGC(X11GC gc)
+    {
+        XLib.XFlushGC(XDisplay, gc);
+    }
+
+    /// <summary>
     /// 在事件队列中查找与指定事件掩码的匹配事件，返回并删除找到的事件。
     /// 如果没有匹配的事件，则会清空输出缓冲区并阻塞直到有匹配的事件到来。
     /// </summary>

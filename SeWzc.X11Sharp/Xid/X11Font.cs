@@ -5,7 +5,7 @@ namespace SeWzc.X11Sharp.Xid;
 /// <summary>
 /// X11 字体。
 /// </summary>
-public readonly record struct X11Font
+public readonly record struct X11Font : IXid
 {
     /// <summary>
     /// 通过 Id 构造 X11Font。
@@ -30,27 +30,51 @@ public readonly record struct X11Font
     /// </summary>
     internal ULong Id { get; }
 
-    /// <summary>
-    /// 强制转换为 ULong。
-    /// </summary>
+    /// <inheritdoc />
+    public int ToInt32()
+    {
+        return (int)Id;
+    }
+
+    /// <inheritdoc />
+    public uint ToUInt32()
+    {
+        return (uint)Id;
+    }
+
+    /// <inheritdoc />
+    public nint ToPtrInt()
+    {
+        return (nint)Id;
+    }
+
+    /// <inheritdoc />
+    public nuint ToUPtrInt()
+    {
+        return Id;
+    }
+
+    #region 运算符重载
+
+    // 强制转换不需要文档
+#pragma warning disable CS1591
+
     public static implicit operator ULong(X11Font value)
     {
         return value.Id;
     }
 
-    /// <summary>
-    /// 强制转换为 nuint。
-    /// </summary>
     public static implicit operator nuint(X11Font value)
     {
-        return value.Id;
+        return value.ToUPtrInt();
     }
 
-    /// <summary>
-    /// 强制转换为 nint。
-    /// </summary>
     public static implicit operator nint(X11Font value)
     {
         return (nint)value.Id;
     }
+
+#pragma warning restore CS1591
+
+    #endregion
 }
