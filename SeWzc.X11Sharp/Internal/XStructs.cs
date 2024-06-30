@@ -75,7 +75,7 @@ internal readonly record struct GCPtr(nint Value) : IIntPtrRole<GCPtr>
 }
 
 [StructLayout(LayoutKind.Sequential, Size = sizeof(bool))]
-public struct Bool
+internal struct Bool
 {
     private int _value;
 

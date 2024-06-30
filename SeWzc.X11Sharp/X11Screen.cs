@@ -35,7 +35,7 @@ public sealed class X11Screen
     public Pixel WhitePixel => XLib.XWhitePixelOfScreen(Ptr);
 
     /// <summary>
-    /// 获取默认颜色图中颜色图单元格的数量。
+    /// 获取默认颜色映射表中颜色映射表单元格的数量。
     /// </summary>
     public int Cells => XLib.XCellsOfScreen(Ptr);
 
@@ -102,6 +102,9 @@ public sealed class X11Screen
 
     #region 运算符重载
 
+    // 强制转换不需要文档
+#pragma warning disable CS1591
+
     public static explicit operator nint(X11Screen screen)
     {
         return screen.Ptr.Value;
@@ -111,6 +114,8 @@ public sealed class X11Screen
     {
         return ptr is 0 ? null : Cache.GetOrAdd(ptr, key => new X11Screen(new ScreenPtr(key)));
     }
+
+#pragma warning restore CS1591
 
     #endregion
 }

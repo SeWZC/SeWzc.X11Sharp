@@ -1,5 +1,8 @@
 ﻿namespace SeWzc.X11Sharp;
 
+// 这些枚举类型定义在 X11 中，文档需要从 X11 协议中找，不然工作量太大了。
+#pragma warning disable CS1591
+
 /// <summary>
 /// 字节顺序。
 /// </summary>
@@ -11,8 +14,15 @@ public enum ByteOrder : int
        #define LSBFirst 0
        #define MSBFirst 1
      */
-
+    
+    /// <summary>
+    /// 最低有效字节在最前面。
+    /// </summary>
     LsbFirst = 0,
+
+    /// <summary>
+    /// 最高有效字节在最前面。
+    /// </summary>
     MsbFirst = 1,
 }
 
@@ -82,6 +92,9 @@ public enum EventMask : ulong
     OwnerGrabButton = 1 << 24,
 }
 
+/// <summary>
+/// 事件类型。
+/// </summary>
 public enum EventType
 {
     KeyPress = 2,
@@ -241,11 +254,23 @@ public enum BackingStore : int
        #define Always 2
      */
 
+    /// <summary>
+    /// 不备份窗口内容。
+    /// </summary>
     NotUseful = 0,
+    /// <summary>
+    /// 仅在窗口被映射时备份窗口内容。
+    /// </summary>
     WhenMapped = 1,
+    /// <summary>
+    /// 总是备份窗口内容。
+    /// </summary>
     Always = 2,
 }
 
+/// <summary>
+/// 窗口映射状态。
+/// </summary>
 public enum MapState : int
 {
     /*
@@ -256,8 +281,17 @@ public enum MapState : int
        #define IsViewable 2
      */
 
+    /// <summary>
+    /// 未映射。
+    /// </summary>
     IsUnmapped = 0,
+    /// <summary>
+    /// 已经映射，但不可见。
+    /// </summary>
     IsUnviewable = 1,
+    /// <summary>
+    /// 映射而且可见。
+    /// </summary>
     IsViewable = 2,
 }
 
@@ -290,12 +324,12 @@ public enum GraphicsFunctions : int
     Clear = 0,
 
     /// <summary>
-    /// src && dst
+    /// src &amp;&amp; dst
     /// </summary>
     And = 1,
 
     /// <summary>
-    /// src && !dst
+    /// src &amp;&amp; !dst
     /// </summary>
     AndReverse = 2,
 
@@ -305,7 +339,7 @@ public enum GraphicsFunctions : int
     Copy = 3,
 
     /// <summary>
-    /// !src && dst
+    /// !src &amp;&amp; dst
     /// </summary>
     AndInverted = 4,
 
@@ -355,7 +389,7 @@ public enum GraphicsFunctions : int
     OrInverted = 13,
 
     /// <summary>
-    /// !(src && dst)
+    /// !(src &amp;&amp; dst)
     /// </summary>
     Nand = 14,
 
