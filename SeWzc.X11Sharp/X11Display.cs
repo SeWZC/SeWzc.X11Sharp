@@ -300,6 +300,49 @@ public sealed class X11Display : IDisposable
         return gcPtr;
     }
 
+    /// <summary>
+    /// 在事件队列中查找与指定事件掩码的匹配事件，返回并删除找到的事件。
+    /// 如果没有匹配的事件，则会清空输出缓冲区并阻塞直到有匹配的事件到来。
+    /// </summary>
+    /// <param name="eventMask">事件掩码。</param>
+    /// <returns>与指定事件掩码的匹配事件。</returns>
+    public X11Event MaskEvent(EventMask eventMask)
+    {
+        XLib.XMaskEvent(XDisplay, eventMask, out var xEvent);
+        return X11Event.FromXEvent(xEvent);
+    }
+
+    /// <summary>
+    /// 在事件队列中查找与指定事件掩码的匹配事件，返回并删除找到的事件。
+    /// 如果没有匹配的事件，则会立即返回 <see langword="null" />，并清空输出缓冲区。
+    /// </summary>
+    /// <param name="eventMask">事件掩码。</param>
+    /// <returns>与指定事件掩码的匹配事件，如果没有匹配的事件，则返回 <see langword="null" />。</returns>
+    public X11Event? CheckMaskEvent(EventMask eventMask)
+    {
+        return XLib.XCheckMaskEvent(XDisplay, eventMask, out var xEvent) ? X11Event.FromXEvent(xEvent) : null;
+    }
+
+    /// <summary>
+    /// 在事件队列和服务器连接中查找与指定事件类型的匹配事件，返回并删除找到的事件。
+    /// 如果没有匹配的事件，则会立即返回 <see langword="null" />，并清空输出缓冲区。
+    /// </summary>
+    /// <param name="eventType">事件类型。</param>
+    /// <returns>与指定事件类型的匹配事件，如果没有匹配的事件，则返回 <see langword="null" />。</returns>
+    public X11Event? CheckTypedEvent(EventType eventType)
+    {
+        return XLib.XCheckTypedEvent(XDisplay, eventType, out var xEvent) ? X11Event.FromXEvent(xEvent) : null;
+    }
+
+    /// <summary>
+    /// 将事件放回事件队列头部。
+    /// </summary>
+    /// <param name="xEvent">要放回的事件。</param>
+    public void PutBackEvent(X11Event xEvent)
+    {
+        XLib.XPutBackEvent(XDisplay, xEvent.ToXEvent());
+    }
+
     #region 运算符重载
 
     public static explicit operator nint(X11Display display)
@@ -347,3 +390,5 @@ public sealed class X11Display : IDisposable
 
     #endregion
 }
+
+public delegate int AfterFunction(X11Display? display);

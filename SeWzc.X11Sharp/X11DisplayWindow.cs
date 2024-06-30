@@ -202,6 +202,162 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
         return success ? new WindowAttributes(windowAttributes) : null;
     }
 
+    /// <summary>
+    /// 请求 X 服务报告与指定事件掩码关联的事件。
+    /// </summary>
+    /// <param name="eventMask">事件掩码。</param>
+    public void SelectInput(EventMask eventMask)
+    {
+        _ = XLib.XSelectInput(Display.XDisplay, Value, eventMask);
+    }
+
+    /// <summary>
+    /// 清空输出缓冲区。
+    /// </summary>
+    public void Flush()
+    {
+        _ = XLib.XFlush(Display.XDisplay);
+    }
+
+    /// <summary>
+    /// 清空输出缓冲区并同步。
+    /// </summary>
+    /// <param name="discard">是否丢弃事件队列上的所有事件。</param>
+    public void Sync(bool discard)
+    {
+        _ = XLib.XSync(Display.XDisplay, discard);
+    }
+
+    /// <summary>
+    /// 检查事件队列中的事件。
+    /// </summary>
+    /// <param name="mode">检查事件的模式。</param>
+    /// <returns>根据模式获取到的队列中的事件数。</returns>
+    /// <seealso cref="EventsQueuedMode" />
+    public int EventsQueued(EventsQueuedMode mode)
+    {
+        return XLib.XEventsQueued(Display.XDisplay, mode);
+    }
+
+    /// <summary>
+    /// 返回待处理事件的数量。
+    /// </summary>
+    /// <remarks>
+    /// 相当于 <see cref="EventsQueued(EventsQueuedMode)" /> 的 <see cref="EventsQueuedMode.AfterFlush" /> 模式。
+    /// </remarks>
+    /// <returns>待处理事件的数量</returns>
+    public int Pending()
+    {
+        return XLib.XPending(Display.XDisplay);
+    }
+
+    /// <summary>
+    /// 返回队列中事件的数量。
+    /// </summary>
+    /// <remarks>
+    /// 相当于 <see cref="EventsQueued(EventsQueuedMode)" /> 的 <see cref="EventsQueuedMode.Already" /> 模式。
+    /// </remarks>
+    /// <returns></returns>
+    public int QLength()
+    {
+        return XLib.XQLength(Display.XDisplay);
+    }
+
+    /// <summary>
+    /// 获取下一个事件并将其从队列中删除。
+    /// </summary>
+    /// <remarks>
+    /// 如果队列中没有事件，则会清空输出缓冲区并阻塞直到有事件到来。
+    /// </remarks>
+    /// <returns>获取到的事件。</returns>
+    public X11Event NextEvent()
+    {
+        XLib.XNextEvent(Display.XDisplay, out var xEvent);
+        return X11Event.FromXEvent(xEvent);
+    }
+
+    /// <summary>
+    /// 获取下一个事件但不将其从队列中删除。
+    /// </summary>
+    /// <remarks>
+    /// 如果队列中没有事件，则会清空输出缓冲区并阻塞直到有事件到来。
+    /// </remarks>
+    /// <returns>获取到的事件。</returns>
+    public X11Event PeekEvent()
+    {
+        XLib.XPeekEvent(Display.XDisplay, out var xEvent);
+        return X11Event.FromXEvent(xEvent);
+    }
+
+    /// <summary>
+    /// 在事件队列中查找该窗口与指定事件掩码的匹配事件，返回并删除找到的事件。
+    /// 如果没有匹配的事件，则会清空输出缓冲区并阻塞直到有匹配的事件到来。
+    /// </summary>
+    /// <param name="eventMask">事件掩码。</param>
+    /// <returns>与该窗口和指定事件掩码匹配的事件。</returns>
+    public X11Event WindowEvent(EventMask eventMask)
+    {
+        XLib.XWindowEvent(Display.XDisplay, Value, eventMask, out var xEvent);
+        return X11Event.FromXEvent(xEvent);
+    }
+
+    /// <summary>
+    /// 在事件队列中查找该窗口与指定事件掩码的匹配事件，返回并删除找到的事件。
+    /// 如果没有匹配的事件，则会立即返回 <see langword="null" />，并清空输出缓冲区。
+    /// </summary>
+    /// <param name="eventMask">事件掩码。</param>
+    /// <returns>与该窗口和指定事件掩码匹配的事件，如果没有匹配的事件则返回 <see langword="null" />。</returns>
+    public X11Event? CheckWindowEvent(EventMask eventMask)
+    {
+        return XLib.XCheckWindowEvent(Display.XDisplay, Value, eventMask, out var xEvent) ? X11Event.FromXEvent(xEvent) : null;
+    }
+
+    /// <summary>
+    /// 在事件队列和服务器连接中查找该窗口与指定事件类型的匹配事件，返回并删除找到的事件。
+    /// 如果没有匹配的事件，则会立即返回 <see langword="null" />，并清空输出缓冲区。
+    /// </summary>
+    /// <param name="eventType">事件类型。</param>
+    /// <returns>与该窗口和指定事件类型匹配的事件，如果没有匹配的事件则返回 <see langword="null" />。</returns>
+    public X11Event? CheckTypedWindowEvent(EventType eventType)
+    {
+        return XLib.XCheckTypedWindowEvent(Display.XDisplay, Value, eventType, out var xEvent) ? X11Event.FromXEvent(xEvent) : null;
+    }
+
+    /// <summary>
+    /// 将事件发送到该窗口。
+    /// </summary>
+    /// <param name="propagate"></param>
+    /// <param name="eventMask">事件掩码。</param>
+    /// <param name="xEvent">要发送的事件。</param>
+    /// <returns>是否能够解析该事件。</returns>
+    public bool SendEvent(bool propagate, EventMask eventMask, X11Event xEvent)
+    {
+        var result = XLib.XSendEvent(Display.XDisplay, Value, propagate, eventMask, xEvent.ToXEvent());
+        if (!result)
+            Debug.WriteLine("Failed to send event.");
+        return result;
+    }
+
+    /// <summary>
+    /// 获取指定时间内的运动历史记录。
+    /// </summary>
+    /// <param name="start">开始时间。</param>
+    /// <param name="stop">停止时间。</param>
+    /// <returns>指定事件内的运动历史记录。如果服务器不支持运动历史记录，则返回 <see langword="null" />。</returns>
+    public unsafe TimeCoord[]? GetMotionEvents(Time start, Time stop)
+    {
+        var result = XLib.XGetMotionEvents(Display.XDisplay, Value, start, stop, out var count);
+        if (result == null)
+            return null;
+
+        var timeCoords = new TimeCoord[count];
+        for (var i = 0; i < count; i++)
+            timeCoords[i] = result[i];
+
+        _ = XLib.XFree(result);
+        return timeCoords;
+    }
+
     #region Window Property
 
     /// <summary>
