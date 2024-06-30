@@ -3,35 +3,35 @@ using SeWzc.X11Sharp.Structs;
 namespace SeWzc.X11Sharp.Xid;
 
 /// <summary>
-/// X11 ÑÕÉ«Ó³Éä±í¡£
+/// X11 é¢œè‰²æ˜ å°„è¡¨ã€‚
 /// </summary>
 public readonly record struct X11Colormap
 {
     /// <summary>
-    /// Í¨¹ı Id ¹¹Ôì X11Colormap¡£
+    /// é€šè¿‡ Id æ„é€  X11Colormapã€‚
     /// </summary>
-    /// <param name="Id">ÑÕÉ«Ó³Éä±íµÄ ID¡£</param>
+    /// <param name="Id">é¢œè‰²æ˜ å°„è¡¨çš„ IDã€‚</param>
     public X11Colormap(ulong Id)
     {
         this.Id = (ULong)Id;
     }
 
     /// <summary>
-    /// Í¨¹ı Id ¹¹Ôì X11Colormap¡£
+    /// é€šè¿‡ Id æ„é€  X11Colormapã€‚
     /// </summary>
-    /// <param name="Id">ÑÕÉ«Ó³Éä±íµÄ ID¡£</param>
+    /// <param name="Id">é¢œè‰²æ˜ å°„è¡¨çš„ IDã€‚</param>
     public X11Colormap(nint Id)
     {
         this.Id = (ULong)Id;
     }
 
     /// <summary>
-    /// ÑÕÉ«Ó³Éä±íµÄ ID¡£
+    /// é¢œè‰²æ˜ å°„è¡¨çš„ IDã€‚
     /// </summary>
     internal ULong Id { get; }
 
     /// <summary>
-    /// Ç¿ÖÆ×ª»»Îª ULong¡£
+    /// å¼ºåˆ¶è½¬æ¢ä¸º ULongã€‚
     /// </summary>
     public static implicit operator ULong(X11Colormap value)
     {
@@ -39,7 +39,7 @@ public readonly record struct X11Colormap
     }
 
     /// <summary>
-    /// Ç¿ÖÆ×ª»»Îª nuint¡£
+    /// å¼ºåˆ¶è½¬æ¢ä¸º nuintã€‚
     /// </summary>
     public static implicit operator nuint(X11Colormap value)
     {
@@ -47,7 +47,7 @@ public readonly record struct X11Colormap
     }
 
     /// <summary>
-    /// Ç¿ÖÆ×ª»»Îª nint¡£
+    /// å¼ºåˆ¶è½¬æ¢ä¸º nintã€‚
     /// </summary>
     public static implicit operator nint(X11Colormap value)
     {

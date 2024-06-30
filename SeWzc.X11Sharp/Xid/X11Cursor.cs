@@ -3,35 +3,35 @@ using SeWzc.X11Sharp.Structs;
 namespace SeWzc.X11Sharp.Xid;
 
 /// <summary>
-/// X11 ¹â±ê¡£
+/// X11 å…‰æ ‡ã€‚
 /// </summary>
 public readonly record struct X11Cursor
 {
     /// <summary>
-    /// Í¨¹ı Id ¹¹Ôì X11Cursor¡£
+    /// é€šè¿‡ Id æ„é€  X11Cursorã€‚
     /// </summary>
-    /// <param name="Id">¹â±êµÄ ID¡£</param>
+    /// <param name="Id">å…‰æ ‡çš„ IDã€‚</param>
     public X11Cursor(ulong Id)
     {
         this.Id = (ULong)Id;
     }
 
     /// <summary>
-    /// Í¨¹ı Id ¹¹Ôì X11Cursor¡£
+    /// é€šè¿‡ Id æ„é€  X11Cursorã€‚
     /// </summary>
-    /// <param name="Id">¹â±êµÄ ID¡£</param>
+    /// <param name="Id">å…‰æ ‡çš„ IDã€‚</param>
     public X11Cursor(nint Id)
     {
         this.Id = (ULong)Id;
     }
 
     /// <summary>
-    /// ¹â±êµÄ ID¡£
+    /// å…‰æ ‡çš„ IDã€‚
     /// </summary>
     internal ULong Id { get; }
     
     /// <summary>
-    /// Ç¿ÖÆ×ª»»Îª ULong¡£
+    /// å¼ºåˆ¶è½¬æ¢ä¸º ULongã€‚
     /// </summary>
     public static implicit operator ULong(X11Cursor value)
     {
@@ -39,7 +39,7 @@ public readonly record struct X11Cursor
     }
     
     /// <summary>
-    /// Ç¿ÖÆ×ª»»Îª nuint¡£
+    /// å¼ºåˆ¶è½¬æ¢ä¸º nuintã€‚
     /// </summary>
     public static implicit operator nuint(X11Cursor value)
     {
@@ -47,7 +47,7 @@ public readonly record struct X11Cursor
     }
     
     /// <summary>
-    /// Ç¿ÖÆ×ª»»Îª nint¡£
+    /// å¼ºåˆ¶è½¬æ¢ä¸º nintã€‚
     /// </summary>
     public static implicit operator nint(X11Cursor value)
     {

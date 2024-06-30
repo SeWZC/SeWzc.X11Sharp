@@ -1,15 +1,15 @@
 namespace SeWzc.X11Sharp.Structs;
 
 /// <summary>
-/// ÎŞ·ûºÅÕûÊıµÄ´óĞ¡¡£
+/// æ— ç¬¦å·æ•´æ•°çš„å¤§å°ã€‚
 /// </summary>
-/// <param name="Width">¿í¶È¡£</param>
-/// <param name="Height">¸ß¶È¡£</param>
+/// <param name="Width">å®½åº¦ã€‚</param>
+/// <param name="Height">é«˜åº¦ã€‚</param>
 public record struct Size(uint Width, uint Height);
 
 /// <summary>
-/// ÓĞ·ûºÅÕûÊıµÄ´óĞ¡¡£
+/// æœ‰ç¬¦å·æ•´æ•°çš„å¤§å°ã€‚
 /// </summary>
-/// <param name="Width">¿í¶È¡£</param>
-/// <param name="Height">¸ß¶È¡£</param>
+/// <param name="Width">å®½åº¦ã€‚</param>
+/// <param name="Height">é«˜åº¦ã€‚</param>
 public record struct SSize(int Width, int Height);
