@@ -592,7 +592,7 @@ internal struct XKeymapEvent
     [InlineArray(32)]
     public struct KeyVector
     {
-        public byte _value;
+        private byte _value;
     }
 }
 
