@@ -175,6 +175,7 @@ public readonly record struct X11DisplayGC(X11Display Display, X11GC GC)
     /// 设置平铺和点画的原点。
     /// </summary>
     /// <param name="origin">平铺和点画的原点。</param>
+    // ReSharper disable once InconsistentNaming
     public void SetTSOrigin(Point origin)
     {
         _ = XLib.XSetTSOrigin(Display, GC, origin.X, origin.Y);
