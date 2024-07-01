@@ -1,6 +1,4 @@
-﻿using SeWzc.X11Sharp.Structs;
-
-namespace SeWzc.X11Sharp.Xid;
+﻿namespace SeWzc.X11Sharp.Xid;
 
 /// <summary>
 /// X11 资源 ID。
