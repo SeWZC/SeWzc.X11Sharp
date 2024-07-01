@@ -791,45 +791,7 @@ public abstract record X11Event
     {
         public X11Window Window { get; set; }
 
-        public Point Position { get; set; }
-
-        /// <summary>
-        /// <see cref="Position" /> 的 X 坐标。
-        /// </summary>
-        public int X
-        {
-            get => Position.X;
-            set => Position = Position with { X = value };
-        }
-
-        /// <summary>
-        /// <see cref="Position" /> 的 Y 坐标。
-        /// </summary>
-        public int Y
-        {
-            get => Position.Y;
-            set => Position = Position with { Y = value };
-        }
-
-        public SSize Size { get; set; }
-
-        /// <summary>
-        /// <see cref="Size" /> 的宽度。
-        /// </summary>
-        public int Width
-        {
-            get => Size.Width;
-            set => Size = Size with { Width = value };
-        }
-
-        /// <summary>
-        /// <see cref="Size" /> 的高度。
-        /// </summary>
-        public int Height
-        {
-            get => Size.Height;
-            set => Size = Size with { Height = value };
-        }
+        public SRectangle Area { get; set; }
 
         /// <summary>
         /// 如果大于 0，表示还有 <see cref="Count" /> 个 Expose 事件未处理。
@@ -847,10 +809,10 @@ public abstract record X11Event
                     send_event = SendEvent,
                     display = Display?.XDisplay ?? default,
                     window = Window,
-                    x = X,
-                    y = Y,
-                    width = Width,
-                    height = Height,
+                    x = Area.X,
+                    y = Area.Y,
+                    width = Area.Width,
+                    height = Area.Height,
                     count = Count,
                 },
             };
@@ -864,10 +826,13 @@ public abstract record X11Event
                 SendEvent = xexpose.send_event,
                 Display = xexpose.display,
                 Window = xexpose.window,
-                X = xexpose.x,
-                Y = xexpose.y,
-                Width = xexpose.width,
-                Height = xexpose.height,
+                Area = new SRectangle
+                {
+                    X = xexpose.x,
+                    Y = xexpose.y,
+                    Width = xexpose.width,
+                    Height = xexpose.height,
+                },
                 Count = xexpose.count,
             };
         }
@@ -880,45 +845,7 @@ public abstract record X11Event
     {
         public X11Drawable Drawable { get; set; }
 
-        public Point Position { get; set; }
-
-        /// <summary>
-        /// <see cref="Position" /> 的 X 坐标。
-        /// </summary>
-        public int X
-        {
-            get => Position.X;
-            set => Position = Position with { X = value };
-        }
-
-        /// <summary>
-        /// <see cref="Position" /> 的 Y 坐标。
-        /// </summary>
-        public int Y
-        {
-            get => Position.Y;
-            set => Position = Position with { Y = value };
-        }
-
-        public SSize Size { get; set; }
-
-        /// <summary>
-        /// <see cref="Size" /> 的宽度。
-        /// </summary>
-        public int Width
-        {
-            get => Size.Width;
-            set => Size = Size with { Width = value };
-        }
-
-        /// <summary>
-        /// <see cref="Size" /> 的高度。
-        /// </summary>
-        public int Height
-        {
-            get => Size.Height;
-            set => Size = Size with { Height = value };
-        }
+        public SRectangle Area { get; set; }
 
         public int Count { get; set; }
 
@@ -937,10 +864,10 @@ public abstract record X11Event
                     send_event = SendEvent,
                     display = Display?.XDisplay ?? default,
                     drawable = Drawable,
-                    x = X,
-                    y = Y,
-                    width = Width,
-                    height = Height,
+                    x = Area.X,
+                    y = Area.Y,
+                    width = Area.Width,
+                    height = Area.Height,
                     count = Count,
                     major_code = MajorCode,
                     minor_code = MinorCode,
@@ -959,10 +886,13 @@ public abstract record X11Event
                 SendEvent = xgraphicsexpose.send_event,
                 Display = xgraphicsexpose.display,
                 Drawable = xgraphicsexpose.drawable,
-                X = xgraphicsexpose.x,
-                Y = xgraphicsexpose.y,
-                Width = xgraphicsexpose.width,
-                Height = xgraphicsexpose.height,
+                Area = new SRectangle
+                {
+                    X = xgraphicsexpose.x,
+                    Y = xgraphicsexpose.y,
+                    Width = xgraphicsexpose.width,
+                    Height = xgraphicsexpose.height,
+                },
                 Count = xgraphicsexpose.count,
                 MajorCode = xgraphicsexpose.major_code,
                 MinorCode = xgraphicsexpose.minor_code,
@@ -1066,45 +996,7 @@ public abstract record X11Event
 
         public X11Window Window { get; set; }
 
-        public Point Position { get; set; }
-
-        /// <summary>
-        /// <see cref="Position" /> 的 X 坐标。
-        /// </summary>
-        public int X
-        {
-            get => Position.X;
-            set => Position = Position with { X = value };
-        }
-
-        /// <summary>
-        /// <see cref="Position" /> 的 Y 坐标。
-        /// </summary>
-        public int Y
-        {
-            get => Position.Y;
-            set => Position = Position with { Y = value };
-        }
-
-        public SSize Size { get; set; }
-
-        /// <summary>
-        /// <see cref="Size" /> 的宽度。
-        /// </summary>
-        public int Width
-        {
-            get => Size.Width;
-            set => Size = Size with { Width = value };
-        }
-
-        /// <summary>
-        /// <see cref="Size" /> 的高度。
-        /// </summary>
-        public int Height
-        {
-            get => Size.Height;
-            set => Size = Size with { Height = value };
-        }
+        public SRectangle Bounds { get; set; }
 
         public int BorderWidth { get; set; }
 
@@ -1124,10 +1016,10 @@ public abstract record X11Event
                     display = Display?.XDisplay ?? default,
                     @event = Event,
                     window = Window,
-                    x = Position.X,
-                    y = Position.Y,
-                    width = Size.Width,
-                    height = Size.Height,
+                    x = Bounds.X,
+                    y = Bounds.Y,
+                    width = Bounds.Width,
+                    height = Bounds.Height,
                     border_width = BorderWidth,
                     above = Above,
                     override_redirect = OverrideRedirect,
@@ -1147,8 +1039,13 @@ public abstract record X11Event
                 Display = xconfigure.display,
                 Event = xconfigure.@event,
                 Window = xconfigure.window,
-                Position = new Point(xconfigure.x, xconfigure.y),
-                Size = new SSize(xconfigure.width, xconfigure.height),
+                Bounds = new SRectangle
+                {
+                    X = xconfigure.x,
+                    Y = xconfigure.y,
+                    Width = xconfigure.width,
+                    Height = xconfigure.height,
+                },
                 BorderWidth = xconfigure.border_width,
                 Above = xconfigure.above,
                 OverrideRedirect = xconfigure.override_redirect,
@@ -1165,45 +1062,7 @@ public abstract record X11Event
 
         public X11Window Window { get; set; }
 
-        public Point Position { get; set; }
-
-        /// <summary>
-        /// <see cref="Position" /> 的 X 坐标。
-        /// </summary>
-        public int X
-        {
-            get => Position.X;
-            set => Position = Position with { X = value };
-        }
-
-        /// <summary>
-        /// <see cref="Position" /> 的 Y 坐标。
-        /// </summary>
-        public int Y
-        {
-            get => Position.Y;
-            set => Position = Position with { Y = value };
-        }
-
-        public SSize Size { get; set; }
-
-        /// <summary>
-        /// <see cref="Size" /> 的宽度。
-        /// </summary>
-        public int Width
-        {
-            get => Size.Width;
-            set => Size = Size with { Width = value };
-        }
-
-        /// <summary>
-        /// <see cref="Size" /> 的高度。
-        /// </summary>
-        public int Height
-        {
-            get => Size.Height;
-            set => Size = Size with { Height = value };
-        }
+        public SRectangle Bounds { get; set; }
 
         public int BorderWidth { get; set; }
 
@@ -1221,10 +1080,10 @@ public abstract record X11Event
                     display = Display?.XDisplay ?? default,
                     parent = Parent,
                     window = Window,
-                    x = X,
-                    y = Y,
-                    width = Width,
-                    height = Height,
+                    x = Bounds.X,
+                    y = Bounds.Y,
+                    width = Bounds.Width,
+                    height = Bounds.Height,
                     border_width = BorderWidth,
                     override_redirect = OverrideRedirect,
                 },
@@ -1243,8 +1102,13 @@ public abstract record X11Event
                 Display = xcreatewindow.display,
                 Parent = xcreatewindow.parent,
                 Window = xcreatewindow.window,
-                Position = new Point(xcreatewindow.x, xcreatewindow.y),
-                Size = new SSize(xcreatewindow.width, xcreatewindow.height),
+                Bounds = new SRectangle
+                {
+                    X = xcreatewindow.x,
+                    Y = xcreatewindow.y,
+                    Width = xcreatewindow.width,
+                    Height = xcreatewindow.height,
+                },
                 BorderWidth = xcreatewindow.border_width,
                 OverrideRedirect = xcreatewindow.override_redirect,
             };

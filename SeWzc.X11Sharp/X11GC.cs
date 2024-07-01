@@ -22,6 +22,16 @@ public sealed class X11GC
     /// </summary>
     public X11GContext GContext => XLib.XGContextFromGC(Ptr);
 
+    /// <summary>
+    /// 与 Display 进行组合，以便进行操作。
+    /// </summary>
+    /// <param name="display">与 X 服务器的连接。</param>
+    /// <returns>Display 与 GC 的组合。</returns>
+    public X11DisplayGC WithDisplay(X11Display display)
+    {
+        return new X11DisplayGC(display, this);
+    }
+
     #region 运算符重载
 
     // 强制转换不需要文档
