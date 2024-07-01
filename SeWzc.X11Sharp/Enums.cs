@@ -775,3 +775,35 @@ public enum ErrorCode
     BadLength = 16,
     BadImplementation = 17,
 }
+
+public enum QueryBestSizeClass
+{
+    /*
+       /* QueryBestSize Class * /
+       
+       #define CursorShape 0 /* largest size that can be displayed * /
+       #define TileShape 1 /* size tiled fastest * /
+       #define StippleShape 2 /* size stippled fastest * /
+     */
+
+    CursorShape = 0,
+    TileShape = 1,
+    StippleShape = 2,
+}
+
+public enum RectanglesOrdering
+{
+    /*
+       /* SetClipRectangles ordering * /
+       
+       #define Unsorted 0
+       #define YSorted 1
+       #define YXSorted 2
+       #define YXBanded 3
+     */
+
+    Unsorted = 0,
+    YSorted = 1,
+    YXSorted = 2,
+    YXBanded = 3,
+}

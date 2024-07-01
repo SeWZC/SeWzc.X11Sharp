@@ -11,8 +11,7 @@ public sealed class WindowAttributes
 {
     internal WindowAttributes(XWindowAttributes windowAttributes)
     {
-        Position = new Point(windowAttributes.x, windowAttributes.y);
-        Size = new SSize(windowAttributes.width, windowAttributes.height);
+        Bounds = new SRectangle(windowAttributes.x, windowAttributes.y, windowAttributes.width, windowAttributes.height);
         BorderWidth = windowAttributes.border_width;
         Depth = windowAttributes.depth;
         Visual = (X11Visual?)windowAttributes.visual ?? throw new ArgumentNullException(nameof(windowAttributes.visual));
@@ -35,9 +34,14 @@ public sealed class WindowAttributes
     }
 
     /// <summary>
-    /// 位置。
+    /// 边界。
     /// </summary>
-    public Point Position { get; }
+    public SRectangle Bounds { get; }
+
+    /// <summary>
+    /// <see cref="Bounds" /> 的左上角坐标。
+    /// </summary>
+    public Point Position => Bounds.Location;
 
     /// <summary>
     /// <see cref="Position" /> 的 X 坐标。
@@ -50,9 +54,9 @@ public sealed class WindowAttributes
     public int Y => Position.Y;
 
     /// <summary>
-    /// 大小。
+    /// <see cref="Bounds" /> 的大小。
     /// </summary>
-    public SSize Size { get; }
+    public SSize Size => Bounds.Size;
 
     /// <summary>
     /// <see cref="Size" /> 的宽度。

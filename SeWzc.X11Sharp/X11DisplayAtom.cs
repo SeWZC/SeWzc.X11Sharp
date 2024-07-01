@@ -7,7 +7,7 @@ namespace SeWzc.X11Sharp;
 /// <summary>
 /// Display 和 Atom 的组合。
 /// </summary>
-public readonly record struct X11DisplayAtom(X11Display Display, X11Atom Value)
+public readonly record struct X11DisplayAtom(X11Display Display, X11Atom Atom)
 {
     /// <summary>
     /// 获取 Atom 的名称。
@@ -15,7 +15,7 @@ public readonly record struct X11DisplayAtom(X11Display Display, X11Atom Value)
     /// <returns>Atom 的名称。</returns>
     public unsafe string? GetAtomName()
     {
-        var atomNamePtr = XLib.XGetAtomName(Display.XDisplay, Value);
+        var atomNamePtr = XLib.XGetAtomName(Display.XDisplay, Atom);
         if (atomNamePtr == null)
             return null;
 
@@ -37,7 +37,7 @@ public readonly record struct X11DisplayAtom(X11Display Display, X11Atom Value)
 
     public static implicit operator X11Atom(X11DisplayAtom displayAtom)
     {
-        return displayAtom.Value;
+        return displayAtom.Atom;
     }
 
 #pragma warning restore CS1591

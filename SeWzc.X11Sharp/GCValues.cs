@@ -99,17 +99,17 @@ public sealed class GCValues
     public bool? GraphicsExposures { get; set; }
 
     /// <summary>
-    /// 裁剪区域原点的 X 坐标。
+    /// 剪裁区域原点的 X 坐标。
     /// </summary>
     public int? ClipXOrigin { get; set; }
 
     /// <summary>
-    /// 裁剪区域原点的 Y 坐标。
+    /// 剪裁区域原点的 Y 坐标。
     /// </summary>
     public int? ClipYOrigin { get; set; }
 
     /// <summary>
-    /// 裁剪掩码。
+    /// 剪裁掩码。
     /// </summary>
     public X11Pixmap? ClipMask { get; set; }
 

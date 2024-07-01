@@ -11,14 +11,14 @@ namespace SeWzc.X11Sharp;
 /// <summary>
 /// Display 和 Window 的组合。
 /// </summary>
-public readonly record struct X11DisplayWindow(X11Display Display, X11Window Value)
+public readonly record struct X11DisplayWindow(X11Display Display, X11Window Window)
 {
     /// <summary>
     /// 销毁窗口。
     /// </summary>
     public void Destroy()
     {
-        _ = XLib.XDestroyWindow(Display.XDisplay, Value);
+        _ = XLib.XDestroyWindow(Display.XDisplay, Window);
     }
 
     /// <summary>
@@ -26,7 +26,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     /// </summary>
     public void DestroySubwindows()
     {
-        _ = XLib.XDestroySubwindows(Display.XDisplay, Value);
+        _ = XLib.XDestroySubwindows(Display.XDisplay, Window);
     }
 
     /// <summary>
@@ -34,7 +34,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     /// </summary>
     public void Map()
     {
-        _ = XLib.XMapWindow(Display.XDisplay, Value);
+        _ = XLib.XMapWindow(Display.XDisplay, Window);
     }
 
     /// <summary>
@@ -42,7 +42,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     /// </summary>
     public void MapRaised()
     {
-        _ = XLib.XMapRaised(Display.XDisplay, Value);
+        _ = XLib.XMapRaised(Display.XDisplay, Window);
     }
 
     /// <summary>
@@ -50,7 +50,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     /// </summary>
     public void MapSubwindows()
     {
-        _ = XLib.XMapSubwindows(Display.XDisplay, Value);
+        _ = XLib.XMapSubwindows(Display.XDisplay, Window);
     }
 
     /// <summary>
@@ -58,7 +58,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     /// </summary>
     public void Unmap()
     {
-        _ = XLib.XUnmapWindow(Display.XDisplay, Value);
+        _ = XLib.XUnmapWindow(Display.XDisplay, Window);
     }
 
     /// <summary>
@@ -66,7 +66,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     /// </summary>
     public void UnmapSubwindows()
     {
-        _ = XLib.XUnmapSubwindows(Display.XDisplay, Value);
+        _ = XLib.XUnmapSubwindows(Display.XDisplay, Window);
     }
 
     /// <summary>
@@ -77,7 +77,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     {
         var windowConfigureMask = changes.GetValueMask();
         var windowChanges = changes.ToXWindowChanges();
-        _ = XLib.XConfigureWindow(Display.XDisplay, Value, windowConfigureMask, in windowChanges);
+        _ = XLib.XConfigureWindow(Display.XDisplay, Window, windowConfigureMask, in windowChanges);
     }
 
     /// <summary>
@@ -86,7 +86,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     /// <param name="location">窗口左上角在父窗口的位置。</param>
     public void Move(Point location)
     {
-        _ = XLib.XMoveWindow(Display.XDisplay, Value, location.X, location.Y);
+        _ = XLib.XMoveWindow(Display.XDisplay, Window, location.X, location.Y);
     }
 
     /// <summary>
@@ -95,7 +95,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     /// <param name="size">窗口的大小。</param>
     public void Resize(Size size)
     {
-        _ = XLib.XResizeWindow(Display.XDisplay, Value, size.Width, size.Height);
+        _ = XLib.XResizeWindow(Display.XDisplay, Window, size.Width, size.Height);
     }
 
     /// <summary>
@@ -105,7 +105,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     /// <param name="size">窗口的大小。</param>
     public void MoveResize(Point location, Size size)
     {
-        _ = XLib.XMoveResizeWindow(Display.XDisplay, Value, location.X, location.Y, size.Width, size.Height);
+        _ = XLib.XMoveResizeWindow(Display.XDisplay, Window, location.X, location.Y, size.Width, size.Height);
     }
 
     /// <summary>
@@ -114,7 +114,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     /// <param name="borderWidth">窗口边框宽度。</param>
     public void SetWindowBorderWidth(uint borderWidth)
     {
-        _ = XLib.XSetWindowBorderWidth(Display.XDisplay, Value, borderWidth);
+        _ = XLib.XSetWindowBorderWidth(Display.XDisplay, Window, borderWidth);
     }
 
     /// <summary>
@@ -122,7 +122,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     /// </summary>
     public void Raise()
     {
-        _ = XLib.XRaiseWindow(Display.XDisplay, Value);
+        _ = XLib.XRaiseWindow(Display.XDisplay, Window);
     }
 
     /// <summary>
@@ -130,7 +130,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     /// </summary>
     public void Lower()
     {
-        _ = XLib.XLowerWindow(Display.XDisplay, Value);
+        _ = XLib.XLowerWindow(Display.XDisplay, Window);
     }
 
     /// <summary>
@@ -141,7 +141,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     {
         var windowAttributeValueMask = attributes.GetValueMask();
         var setWindowAttributes = attributes.ToXSetWindowAttributes();
-        _ = XLib.XChangeWindowAttributes(Display.XDisplay, Value, windowAttributeValueMask, in setWindowAttributes);
+        _ = XLib.XChangeWindowAttributes(Display.XDisplay, Window, windowAttributeValueMask, in setWindowAttributes);
     }
 
     /// <summary>
@@ -150,7 +150,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     /// <param name="pixel">背景像素。</param>
     public void SetBackground(Pixel pixel)
     {
-        _ = XLib.XSetWindowBackground(Display.XDisplay, Value, pixel);
+        _ = XLib.XSetWindowBackground(Display.XDisplay, Window, pixel);
     }
 
     /// <summary>
@@ -159,7 +159,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     /// <param name="pixel">边框像素。</param>
     public void SetBorder(Pixel pixel)
     {
-        _ = XLib.XSetWindowBorder(Display.XDisplay, Value, pixel);
+        _ = XLib.XSetWindowBorder(Display.XDisplay, Window, pixel);
     }
 
     /// <summary>
@@ -172,7 +172,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     public unsafe bool QueryTree([NotNullWhen(true)] out X11DisplayWindow? root,
         [NotNullWhen(true)] out X11DisplayWindow? parent, out X11DisplayWindow[] children)
     {
-        var success = XLib.XQueryTree(Display.XDisplay, Value, out var rootWindow, out var parentWindow, out var childrenPtr,
+        var success = XLib.XQueryTree(Display.XDisplay, Window, out var rootWindow, out var parentWindow, out var childrenPtr,
             out var childrenCount);
         if (!success)
         {
@@ -198,7 +198,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     /// <returns>如果获取失败，则返回 <see langword="null" />；否则返回窗口的 Attributes。</returns>
     public WindowAttributes? GetAttributes()
     {
-        var success = XLib.XGetWindowAttributes(Display.XDisplay, Value, out var windowAttributes);
+        var success = XLib.XGetWindowAttributes(Display.XDisplay, Window, out var windowAttributes);
         return success ? new WindowAttributes(windowAttributes) : null;
     }
 
@@ -208,7 +208,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     /// <param name="eventMask">事件掩码。</param>
     public void SelectInput(EventMask eventMask)
     {
-        _ = XLib.XSelectInput(Display.XDisplay, Value, eventMask);
+        _ = XLib.XSelectInput(Display.XDisplay, Window, eventMask);
     }
 
     /// <summary>
@@ -297,7 +297,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     /// <returns>与该窗口和指定事件掩码匹配的事件。</returns>
     public X11Event WindowEvent(EventMask eventMask)
     {
-        XLib.XWindowEvent(Display.XDisplay, Value, eventMask, out var xEvent);
+        XLib.XWindowEvent(Display.XDisplay, Window, eventMask, out var xEvent);
         return X11Event.FromXEvent(xEvent);
     }
 
@@ -309,7 +309,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     /// <returns>与该窗口和指定事件掩码匹配的事件，如果没有匹配的事件则返回 <see langword="null" />。</returns>
     public X11Event? CheckWindowEvent(EventMask eventMask)
     {
-        return XLib.XCheckWindowEvent(Display.XDisplay, Value, eventMask, out var xEvent) ? X11Event.FromXEvent(xEvent) : null;
+        return XLib.XCheckWindowEvent(Display.XDisplay, Window, eventMask, out var xEvent) ? X11Event.FromXEvent(xEvent) : null;
     }
 
     /// <summary>
@@ -320,7 +320,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     /// <returns>与该窗口和指定事件类型匹配的事件，如果没有匹配的事件则返回 <see langword="null" />。</returns>
     public X11Event? CheckTypedWindowEvent(EventType eventType)
     {
-        return XLib.XCheckTypedWindowEvent(Display.XDisplay, Value, eventType, out var xEvent) ? X11Event.FromXEvent(xEvent) : null;
+        return XLib.XCheckTypedWindowEvent(Display.XDisplay, Window, eventType, out var xEvent) ? X11Event.FromXEvent(xEvent) : null;
     }
 
     /// <summary>
@@ -332,7 +332,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     /// <returns>是否能够解析该事件。</returns>
     public bool SendEvent(bool propagate, EventMask eventMask, X11Event xEvent)
     {
-        var result = XLib.XSendEvent(Display.XDisplay, Value, propagate, eventMask, xEvent.ToXEvent());
+        var result = XLib.XSendEvent(Display.XDisplay, Window, propagate, eventMask, xEvent.ToXEvent());
         if (!result)
             Debug.WriteLine("Failed to send event.");
         return result;
@@ -346,7 +346,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     /// <returns>指定事件内的运动历史记录。如果服务器不支持运动历史记录，则返回 <see langword="null" />。</returns>
     public unsafe TimeCoord[]? GetMotionEvents(Time start, Time stop)
     {
-        var result = XLib.XGetMotionEvents(Display.XDisplay, Value, start, stop, out var count);
+        var result = XLib.XGetMotionEvents(Display.XDisplay, Window, start, stop, out var count);
         if (result == null)
             return null;
 
@@ -364,7 +364,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
 #pragma warning disable CS1591
     public static implicit operator X11Window(X11DisplayWindow displayAtom)
     {
-        return displayAtom.Value;
+        return displayAtom.Window;
     }
 #pragma warning restore CS1591
 
@@ -382,7 +382,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     /// </returns>
     public unsafe X11PropertyData? GetProperty(X11Atom property)
     {
-        XLib.XGetWindowProperty(Display, Value, property, 0, int.MaxValue, false, new X11Atom(0),
+        XLib.XGetWindowProperty(Display, Window, property, 0, int.MaxValue, false, new X11Atom(0),
             out var actualTypeReturn, out var actualFormatReturn, out var nitemsReturn, out var bytesAfterReturn, out var propReturn);
         if (actualFormatReturn is 0)
             return null;
@@ -447,7 +447,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
                 var value = format8ArrayData.Value;
                 fixed (byte* pValue = value)
                 {
-                    XLib.XChangeProperty(Display.XDisplay, Value, property, format8ArrayData.PropertyType, 8, mode, pValue,
+                    XLib.XChangeProperty(Display.XDisplay, Window, property, format8ArrayData.PropertyType, 8, mode, pValue,
                         value.Length);
                 }
 
@@ -458,7 +458,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
                 var value = format16ArrayData.Value;
                 fixed (short* pValue = value)
                 {
-                    XLib.XChangeProperty(Display.XDisplay, Value, property, format16ArrayData.PropertyType, 16, mode, pValue,
+                    XLib.XChangeProperty(Display.XDisplay, Window, property, format16ArrayData.PropertyType, 16, mode, pValue,
                         value.Length);
                 }
 
@@ -469,7 +469,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
                 var value = format32ArrayData.Value;
                 fixed (Long* pValue = value)
                 {
-                    XLib.XChangeProperty(Display, Value, property, format32ArrayData.PropertyType, 32, mode, pValue,
+                    XLib.XChangeProperty(Display, Window, property, format32ArrayData.PropertyType, 32, mode, pValue,
                         value.Length);
                 }
 
@@ -492,7 +492,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
         var propertyData = GetProperty(property);
         return propertyData switch
         {
-            X11PropertyData.Format8Array { PropertyType: var type, Value: var value } when type == Display.Atoms.Utf8String.Value =>
+            X11PropertyData.Format8Array { PropertyType: var type, Value: var value } when type == Display.Atoms.Utf8String.Atom =>
                 Encoding.UTF8.GetString(value),
             _ => null,
         };
@@ -507,7 +507,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     public void ChangeUtf8Property(X11Atom property, PropertyMode mode, string value)
     {
         var bytes = Encoding.UTF8.GetBytes(value);
-        ChangeProperty(property, mode, new X11PropertyData.Format8Array(Display.Atoms.Utf8String.Value, bytes));
+        ChangeProperty(property, mode, new X11PropertyData.Format8Array(Display.Atoms.Utf8String.Atom, bytes));
     }
 
     /// <summary>
@@ -520,7 +520,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
         var propertyData = GetProperty(property);
         switch (propertyData)
         {
-            case X11PropertyData.Format32Array { PropertyType: var type, Value: var value } when type == Display.Atoms.Atom.Value:
+            case X11PropertyData.Format32Array { PropertyType: var type, Value: var value } when type == Display.Atoms.Atom.Atom:
                 var result = new X11DisplayAtom[value.Length];
                 for (var i = 0; i < value.Length; i++)
                     result[i] = new X11Atom(value[i]).WithDisplay(Display);
@@ -542,7 +542,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
         for (var i = 0; i < value.Length; i++)
             valueArray[i] = value[i].Id;
 
-        ChangeProperty(property, mode, new X11PropertyData.Format32Array(Display.Atoms.Atom.Value, valueArray));
+        ChangeProperty(property, mode, new X11PropertyData.Format32Array(Display.Atoms.Atom.Atom, valueArray));
     }
 
     /// <summary>
@@ -551,7 +551,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     /// <returns>指定窗口的属性的原子数组。</returns>
     public unsafe X11DisplayAtom[] ListProperties()
     {
-        var properties = XLib.XListProperties(Display.XDisplay, Value, out var count);
+        var properties = XLib.XListProperties(Display.XDisplay, Window, out var count);
         var atoms = new X11DisplayAtom[count];
         for (var i = 0; i < count; i++)
             atoms[i] = properties[i].WithDisplay(Display);
@@ -566,7 +566,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Val
     /// <param name="property">要删除的属性的原子。</param>
     public void DeleteProperty(X11Atom property)
     {
-        XLib.XDeleteProperty(Display.XDisplay, Value, property);
+        XLib.XDeleteProperty(Display.XDisplay, Window, property);
     }
 
     #endregion

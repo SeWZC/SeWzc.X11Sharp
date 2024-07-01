@@ -74,6 +74,22 @@ public readonly record struct X11Pixmap : IXid
         return (nint)value.Id;
     }
 
+    /// <summary>
+    /// 强制转换为 X11Drawable。
+    /// </summary>
+    public static implicit operator X11Pixmap(X11Window value)
+    {
+        return new X11Pixmap(value.Id);
+    }
+
+    /// <summary>
+    /// 从 X11Drawable 强制转换为 X11Pixmap。需要确保 X11Drawable 是一个位图。
+    /// </summary>
+    public static explicit operator X11Pixmap(X11Drawable value)
+    {
+        return new X11Window(value.Id);
+    }
+
 #pragma warning restore CS1591
 
     #endregion

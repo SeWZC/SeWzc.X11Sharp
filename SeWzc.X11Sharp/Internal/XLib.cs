@@ -680,7 +680,7 @@ internal static partial class XLib
 
     // XSetState(Display *display, GC gc, unsigned long foreground, unsigned long background, int function, unsigned long plane_mask);
     [LibraryImport(libX11)]
-    public static partial int XSetState(DisplayPtr display, GCPtr gc, Pixel foreground, Pixel background, int function, ULong plane_mask);
+    public static partial int XSetState(DisplayPtr display, GCPtr gc, Pixel foreground, Pixel background, GraphicsFunctions function, ULong plane_mask);
 
     // XSetForeground(Display *display, GC gc, unsigned long foreground);
     [LibraryImport(libX11)]
@@ -692,7 +692,7 @@ internal static partial class XLib
 
     // XSetFunction(Display *display, GC gc, int function);
     [LibraryImport(libX11)]
-    public static partial int XSetFunction(DisplayPtr display, GCPtr gc, int function);
+    public static partial int XSetFunction(DisplayPtr display, GCPtr gc, GraphicsFunctions function);
 
     // XSetPlaneMask(Display *display, GC gc, unsigned long plane_mask);
     [LibraryImport(libX11)]
@@ -728,7 +728,7 @@ internal static partial class XLib
 
     // Status XQueryBestSize(Display *display, int class, Drawable which_screen, unsigned int width, unsigned int height, unsigned int *width_return, unsigned int *height_return);
     [LibraryImport(libX11)]
-    public static partial Bool XQueryBestSize(DisplayPtr display, int @class, X11Drawable which_screen, uint width, uint height, out uint width_return, out uint height_return);
+    public static partial Bool XQueryBestSize(DisplayPtr display, QueryBestSizeClass @class, X11Drawable which_screen, uint width, uint height, out uint width_return, out uint height_return);
 
     // Status XQueryBestTile(Display *display, Drawable which_screen, unsigned int width, unsigned int height, unsigned int *width_return, unsigned int *height_return);
     [LibraryImport(libX11)]
@@ -772,7 +772,7 @@ internal static partial class XLib
 
     // XSetClipRectangles(Display *display, GC gc, int clip_x_origin, int clip_y_origin, XRectangle rectangles[], int n, int ordering);
     [LibraryImport(libX11)]
-    public static unsafe partial int XSetClipRectangles(DisplayPtr display, GCPtr gc, int clip_x_origin, int clip_y_origin, Rectangle* rectangles, int n, int ordering);
+    public static unsafe partial int XSetClipRectangles(DisplayPtr display, GCPtr gc, int clip_x_origin, int clip_y_origin, Rectangle* rectangles, int n, RectanglesOrdering ordering);
 
     #endregion
 
