@@ -3,8 +3,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Text;
 using SeWzc.X11Sharp.Internal;
+using SeWzc.X11Sharp.Parameters;
 using SeWzc.X11Sharp.Structs;
-using SeWzc.X11Sharp.Xid;
 
 namespace SeWzc.X11Sharp;
 
@@ -378,9 +378,9 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Win
     /// <param name="property">属性的原子。</param>
     /// <returns>
     /// 如果不存在该属性，则返回 <see langword="null" />；
-    /// 如果获取到属性，则返回 <see cref="X11PropertyData" />，其中包含属性的类型和值，需要根据类型进行解析。
+    /// 如果获取到属性，则返回 <see cref="PropertyData" />，其中包含属性的类型和值，需要根据类型进行解析。
     /// </returns>
-    public unsafe X11PropertyData? GetProperty(X11Atom property)
+    public unsafe PropertyData? GetProperty(X11Atom property)
     {
         XLib.XGetWindowProperty(Display, Window, property, 0, int.MaxValue, false, new X11Atom(0),
             out var actualTypeReturn, out var actualFormatReturn, out var nitemsReturn, out var bytesAfterReturn, out var propReturn);
@@ -389,7 +389,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Win
 
         Debug.Assert(bytesAfterReturn == 0, "Unexpected bytesAfterReturn.");
 
-        X11PropertyData? result = null;
+        PropertyData? result = null;
         switch (actualFormatReturn)
         {
             case 8:
@@ -398,7 +398,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Win
                 var value = new byte[nitemsReturn];
                 fixed (void* pValue = value)
                     Unsafe.CopyBlock(pValue, prop, (uint)nitemsReturn);
-                result = new X11PropertyData.Format8Array(actualTypeReturn, value);
+                result = new PropertyData.Format8Array(actualTypeReturn, value);
                 break;
             }
             case 16:
@@ -407,7 +407,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Win
                 var value = new short[nitemsReturn];
                 fixed (void* pValue = value)
                     Unsafe.CopyBlock(pValue, prop, (uint)nitemsReturn * 2);
-                result = new X11PropertyData.Format16Array(actualTypeReturn, value);
+                result = new PropertyData.Format16Array(actualTypeReturn, value);
                 break;
             }
             case 32:
@@ -416,7 +416,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Win
                 var value = new Long[nitemsReturn];
                 fixed (void* pValue = value)
                     Unsafe.CopyBlock(pValue, prop, (uint)((int)nitemsReturn * sizeof(Long)));
-                result = new X11PropertyData.Format32Array(actualTypeReturn, value);
+                result = new PropertyData.Format32Array(actualTypeReturn, value);
                 break;
             }
             default:
@@ -438,11 +438,11 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Win
     /// <param name="mode">修改属性的模式。</param>
     /// <param name="propertyData">属性的数据。</param>
     /// <exception cref="ArgumentException">属性数据类型不符合预期。</exception>
-    public unsafe void ChangeProperty(X11Atom property, PropertyMode mode, X11PropertyData propertyData)
+    public unsafe void ChangeProperty(X11Atom property, PropertyMode mode, PropertyData propertyData)
     {
         switch (propertyData)
         {
-            case X11PropertyData.Format8Array format8ArrayData:
+            case PropertyData.Format8Array format8ArrayData:
             {
                 var value = format8ArrayData.Value;
                 fixed (byte* pValue = value)
@@ -453,7 +453,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Win
 
                 break;
             }
-            case X11PropertyData.Format16Array format16ArrayData:
+            case PropertyData.Format16Array format16ArrayData:
             {
                 var value = format16ArrayData.Value;
                 fixed (short* pValue = value)
@@ -464,7 +464,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Win
 
                 break;
             }
-            case X11PropertyData.Format32Array format32ArrayData:
+            case PropertyData.Format32Array format32ArrayData:
             {
                 var value = format32ArrayData.Value;
                 fixed (Long* pValue = value)
@@ -492,7 +492,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Win
         var propertyData = GetProperty(property);
         return propertyData switch
         {
-            X11PropertyData.Format8Array { PropertyType: var type, Value: var value } when type == Display.Atoms.Utf8String.Atom =>
+            PropertyData.Format8Array { PropertyType: var type, Value: var value } when type == Display.Atoms.Utf8String.Atom =>
                 Encoding.UTF8.GetString(value),
             _ => null,
         };
@@ -507,7 +507,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Win
     public void ChangeUtf8Property(X11Atom property, PropertyMode mode, string value)
     {
         var bytes = Encoding.UTF8.GetBytes(value);
-        ChangeProperty(property, mode, new X11PropertyData.Format8Array(Display.Atoms.Utf8String.Atom, bytes));
+        ChangeProperty(property, mode, new PropertyData.Format8Array(Display.Atoms.Utf8String.Atom, bytes));
     }
 
     /// <summary>
@@ -520,7 +520,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Win
         var propertyData = GetProperty(property);
         switch (propertyData)
         {
-            case X11PropertyData.Format32Array { PropertyType: var type, Value: var value } when type == Display.Atoms.Atom.Atom:
+            case PropertyData.Format32Array { PropertyType: var type, Value: var value } when type == Display.Atoms.Atom.Atom:
                 var result = new X11DisplayAtom[value.Length];
                 for (var i = 0; i < value.Length; i++)
                     result[i] = new X11Atom(value[i]).WithDisplay(Display);
@@ -542,7 +542,7 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Win
         for (var i = 0; i < value.Length; i++)
             valueArray[i] = value[i].Id;
 
-        ChangeProperty(property, mode, new X11PropertyData.Format32Array(Display.Atoms.Atom.Atom, valueArray));
+        ChangeProperty(property, mode, new PropertyData.Format32Array(Display.Atoms.Atom.Atom, valueArray));
     }
 
     /// <summary>

@@ -1,32 +1,32 @@
-using SeWzc.X11Sharp.Structs;
+﻿using SeWzc.X11Sharp.Structs;
 
-namespace SeWzc.X11Sharp.Xid;
+namespace SeWzc.X11Sharp;
 
 /// <summary>
-/// X11 光标。
+/// X11 字体。
 /// </summary>
-public readonly record struct X11Cursor : IXid
+public readonly record struct X11Font : IXid
 {
     /// <summary>
-    /// 通过 Id 构造 X11Cursor。
+    /// 通过 Id 构造 X11Font。
     /// </summary>
-    /// <param name="Id">光标的 ID。</param>
-    public X11Cursor(ulong Id)
+    /// <param name="Id">字体的 ID。</param>
+    public X11Font(ulong Id)
     {
         this.Id = (ULong)Id;
     }
 
     /// <summary>
-    /// 通过 Id 构造 X11Cursor。
+    /// 通过 Id 构造 X11Font。
     /// </summary>
-    /// <param name="Id">光标的 ID。</param>
-    public X11Cursor(nint Id)
+    /// <param name="Id">字体的 ID。</param>
+    public X11Font(nint Id)
     {
         this.Id = (ULong)Id;
     }
 
     /// <summary>
-    /// 光标的 ID。
+    /// 字体的 ID。
     /// </summary>
     internal ULong Id { get; }
 
@@ -59,17 +59,17 @@ public readonly record struct X11Cursor : IXid
     // 强制转换不需要文档
 #pragma warning disable CS1591
 
-    public static implicit operator ULong(X11Cursor value)
+    public static implicit operator ULong(X11Font value)
     {
         return value.Id;
     }
 
-    public static implicit operator nuint(X11Cursor value)
+    public static implicit operator nuint(X11Font value)
     {
         return value.ToUPtrInt();
     }
 
-    public static implicit operator nint(X11Cursor value)
+    public static implicit operator nint(X11Font value)
     {
         return (nint)value.Id;
     }

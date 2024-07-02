@@ -1,6 +1,4 @@
-﻿using SeWzc.X11Sharp.Xid;
-
-namespace SeWzc.X11Sharp;
+﻿namespace SeWzc.X11Sharp;
 
 /// <summary>
 /// Display 中的原子。

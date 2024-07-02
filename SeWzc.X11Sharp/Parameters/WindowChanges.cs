@@ -1,5 +1,4 @@
 ﻿using SeWzc.X11Sharp.Internal;
-using SeWzc.X11Sharp.Xid;
 
 namespace SeWzc.X11Sharp;
 

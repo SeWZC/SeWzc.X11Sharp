@@ -1,6 +1,4 @@
-﻿using SeWzc.X11Sharp.Xid;
-
-namespace SeWzc.X11Sharp;
+﻿namespace SeWzc.X11Sharp;
 
 /// <summary>
 /// Xatom.h 中定义的原子。

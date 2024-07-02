@@ -1,32 +1,32 @@
-﻿using SeWzc.X11Sharp.Structs;
+using SeWzc.X11Sharp.Structs;
 
-namespace SeWzc.X11Sharp.Xid;
+namespace SeWzc.X11Sharp;
 
 /// <summary>
-/// X11 可绘制对象。
+/// X11 颜色映射表。
 /// </summary>
-public readonly record struct X11Drawable : IXid
+public readonly record struct X11Colormap : IXid
 {
     /// <summary>
-    /// 通过 Id 构造 X11Drawable。
+    /// 通过 Id 构造 X11Colormap。
     /// </summary>
-    /// <param name="Id">可绘制对象的 ID。</param>
-    public X11Drawable(ulong Id)
+    /// <param name="Id">颜色映射表的 ID。</param>
+    public X11Colormap(ulong Id)
     {
         this.Id = (ULong)Id;
     }
 
     /// <summary>
-    /// 通过 Id 构造 X11Drawable。
+    /// 通过 Id 构造 X11Colormap。
     /// </summary>
-    /// <param name="Id">可绘制对象的 ID。</param>
-    public X11Drawable(nint Id)
+    /// <param name="Id">颜色映射表的 ID。</param>
+    public X11Colormap(nint Id)
     {
         this.Id = (ULong)Id;
     }
 
     /// <summary>
-    /// 可绘制对象的 ID。
+    /// 颜色映射表的 ID。
     /// </summary>
     internal ULong Id { get; }
 
@@ -59,17 +59,17 @@ public readonly record struct X11Drawable : IXid
     // 强制转换不需要文档
 #pragma warning disable CS1591
 
-    public static implicit operator ULong(X11Drawable value)
+    public static implicit operator ULong(X11Colormap value)
     {
         return value.Id;
     }
 
-    public static implicit operator nuint(X11Drawable value)
+    public static implicit operator nuint(X11Colormap value)
     {
         return value.ToUPtrInt();
     }
 
-    public static implicit operator nint(X11Drawable value)
+    public static implicit operator nint(X11Colormap value)
     {
         return (nint)value.Id;
     }
