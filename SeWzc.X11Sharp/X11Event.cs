@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using SeWzc.X11Sharp.Internal;
 using SeWzc.X11Sharp.Structs;
-using SeWzc.X11Sharp.Xid;
 
 namespace SeWzc.X11Sharp;
 

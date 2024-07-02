@@ -1,32 +1,32 @@
 ﻿using SeWzc.X11Sharp.Structs;
 
-namespace SeWzc.X11Sharp.Xid;
+namespace SeWzc.X11Sharp;
 
 /// <summary>
-/// X11 原子。
+/// X11 可绘制对象。
 /// </summary>
-public readonly record struct X11Atom : IXid
+public readonly record struct X11Drawable : IXid
 {
     /// <summary>
-    /// 通过 Id 构造 X11Atom。
+    /// 通过 Id 构造 X11Drawable。
     /// </summary>
-    /// <param name="Id">原子的 ID。</param>
-    public X11Atom(nuint Id)
+    /// <param name="Id">可绘制对象的 ID。</param>
+    public X11Drawable(ulong Id)
     {
         this.Id = (ULong)Id;
     }
 
     /// <summary>
-    /// 通过 Id 构造 X11Atom。
+    /// 通过 Id 构造 X11Drawable。
     /// </summary>
-    /// <param name="Id">原子的 ID。</param>
-    public X11Atom(nint Id)
+    /// <param name="Id">可绘制对象的 ID。</param>
+    public X11Drawable(nint Id)
     {
         this.Id = (ULong)Id;
     }
 
     /// <summary>
-    /// 原子的 ID。
+    /// 可绘制对象的 ID。
     /// </summary>
     internal ULong Id { get; }
 
@@ -54,32 +54,22 @@ public readonly record struct X11Atom : IXid
         return Id;
     }
 
-    /// <summary>
-    /// 与 Display 进行组合，以便进行操作。
-    /// </summary>
-    /// <param name="display">与 X 服务器的连接。</param>
-    /// <returns>Display 与 Atom 的组合。</returns>
-    public X11DisplayAtom WithDisplay(X11Display display)
-    {
-        return new X11DisplayAtom(display, this);
-    }
-
     #region 运算符重载
 
     // 强制转换不需要文档
 #pragma warning disable CS1591
 
-    public static implicit operator ULong(X11Atom value)
+    public static implicit operator ULong(X11Drawable value)
     {
         return value.Id;
     }
 
-    public static implicit operator nuint(X11Atom value)
+    public static implicit operator nuint(X11Drawable value)
     {
         return value.ToUPtrInt();
     }
 
-    public static implicit operator nint(X11Atom value)
+    public static implicit operator nint(X11Drawable value)
     {
         return (nint)value.Id;
     }
