@@ -109,7 +109,7 @@ public readonly record struct X11DisplayGC(X11Display Display, X11GC GC)
     /// 查询给定类别的最佳大小。
     /// </summary>
     /// <param name="class">指定要查询的类别。</param>
-    /// <param name="whichScreen">指定在哪个可绘制对象所属的屏幕上进行查询。这个参数是一个可绘制对象，通常是窗口或者位图。</param>
+    /// <param name="whichScreen">指定在哪个可绘制对象所属的屏幕上进行查询。这个参数是一个可绘制对象，通常是窗口或者像素图。</param>
     /// <param name="size">指定要查询的大小。</param>
     /// <returns>
     /// 对于 <see cref="QueryBestSizeClass.CursorShape" /> 来说，这个值是指定屏幕上可以完全显示的最大尺寸；
@@ -127,7 +127,7 @@ public readonly record struct X11DisplayGC(X11Display Display, X11GC GC)
     /// <summary>
     /// 查询平铺的最佳尺寸。
     /// </summary>
-    /// <param name="whichScreen">指定在哪个可绘制对象所属的屏幕上进行查询。这个参数是一个可绘制对象，通常是窗口或者位图。</param>
+    /// <param name="whichScreen">指定在哪个可绘制对象所属的屏幕上进行查询。这个参数是一个可绘制对象，通常是窗口或者像素图。</param>
     /// <param name="size">指定要查询的大小。</param>
     /// <returns>可以平铺的最快尺寸。</returns>
     public Size? QueryBestTil(X11Drawable whichScreen, Size size)
@@ -141,7 +141,7 @@ public readonly record struct X11DisplayGC(X11Display Display, X11GC GC)
     /// <summary>
     /// 查询点画的最佳尺寸。
     /// </summary>
-    /// <param name="whichScreen">指定在哪个可绘制对象所属的屏幕上进行查询。这个参数是一个可绘制对象，通常是窗口或者位图。</param>
+    /// <param name="whichScreen">指定在哪个可绘制对象所属的屏幕上进行查询。这个参数是一个可绘制对象，通常是窗口或者像素图。</param>
     /// <param name="size">指定要查询的大小。</param>
     /// <returns>可以点画的最快尺寸。</returns>
     public Size? QueryBestStipple(X11Drawable whichScreen, Size size)
@@ -155,7 +155,7 @@ public readonly record struct X11DisplayGC(X11Display Display, X11GC GC)
     /// <summary>
     /// 设置平铺。
     /// </summary>
-    /// <param name="tile">用于平铺的位图。深度必须与 GC 的深度相同。</param>
+    /// <param name="tile">用于平铺的像素图。深度必须与 GC 的深度相同。</param>
     public void SetTile(X11Pixmap tile)
     {
         _ = XLib.XSetTile(Display, GC, tile);
@@ -164,7 +164,7 @@ public readonly record struct X11DisplayGC(X11Display Display, X11GC GC)
     /// <summary>
     /// 设置点画。
     /// </summary>
-    /// <param name="stipple">用于点画的位图。深度必须为 1。</param>
+    /// <param name="stipple">用于点画的像素图。深度必须为 1。</param>
     public void SetStipple(X11Pixmap stipple)
     {
         _ = XLib.XSetStipple(Display, GC, stipple);

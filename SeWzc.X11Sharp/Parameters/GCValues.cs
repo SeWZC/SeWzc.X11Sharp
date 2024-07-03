@@ -63,22 +63,22 @@ public sealed class GCValues
     public ArcMode? ArcMode { get; set; }
 
     /// <summary>
-    /// 用于平铺的位图。
+    /// 用于平铺的像素图。
     /// </summary>
     public X11Pixmap? Tile { get; set; }
 
     /// <summary>
-    /// 用于点画的位图。
+    /// 用于点画的像素图。
     /// </summary>
     public X11Pixmap? Stipple { get; set; }
 
     /// <summary>
-    /// 平铺位图的原点的 X 坐标。
+    /// 平铺像素图的原点的 X 坐标。
     /// </summary>
     public int? TsXOrigin { get; set; }
 
     /// <summary>
-    /// 平铺位图的原点的 Y 坐标。
+    /// 平铺像素图的原点的 Y 坐标。
     /// </summary>
     public int? TsYOrigin { get; set; }
 

@@ -9,7 +9,7 @@ namespace SeWzc.X11Sharp;
 public sealed class SetWindowAttributes
 {
     /// <summary>
-    /// 用作背景的位图。
+    /// 用作背景的像素图。
     /// </summary>
     public X11Pixmap? BackgroundPixmap { get; set; }
 
@@ -19,7 +19,7 @@ public sealed class SetWindowAttributes
     public Pixel? BackgroundPixel { get; set; }
 
     /// <summary>
-    /// 用作边框的位图。
+    /// 用作边框的像素图。
     /// </summary>
     public X11Pixmap? BorderPixmap { get; set; }
 
