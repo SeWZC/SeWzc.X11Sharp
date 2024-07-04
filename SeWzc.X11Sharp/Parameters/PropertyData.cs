@@ -1,6 +1,6 @@
 ﻿using SeWzc.X11Sharp.Structs;
 
-namespace SeWzc.X11Sharp.Parameters;
+namespace SeWzc.X11Sharp;
 
 /// <summary>
 /// X11 的属性。

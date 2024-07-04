@@ -3,7 +3,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Text;
 using SeWzc.X11Sharp.Internal;
-using SeWzc.X11Sharp.Parameters;
 using SeWzc.X11Sharp.Structs;
 
 namespace SeWzc.X11Sharp;
