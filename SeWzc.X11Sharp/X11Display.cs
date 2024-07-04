@@ -337,6 +337,80 @@ public sealed class X11Display : IDisposable
     }
 
     /// <summary>
+    /// 创建一个像素图。
+    /// </summary>
+    /// <param name="drawable">可绘制对象。用于指示在哪个屏幕上创建像素图。</param>
+    /// <param name="size">像素图大小。</param>
+    /// <param name="depth">像素图深度。</param>
+    /// <returns></returns>
+    public X11DisplayPixmap CreatePixmap(X11Drawable drawable, Size size, uint depth)
+    {
+        return XLib.XCreatePixmap(XDisplay, drawable, size.Width, size.Height, depth).WithDisplay(this);
+    }
+
+    /// <summary>
+    /// 释放像素图。
+    /// </summary>
+    /// <param name="pixmap">要释放的像素图。</param>
+    public void FreePixmap(X11Pixmap pixmap)
+    {
+        _ = XLib.XFreePixmap(XDisplay, pixmap);
+    }
+
+    /// <summary>
+    /// 从标准光标字体创建光标。
+    /// </summary>
+    /// <param name="cursor">标准光标字体。</param>
+    /// <returns></returns>
+    public X11DisplayCursor CreateFontCursor(CursorShape cursor)
+    {
+        return XLib.XCreateFontCursor(XDisplay, cursor).WithDisplay(this);
+    }
+
+    /// <summary>
+    /// 从字体创建光标。
+    /// </summary>
+    /// <param name="sourceFont">源字体。</param>
+    /// <param name="maskFont">掩码字体。</param>
+    /// <param name="sourceChar">源字符。</param>
+    /// <param name="maskChar">掩码字符。</param>
+    /// <param name="foreground">前景色。</param>
+    /// <param name="background">背景色。</param>
+    /// <returns>从字体创建的光标。</returns>
+    public X11DisplayCursor CreateGlyphCursor(X11Font sourceFont, X11Font maskFont, uint sourceChar, uint maskChar, XColor foreground, XColor background)
+    {
+        return XLib.XCreateGlyphCursor(XDisplay, sourceFont, maskFont, sourceChar, maskChar, foreground, background).WithDisplay(this);
+    }
+
+    /// <summary>
+    /// 从像素图创建光标。
+    /// </summary>
+    /// <param name="source">源像素图。</param>
+    /// <param name="mask">掩码像素图。</param>
+    /// <param name="foreground">前景色。</param>
+    /// <param name="background">背景色。</param>
+    /// <param name="x">指定指针在像素图的 x 坐标。</param>
+    /// <param name="y">指定指针在像素图的 y 坐标。</param>
+    /// <returns></returns>
+    public X11DisplayCursor CreatePixmapCursor(X11Pixmap source, X11Pixmap mask, XColor foreground, XColor background, uint x, uint y)
+    {
+        return XLib.XCreatePixmapCursor(XDisplay, source, mask, foreground, background, x, y).WithDisplay(this);
+    }
+
+    /// <summary>
+    /// 查询最佳光标大小。
+    /// </summary>
+    /// <param name="drawable">可绘制对象。</param>
+    /// <param name="width">希望的宽度。</param>
+    /// <param name="height">希望的高度。</param>
+    /// <returns></returns>
+    public Size QueryBestCursor(X11Drawable drawable, uint width, uint height)
+    {
+        XLib.XQueryBestCursor(XDisplay, drawable, width, height, out var bw, out var bh);
+        return new Size(bw, bh);
+    }
+
+    /// <summary>
     /// 创建图形上下文。
     /// </summary>
     /// <param name="drawable">可绘制对象。</param>
@@ -357,6 +431,84 @@ public sealed class X11Display : IDisposable
     public void FlushGC(X11GC gc)
     {
         XLib.XFlushGC(XDisplay, gc);
+    }
+
+    /// <summary>
+    /// 清空输出缓冲区。
+    /// </summary>
+    public void Flush()
+    {
+        _ = XLib.XFlush(XDisplay);
+    }
+
+    /// <summary>
+    /// 清空输出缓冲区并同步。
+    /// </summary>
+    /// <param name="discard">是否丢弃事件队列上的所有事件。</param>
+    public void Sync(bool discard)
+    {
+        _ = XLib.XSync(XDisplay, discard);
+    }
+
+    /// <summary>
+    /// 检查事件队列中的事件。
+    /// </summary>
+    /// <param name="mode">检查事件的模式。</param>
+    /// <returns>根据模式获取到的队列中的事件数。</returns>
+    /// <seealso cref="EventsQueuedMode" />
+    public int EventsQueued(EventsQueuedMode mode)
+    {
+        return XLib.XEventsQueued(XDisplay, mode);
+    }
+
+    /// <summary>
+    /// 返回待处理事件的数量。
+    /// </summary>
+    /// <remarks>
+    /// 相当于 <see cref="EventsQueued(EventsQueuedMode)" /> 的 <see cref="EventsQueuedMode.AfterFlush" /> 模式。
+    /// </remarks>
+    /// <returns>待处理事件的数量</returns>
+    public int Pending()
+    {
+        return XLib.XPending(XDisplay);
+    }
+
+    /// <summary>
+    /// 返回队列中事件的数量。
+    /// </summary>
+    /// <remarks>
+    /// 相当于 <see cref="EventsQueued(EventsQueuedMode)" /> 的 <see cref="EventsQueuedMode.Already" /> 模式。
+    /// </remarks>
+    /// <returns></returns>
+    public int QLength()
+    {
+        return XLib.XQLength(XDisplay);
+    }
+
+    /// <summary>
+    /// 获取下一个事件并将其从队列中删除。
+    /// </summary>
+    /// <remarks>
+    /// 如果队列中没有事件，则会清空输出缓冲区并阻塞直到有事件到来。
+    /// </remarks>
+    /// <returns>获取到的事件。</returns>
+    public X11Event NextEvent()
+    {
+        XLib.XNextEvent(XDisplay, out var xEvent);
+        return X11Event.FromXEvent(xEvent);
+    }
+
+    /// <summary>
+    /// 获取下一个事件但不将其从队列中删除。
+    /// </summary>
+    /// <remarks>
+    /// 如果队列中没有事件，则会清空输出缓冲区并阻塞直到有事件到来。
+    /// </remarks>
+    /// <returns>获取到的事件。</returns>
+    public X11Event PeekEvent()
+    {
+        XLib.XPeekEvent(XDisplay, out var xEvent);
+        return X11Event.FromXEvent(xEvent);
     }
 
     /// <summary>

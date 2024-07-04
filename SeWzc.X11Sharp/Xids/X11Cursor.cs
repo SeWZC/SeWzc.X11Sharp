@@ -54,6 +54,16 @@ public readonly record struct X11Cursor : IXid
         return Id;
     }
 
+    /// <summary>
+    /// 与 Display 进行组合，以便进行操作。
+    /// </summary>
+    /// <param name="display">与 X 服务器的连接。</param>
+    /// <returns>Display 与 Cursor 的组合。</returns>
+    public X11DisplayCursor WithDisplay(X11Display display)
+    {
+        return new X11DisplayCursor(display, this);
+    }
+
     #region 运算符重载
 
     // 强制转换不需要文档

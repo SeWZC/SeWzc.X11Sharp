@@ -635,6 +635,51 @@ internal static partial class XLib
 
     #endregion
 
+    #region Pixmap and Cursor Functions
+
+    #region Creating and Freeing Pixmaps
+
+    // Pixmap XCreatePixmap(Display *display, Drawable d, unsigned int width, unsigned int height, unsigned int depth);
+    [LibraryImport(libX11)]
+    public static partial X11Pixmap XCreatePixmap(DisplayPtr display, X11Drawable drawable, uint width, uint height, uint depth);
+
+    // XFreePixmap(Display *display, Pixmap pixmap);
+    [LibraryImport(libX11)]
+    public static partial int XFreePixmap(DisplayPtr display, X11Pixmap pixmap);
+
+    #endregion
+
+    #region Creating, Recoloring, and Freeing Cursors
+
+    // Cursor XCreateFontCursor(Display *display, unsigned int shape);
+    [LibraryImport(libX11)]
+    public static partial X11Cursor XCreateFontCursor(DisplayPtr display, CursorShape shape);
+
+    // Cursor XCreateGlyphCursor(Display *display, Font source_font, Font mask_font, unsigned int source_char, unsigned int mask_char, XColor *foreground_color, XColor *background_color);
+    [LibraryImport(libX11)]
+    public static partial X11Cursor XCreateGlyphCursor(DisplayPtr display, X11Font source_font, X11Font mask_font, uint source_char, uint mask_char,
+        in XColor foreground_color, in XColor background_color);
+
+    // Cursor XCreatePixmapCursor(Display *display, Pixmap source, Pixmap mask, XColor *foreground_color, XColor *background_color, unsigned int x, unsigned int y);
+    [LibraryImport(libX11)]
+    public static partial X11Cursor XCreatePixmapCursor(DisplayPtr display, X11Pixmap source, X11Pixmap mask, in XColor foreground_color, in XColor background_color, uint x, uint y);
+
+    // Status XQueryBestCursor(Display *display, Drawable d, unsigned int width, unsigned int height, unsigned int *width_return, unsigned int *height_return);
+    [LibraryImport(libX11)]
+    public static partial Bool XQueryBestCursor(DisplayPtr display, X11Drawable drawable, uint width, uint height, out uint width_return, out uint height_return);
+
+    // XRecolorCursor(Display *display, Cursor cursor, XColor *foreground_color, XColor *background_color);
+    [LibraryImport(libX11)]
+    public static partial int XRecolorCursor(DisplayPtr display, X11Cursor cursor, in XColor foreground_color, in XColor background_color);
+
+    // XFreeCursor(Display *display, Cursor cursor);
+    [LibraryImport(libX11)]
+    public static partial int XFreeCursor(DisplayPtr display, X11Cursor cursor);
+
+    #endregion
+
+    #endregion
+
     #region Graphics Context Functions
 
     #region Manipulating Graphics Context/State
