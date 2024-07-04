@@ -246,7 +246,8 @@ public static class X11DisplayWindowExtensions
             {
                 var prop = (byte*)propReturn;
                 var value = new byte[nitemsReturn];
-                Unsafe.Copy(ref value, prop);
+                fixed(void* pValue = value)
+                    Unsafe.CopyBlock(pValue, prop, (uint)nitemsReturn);
                 result = new X11PropertyData.Int8Array(actualTypeReturn, value);
                 break;
             }
@@ -254,7 +255,8 @@ public static class X11DisplayWindowExtensions
             {
                 var prop = (short*)propReturn;
                 var value = new short[nitemsReturn];
-                Unsafe.Copy(ref value, prop);
+                fixed(void* pValue = value)
+                    Unsafe.CopyBlock(pValue, prop, (uint)nitemsReturn * 2);
                 result = new X11PropertyData.Int16Array(actualTypeReturn, value);
                 break;
             }
@@ -262,7 +264,8 @@ public static class X11DisplayWindowExtensions
             {
                 var prop = (int*)propReturn;
                 var value = new int[nitemsReturn];
-                Unsafe.Copy(ref value, prop);
+                fixed(void* pValue = value)
+                    Unsafe.CopyBlock(pValue, prop, (uint)nitemsReturn * 4);
                 result = new X11PropertyData.Int32Array(actualTypeReturn, value);
                 break;
             }

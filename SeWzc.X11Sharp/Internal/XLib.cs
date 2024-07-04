@@ -296,7 +296,7 @@ internal static partial class XLib
 
     // XFree(void *data);
     [LibraryImport(libX11)]
-    public static unsafe partial void XFree(void* data);
+    public static unsafe partial int XFree(void* data);
 
     #endregion
 
@@ -604,16 +604,16 @@ internal static partial class XLib
 
     // XChangeProperty(Display *display, Window w, Atom property, Atom type, int format, int mode, unsignedchar *data, int nelements);
     [LibraryImport(libX11)]
-    public static unsafe partial void XChangeProperty(DisplayPtr display, X11Window window, X11Atom property, X11Atom type, int format, PropertyMode mode, void* data, int nelements);
+    public static unsafe partial int XChangeProperty(DisplayPtr display, X11Window window, X11Atom property, X11Atom type, int format, PropertyMode mode, void* data, int nelements);
 
     // TODO 暂未使用
     // XRotateWindowProperties(Display *display, Window w, Atom properties[], int num_prop, int npositions);
     [LibraryImport(libX11)]
-    public static unsafe partial void XRotateWindowProperties(DisplayPtr display, X11Window window, [In] X11Atom[] properties, int num_prop, int npositions);
+    public static unsafe partial int XRotateWindowProperties(DisplayPtr display, X11Window window, [In] X11Atom[] properties, int num_prop, int npositions);
 
     // XDeleteProperty(Display *display, Window w, Atom property);
     [LibraryImport(libX11)]
-    public static partial void XDeleteProperty(DisplayPtr display, X11Window window, X11Atom property);
+    public static partial int XDeleteProperty(DisplayPtr display, X11Window window, X11Atom property);
 
     #endregion
 
@@ -622,7 +622,7 @@ internal static partial class XLib
     // TODO 暂未使用
     // XSetSelectionOwner(Display *display, Atom selection, Window owner, Time time);
     [LibraryImport(libX11)]
-    public static partial void XSetSelectionOwner(DisplayPtr display, X11Atom selection, X11Window owner, nint time);
+    public static partial int XSetSelectionOwner(DisplayPtr display, X11Atom selection, X11Window owner, nint time);
 
     // TODO 暂未使用
     // Window XGetSelectionOwner(Display *display, Atom selection);
@@ -632,7 +632,7 @@ internal static partial class XLib
     // TODO 暂未使用
     // XConvertSelection(Display *display, Atom selection, Atom target, Atom property, Window requestor, Time time);
     [LibraryImport(libX11)]
-    public static partial void XConvertSelection(DisplayPtr display, X11Atom selection, X11Atom target, X11Atom property, X11Window requestor, nint time);
+    public static partial int XConvertSelection(DisplayPtr display, X11Atom selection, X11Atom target, X11Atom property, X11Window requestor, nint time);
 
     #endregion
 
