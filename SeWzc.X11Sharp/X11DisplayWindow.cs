@@ -202,6 +202,30 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Win
     }
 
     /// <summary>
+    /// 清理窗口的矩形区域。
+    /// </summary>
+    /// <remarks>
+    /// 使用窗口的背景图或背景像素填充矩形区域。
+    /// </remarks>
+    /// <param name="rectangle">矩形区域。</param>
+    /// <param name="exposures">是否发送曝光事件。</param>
+    public void ClearArea(Rectangle rectangle, bool exposures)
+    {
+        _ = XLib.XClearArea(Display.XDisplay, Window, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height, exposures);
+    }
+
+    /// <summary>
+    /// 清理整个窗口，但不发送曝光事件。
+    /// </summary>
+    /// <remarks>
+    /// 使用窗口的背景图或背景像素填充整个窗口。
+    /// </remarks>
+    public void ClearWindow()
+    {
+        _ = XLib.XClearWindow(Display.XDisplay, Window);
+    }
+
+    /// <summary>
     /// 请求 X 服务报告与指定事件掩码关联的事件。
     /// </summary>
     /// <param name="eventMask">事件掩码。</param>
@@ -286,6 +310,22 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Win
     public static implicit operator X11Window(X11DisplayWindow displayAtom)
     {
         return displayAtom.Window;
+    }
+
+    /// <summary>
+    /// 强制转换为 X11DisplayDrawable。
+    /// </summary>
+    public static implicit operator X11DisplayDrawable(X11DisplayWindow value)
+    {
+        return new X11DisplayDrawable(value.Display, value.Window);
+    }
+
+    /// <summary>
+    /// 从 X11DisplayDrawable 强制转换为 X11DisplayWindow。需要确保 X11DisplayDrawable.Drawable 是一个窗口。
+    /// </summary>
+    public static explicit operator X11DisplayWindow(X11DisplayDrawable value)
+    {
+        return new X11Window(value.Drawable.Id).WithDisplay(value.Display);
     }
 #pragma warning restore CS1591
 

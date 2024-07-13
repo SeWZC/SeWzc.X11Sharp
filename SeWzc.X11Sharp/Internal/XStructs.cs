@@ -238,3 +238,25 @@ internal struct XGCValues
 
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 internal unsafe delegate Bool XEventPredicate(DisplayPtr display, XEvent* @event, void* arg);
+
+[StructLayout(LayoutKind.Sequential)]
+internal unsafe struct XImage
+{
+    public int width;
+    public int height;
+    public int xoffset;
+    public ImageFormat format;
+    public byte* data;
+    public ByteOrder byte_order;
+    public int bitmap_unit;
+    public ByteOrder bitmap_bit_order;
+    public int bitmap_pad;
+    public int depth;
+    public int bytes_per_line;
+    public int bits_per_pixel;
+    public ULong red_mask;
+    public ULong green_mask;
+    public ULong blue_mask;
+    public void* obdata;
+    public IntPtr f;
+}

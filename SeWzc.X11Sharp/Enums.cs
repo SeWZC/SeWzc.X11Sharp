@@ -970,3 +970,69 @@ public enum CursorShape
     Xterm = 152,
     NumGlyphs = 154,
 }
+
+public enum CoordMode
+{
+    /*
+        /* CoordinateMode for drawing routines * /
+
+        #define CoordModeOrigin 0 /* relative to the origin * /
+        #define CoordModePrevious 1 /* relative to previous point * /
+     */
+
+    /// <summary>
+    /// 相对于原点。
+    /// </summary>
+    Origin,
+    /// <summary>
+    /// 相对于上一个点。
+    /// </summary>
+    Previous,
+}
+
+public enum PolygonShape
+{
+    /*
+        /* Polygon shapes * /
+
+        #define Complex 0 /* paths may intersect * /
+        #define Nonconvex 1 /* no paths intersect, but not convex * /
+        #define Convex 2 /* wholly convex * /
+     */
+    /// <summary>
+    /// 复杂多边形。
+    /// </summary>
+    Complex = 0,
+    /// <summary>
+    /// 非凸多边形。
+    /// </summary>
+    Nonconvex = 1,
+    /// <summary>
+    /// 凸多边形。
+    /// </summary>
+    Convex = 2,
+}
+
+public enum ImageFormat
+{
+    /*
+        /* ImageFormat -- PutImage and GetImage * /
+
+        #define XYBitmap 0 /* depth 1, XYFormat * /
+        #define XYPixmap 1 /* depth == drawable depth * /
+        #define ZPixmap 2 /* depth == drawable depth * /
+     */
+
+    /// <summary>
+    /// XY 格式的位图。
+    /// </summary>
+    XYBitmap = 0,
+    /// <summary>
+    /// XY 格式的像素图。
+    /// </summary>
+    XYPixmap = 1,
+    /// <summary>
+    /// Z 格式的像素图。
+    /// </summary>
+    ZPixmap = 2,
+}

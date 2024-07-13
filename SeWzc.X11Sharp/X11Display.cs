@@ -434,6 +434,192 @@ public sealed class X11Display : IDisposable
     }
 
     /// <summary>
+    /// 在两个具有相同 root 和深度的可绘制对象之间复制区域。
+    /// </summary>
+    /// <param name="src">用于复制的源可绘制对象。</param>
+    /// <param name="dst">用于接收复制的目标可绘制对象。</param>
+    /// <param name="gc">图形上下文。</param>
+    /// <param name="srcLocation">源位置。</param>
+    /// <param name="areaSize">区域大小。</param>
+    /// <param name="dstLocation">目标位置。</param>
+    public void CopyArea(X11Drawable src, X11Drawable dst, X11GC gc, Point srcLocation, Size areaSize, Point dstLocation)
+    {
+        _ = XLib.XCopyArea(XDisplay, src, dst, gc, srcLocation.X, srcLocation.Y, areaSize.Width, areaSize.Height, dstLocation.X, dstLocation.Y);
+    }
+
+    /// <summary>
+    /// 在两个具有相同 root 和深度的可绘制对象之间复制指定平面。
+    /// </summary>
+    /// <param name="src">用于复制的源可绘制对象。</param>
+    /// <param name="dst">用于接收复制的目标可绘制对象。</param>
+    /// <param name="gc">图形上下文。</param>
+    /// <param name="srcLocation">源位置。</param>
+    /// <param name="areaSize">区域大小。</param>
+    /// <param name="dstLocation">目标位置。</param>
+    /// <param name="bitPlane">指定平面，必须只有一个位被设置为 1。</param>
+    public void CopyPlane(X11Drawable src, X11Drawable dst, X11GC gc, Point srcLocation, Size areaSize, Point dstLocation, uint bitPlane)
+    {
+        _ = XLib.XCopyPlane(XDisplay, src, dst, gc, srcLocation.X, srcLocation.Y, areaSize.Width, areaSize.Height, dstLocation.X, dstLocation.Y, bitPlane);
+    }
+
+    /// <summary>
+    /// 在可绘制对象上绘制点。
+    /// </summary>
+    /// <param name="drawable">可绘制对象。</param>
+    /// <param name="gc">图形上下文。</param>
+    /// <param name="location">点的位置。</param>
+    public void DrawPoint(X11Drawable drawable, X11GC gc, X11Point location)
+    {
+        _ = XLib.XDrawPoint(XDisplay, drawable, gc, location.X, location.Y);
+    }
+
+    /// <summary>
+    /// 在可绘制对象上多个位置绘制点。
+    /// </summary>
+    /// <param name="drawable">可绘制对象。</param>
+    /// <param name="gc">图形上下文。</param>
+    /// <param name="points">点的位置。</param>
+    /// <param name="mode">坐标模式。每个点是相对于前一个点还是相对于原点。</param>
+    public unsafe void DrawPoints(X11Drawable drawable, X11GC gc, X11Point[] points, CoordMode mode)
+    {
+        fixed (X11Point* p = points)
+            _ = XLib.XDrawPoints(XDisplay, drawable, gc, p, points.Length, mode);
+    }
+
+    /// <summary>
+    /// 在可绘制对象上绘制线段。
+    /// </summary>
+    /// <param name="drawable">可绘制对象。</param>
+    /// <param name="gc">图形上下文。</param>
+    /// <param name="segment">线段。</param>
+    public void DrawLine(X11Drawable drawable, X11GC gc, X11Segment segment)
+    {
+        _ = XLib.XDrawLine(XDisplay, drawable, gc, segment.Start.X, segment.Start.Y, segment.End.X, segment.End.Y);
+    }
+
+    /// <summary>
+    /// 在可绘制对象上绘制多线段。
+    /// </summary>
+    /// <param name="drawable">可绘制对象。</param>
+    /// <param name="gc">图形上下文。</param>
+    /// <param name="segmentPoints">线段的点。</param>
+    /// <param name="mode">坐标模式。每个点是相对于前一个点还是相对于原点。</param>
+    public unsafe void DrawLines(X11Drawable drawable, X11GC gc, X11Point[] segmentPoints, CoordMode mode)
+    {
+        fixed (X11Point* p = segmentPoints)
+            _ = XLib.XDrawLines(XDisplay, drawable, gc, p, segmentPoints.Length, mode);
+    }
+
+    /// <summary>
+    /// 在可绘制对象上绘制多条线段（不会自动连接每个线段）。
+    /// </summary>
+    /// <param name="drawable">可绘制对象。</param>
+    /// <param name="gc">图形上下文。</param>
+    /// <param name="segments">线段。</param>
+    public unsafe void DrawSegments(X11Drawable drawable, X11GC gc, X11Segment[] segments)
+    {
+        fixed (X11Segment* p = segments)
+            _ = XLib.XDrawSegments(XDisplay, drawable, gc, p, segments.Length);
+    }
+
+    /// <summary>
+    /// 在可绘制对象上绘制矩形。
+    /// </summary>
+    /// <param name="drawable">可绘制对象。</param>
+    /// <param name="gc">图形上下文。</param>
+    /// <param name="rectangle">矩形。</param>
+    public void DrawRectangle(X11Drawable drawable, X11GC gc, X11Rectangle rectangle)
+    {
+        _ = XLib.XDrawRectangle(XDisplay, drawable, gc, rectangle.Location.X, rectangle.Location.Y, rectangle.Size.Width, rectangle.Size.Height);
+    }
+
+    /// <summary>
+    /// 在可绘制对象上绘制多个矩形。
+    /// </summary>
+    /// <param name="drawable">可绘制对象。</param>
+    /// <param name="gc">图形上下文。</param>
+    /// <param name="rectangles">矩形。</param>
+    public unsafe void DrawRectangles(X11Drawable drawable, X11GC gc, X11Rectangle[] rectangles)
+    {
+        fixed (X11Rectangle* p = rectangles)
+            _ = XLib.XDrawRectangles(XDisplay, drawable, gc, p, rectangles.Length);
+    }
+
+    /// <summary>
+    /// 在可绘制对象上绘制弧线。
+    /// </summary>
+    /// <param name="drawable">可绘制对象。</param>
+    /// <param name="gc">图形上下文。</param>
+    /// <param name="arc">弧线。</param>
+    public void DrawArc(X11Drawable drawable, X11GC gc, X11Arc arc)
+    {
+        _ = XLib.XDrawArc(XDisplay, drawable, gc, arc.Location.X, arc.Location.Y, arc.Size.Width, arc.Size.Height, arc.Angle1, arc.Angle2);
+    }
+
+    /// <summary>
+    /// 在可绘制对象上绘制多个弧线。
+    /// </summary>
+    /// <param name="drawable">可绘制对象。</param>
+    /// <param name="gc">图形上下文。</param>
+    /// <param name="arcs">弧线。</param>
+    public unsafe void DrawArcs(X11Drawable drawable, X11GC gc, X11Arc[] arcs)
+    {
+        fixed (X11Arc* p = arcs)
+            _ = XLib.XDrawArcs(XDisplay, drawable, gc, p, arcs.Length);
+    }
+
+    /// <summary>
+    /// 在可绘制对象上填充矩形。
+    /// </summary>
+    /// <param name="drawable">可绘制对象。</param>
+    /// <param name="gc">图形上下文。</param>
+    /// <param name="rectangle">矩形。</param>
+    public void FillRectangle(X11Drawable drawable, X11GC gc, X11Rectangle rectangle)
+    {
+        _ = XLib.XFillRectangle(XDisplay, drawable, gc, rectangle.Location.X, rectangle.Location.Y, rectangle.Size.Width, rectangle.Size.Height);
+    }
+
+    /// <summary>
+    /// 在可绘制对象上填充多个矩形。
+    /// </summary>
+    /// <param name="drawable">可绘制对象。</param>
+    /// <param name="gc">图形上下文。</param>
+    /// <param name="rectangles">矩形。</param>
+    public unsafe void FillRectangles(X11Drawable drawable, X11GC gc, X11Rectangle[] rectangles)
+    {
+        fixed (X11Rectangle* p = rectangles)
+            _ = XLib.XFillRectangles(XDisplay, drawable, gc, p, rectangles.Length);
+    }
+
+    /// <summary>
+    /// 在可绘制对象上填充多边形。
+    /// </summary>
+    /// <param name="drawable">可绘制对象。</param>
+    /// <param name="gc">图形上下文。</param>
+    /// <param name="points">多边形的点。</param>
+    /// <param name="mode">坐标模式。每个点是相对于前一个点还是相对于原点。</param>
+    /// <param name="shape">多边形的形状。有助于服务器提高性能。</param>
+    public unsafe void FillPolygon(X11Drawable drawable, X11GC gc, X11Point[] points, PolygonShape shape, CoordMode mode)
+    {
+        fixed (X11Point* p = points)
+            _ = XLib.XFillPolygon(XDisplay, drawable, gc, p, points.Length, shape, mode);
+    }
+
+    /// <summary>
+    /// 在可绘制对象上绘制图像。
+    /// </summary>
+    /// <param name="drawable">可绘制对象。</param>
+    /// <param name="gc">图形上下文。</param>
+    /// <param name="image">图像。</param>
+    /// <param name="srcLocation">源位置。</param>
+    /// <param name="dstLocation">目标位置。</param>
+    /// <param name="size">图像大小。</param>
+    public unsafe void PutImage(X11Drawable drawable, X11GC gc, X11Image image, Point srcLocation, Point dstLocation, Size size)
+    {
+        _ = XLib.XPutImage(XDisplay, drawable, gc, image.XImage, srcLocation.X, srcLocation.Y, dstLocation.X, dstLocation.Y, size.Width, size.Height);
+    }
+
+    /// <summary>
     /// 清空输出缓冲区。
     /// </summary>
     public void Flush()

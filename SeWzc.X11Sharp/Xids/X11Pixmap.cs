@@ -87,9 +87,9 @@ public readonly record struct X11Pixmap : IXid
     /// <summary>
     /// 强制转换为 X11Drawable。
     /// </summary>
-    public static implicit operator X11Pixmap(X11Window value)
+    public static implicit operator X11Drawable(X11Pixmap value)
     {
-        return new X11Pixmap(value.Id);
+        return new X11Drawable(value.Id);
     }
 
     /// <summary>
@@ -97,7 +97,7 @@ public readonly record struct X11Pixmap : IXid
     /// </summary>
     public static explicit operator X11Pixmap(X11Drawable value)
     {
-        return new X11Window(value.Id);
+        return new X11Pixmap(value.Id);
     }
 
 #pragma warning restore CS1591

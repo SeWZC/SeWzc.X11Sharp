@@ -635,6 +635,8 @@ internal static partial class XLib
 
     #endregion
 
+    // TODO Color Management Functions 待补充
+
     #region Pixmap and Cursor Functions
 
     #region Creating and Freeing Pixmaps
@@ -835,6 +837,205 @@ internal static partial class XLib
     public static partial int XSetGraphicsExposures(DisplayPtr display, GCPtr gc, Bool graphics_exposures);
 
     #endregion
+
+    #endregion
+
+    #endregion
+
+    #region Graphics Functions
+
+    #region Clearing Areas
+
+    // XClearArea(Display *display, Window w, int x, int y, unsigned int width, unsigned int height, Bool exposures);
+    [LibraryImport(libX11)]
+    public static partial int XClearArea(DisplayPtr display, X11Window window, int x, int y, uint width, uint height, Bool exposures);
+
+    // XClearWindow(Display *display, Window w);
+    [LibraryImport(libX11)]
+    public static partial int XClearWindow(DisplayPtr display, X11Window window);
+
+    #endregion
+
+    #region Copying Areas
+
+    // XCopyArea(Display *display, Drawable src, Drawable dest, GC gc, int src_x, int src_y, unsigned int width, unsigned int height, int dest_x, int dest_y);
+    [LibraryImport(libX11)]
+    public static partial int XCopyArea(DisplayPtr display, X11Drawable src, X11Drawable dest, GCPtr gc, int src_x, int src_y, uint width, uint height, int dest_x, int dest_y);
+
+    // XCopyPlane(Display *display, Drawable src, Drawable dest, GC gc, int src_x, int src_y, unsigned int width, unsigned int height, int dest_x, int dest_y, unsigned long plane);
+    [LibraryImport(libX11)]
+    public static partial int XCopyPlane(DisplayPtr display, X11Drawable src, X11Drawable dest, GCPtr gc, int src_x, int src_y, uint width, uint height, int dest_x, int dest_y, ULong plane);
+
+    #endregion
+
+    #region Drawing Points, Lines, Rectangles, and Arcs
+
+    #region Drawing Single and Multiple Points
+
+    // XDrawPoint(Display *display, Drawable d, GC gc, int x, int y);
+    [LibraryImport(libX11)]
+    public static partial int XDrawPoint(DisplayPtr display, X11Drawable drawable, GCPtr gc, int x, int y);
+
+    // XDrawPoints(Display *display, Drawable d, GC gc, XPoint *points, int npoints, int mode);
+    [LibraryImport(libX11)]
+    public static unsafe partial int XDrawPoints(DisplayPtr display, X11Drawable drawable, GCPtr gc, X11Point* points, int npoints, CoordMode mode);
+
+    #endregion
+
+    #region Drawing Single and Multiple Lines
+
+    // XDrawLine(Display *display, Drawable d, GC gc, int x1, int y1, int x2, int y2);
+    [LibraryImport(libX11)]
+    public static partial int XDrawLine(DisplayPtr display, X11Drawable drawable, GCPtr gc, int x1, int y1, int x2, int y2);
+
+    // XDrawLines(Display *display, Drawable d, GC gc, XPoint *points, int npoints, int mode);
+    [LibraryImport(libX11)]
+    public static unsafe partial int XDrawLines(DisplayPtr display, X11Drawable drawable, GCPtr gc, X11Point* points, int npoints, CoordMode mode);
+
+    // XDrawSegments(Display *display, Drawable d, GC gc, XSegment *segments, int nsegments);
+    [LibraryImport(libX11)]
+    public static unsafe partial int XDrawSegments(DisplayPtr display, X11Drawable drawable, GCPtr gc, X11Segment* segments, int nsegments);
+
+    #endregion
+
+    #region Drawing Single and Multiple Rectangles
+
+    // XDrawRectangle(Display *display, Drawable d, GC gc, int x, int y, unsigned int width, unsigned int height);
+    [LibraryImport(libX11)]
+    public static partial int XDrawRectangle(DisplayPtr display, X11Drawable drawable, GCPtr gc, int x, int y, uint width, uint height);
+
+    // XDrawRectangles(Display *display, Drawable d, GC gc, XRectangle rectangles[], int nrectangles);
+    [LibraryImport(libX11)]
+    public static unsafe partial int XDrawRectangles(DisplayPtr display, X11Drawable drawable, GCPtr gc, X11Rectangle* rectangles, int nrectangles);
+
+    #endregion
+
+    #region Drawing Single and Multiple Arcs
+
+    // XDrawArc(Display *display, Drawable d, GC gc, int x, int y, unsigned int width, unsigned int height, int angle1, int angle2);
+    [LibraryImport(libX11)]
+    public static partial int XDrawArc(DisplayPtr display, X11Drawable drawable, GCPtr gc, int x, int y, uint width, uint height, int angle1, int angle2);
+
+    // XDrawArcs(Display *display, Drawable d, GC gc, XArc *arcs, int narcs);
+    [LibraryImport(libX11)]
+    public static unsafe partial int XDrawArcs(DisplayPtr display, X11Drawable drawable, GCPtr gc, X11Arc* arcs, int narcs);
+
+    #endregion
+
+    #endregion
+
+    #region Filling Areas
+
+    #region Filling Single and Multiple Rectangles
+
+    // XFillRectangle(Display *display, Drawable d, GC gc, int x, int y, unsigned int width, unsigned int height);
+    [LibraryImport(libX11)]
+    public static partial int XFillRectangle(DisplayPtr display, X11Drawable drawable, GCPtr gc, int x, int y, uint width, uint height);
+
+    // XFillRectangles(Display *display, Drawable d, GC gc, XRectangle *rectangles, int nrectangles);
+    [LibraryImport(libX11)]
+    public static unsafe partial int XFillRectangles(DisplayPtr display, X11Drawable drawable, GCPtr gc, X11Rectangle* rectangles, int nrectangles);
+
+    #endregion
+
+    #region Filling a Single Polygon
+
+    // XFillPolygon(Display *display, Drawable d, GC gc, XPoint *points, int npoints, int shape, int mode);
+    [LibraryImport(libX11)]
+    public static unsafe partial int XFillPolygon(DisplayPtr display, X11Drawable drawable, GCPtr gc, X11Point* points, int npoints, PolygonShape shape, CoordMode mode);
+
+    #endregion
+
+    #region Filling Single and Multiple Arcs
+
+    // TODO 暂未使用
+    // XFillArc(Display *display, Drawable d, GC gc, int x, int y, unsigned int width, unsigned int height, int angle1, int angle2);
+    [LibraryImport(libX11)]
+    public static partial int XFillArc(DisplayPtr display, X11Drawable drawable, GCPtr gc, int x, int y, uint width, uint height, int angle1, int angle2);
+
+    // TODO 暂未使用
+    // XFillArcs(Display *display, Drawable d, GC gc, XArc *arcs, int narcs);
+    [LibraryImport(libX11)]
+    public static unsafe partial int XFillArcs(DisplayPtr display, X11Drawable drawable, GCPtr gc, X11Arc* arcs, int narcs);
+
+    #endregion
+
+    #endregion
+
+    #region Font Metrics
+
+    #region Loading and Freeing Fonts
+
+    // TODO 待补充
+
+    #endregion
+
+    #region Obtaining and Freeing Font Names and Information
+
+    // TODO 待补充
+
+    #endregion
+
+    #region Computing Character String Sizes
+
+    // TODO 待补充
+
+    #endregion
+
+    #region Computing Logical Extents
+
+    // TODO 待补充
+
+    #endregion
+
+    #region Querying Character String Sizes
+
+    // TODO 待补充
+
+    #endregion
+
+    #endregion
+
+    #region Drawing Text
+
+    #region Drawing Complex Text
+
+    // TODO 待补充
+
+    #endregion
+
+    #region Drawing Text Characters
+
+    // TODO 待补充
+
+    #endregion
+
+    #region Drawing Image Text Characters
+
+    // TODO 待补充
+
+    #endregion
+
+    #endregion
+
+    #region Transferring Images between Client and Server
+
+    // Status XInitImage(XImage *image);
+    [LibraryImport(libX11)]
+    public static unsafe partial Bool XInitImage(XImage* image);
+
+    // XPutImage(Display *display, Drawable d, GC gc, XImage *image, int src_x, int src_y, int dest_x, int dest_y, unsigned int width, unsigned int height);
+    [LibraryImport(libX11)]
+    public static unsafe partial int XPutImage(DisplayPtr display, X11Drawable drawable, GCPtr gc, XImage* image, int src_x, int src_y, int dest_x, int dest_y, uint width, uint height);
+
+    // XImage *XGetImage(Display *display, Drawable d, int x, int y, unsigned int width, unsigned int height, unsigned long plane_mask, int format);
+    [LibraryImport(libX11)]
+    public static unsafe partial XImage* XGetImage(DisplayPtr display, X11Drawable drawable, int x, int y, uint width, uint height, ULong plane_mask, ImageFormat format);
+
+    // TODO 暂未使用
+    // XImage *XGetSubImage(Display *display, Drawable d, int x, int y, unsigned int width, unsigned int height, unsigned long plane_mask, int format, XImage *dest_image, int dest_x, int dest_y);
+    [LibraryImport(libX11)]
+    public static unsafe partial XImage* XGetSubImage(DisplayPtr display, X11Drawable drawable, int x, int y, uint width, uint height, ULong plane_mask, ImageFormat format, XImage* dest_image, int dest_x, int dest_y);
 
     #endregion
 
