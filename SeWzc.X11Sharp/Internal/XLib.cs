@@ -657,6 +657,7 @@ internal static partial class XLib
     [LibraryImport(libX11)]
     public static partial X11Cursor XCreateFontCursor(DisplayPtr display, CursorShape shape);
 
+    // TODO 暂未使用
     // Cursor XCreateGlyphCursor(Display *display, Font source_font, Font mask_font, unsigned int source_char, unsigned int mask_char, XColor *foreground_color, XColor *background_color);
     [LibraryImport(libX11)]
     public static partial X11Cursor XCreateGlyphCursor(DisplayPtr display, X11Font source_font, X11Font mask_font, uint source_char, uint mask_char,

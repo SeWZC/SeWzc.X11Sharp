@@ -36,9 +36,9 @@ public sealed class X11GC
     // 强制转换不需要文档
 #pragma warning disable CS1591
 
-    public static explicit operator nint(X11GC gc)
+    public static explicit operator nint(X11GC? gc)
     {
-        return gc.Ptr.Value;
+        return gc?.Ptr.Value ?? 0;
     }
 
     public static explicit operator X11GC?(nint handle)

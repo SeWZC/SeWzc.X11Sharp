@@ -242,4 +242,16 @@ public readonly record struct X11DisplayGC(X11Display Display, X11GC GC)
     {
         _ = XLib.XSetGraphicsExposures(Display, GC, graphicsExposures);
     }
+
+    #region 运算符重载
+
+    // 强制转换就不用文档了
+#pragma warning disable CS1591
+    public static implicit operator X11GC(X11DisplayGC displayGC)
+    {
+        return displayGC.GC;
+    }
+#pragma warning restore CS1591
+
+    #endregion
 }

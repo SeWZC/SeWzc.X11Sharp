@@ -44,9 +44,9 @@ public sealed class X11Screen
     public int DefaultDepth => XLib.XDefaultDepthOfScreen(Ptr);
 
     /// <summary>
-    /// 获取默认图形上下文。
+    /// 获取默认图形上下文。该图形上下文不该被释放。
     /// </summary>
-    public X11GC? DefaultGC => XLib.XDefaultGCOfScreen(Ptr);
+    public X11GC DefaultGC => (X11GC?)XLib.XDefaultGCOfScreen(Ptr) ?? throw new InvalidOperationException("Default GC is null.");
 
     /// <summary>
     /// 获取默认视觉效果.
@@ -94,10 +94,14 @@ public sealed class X11Screen
     public int Planes => XLib.XPlanesOfScreen(Ptr);
 
     /// <summary>
-    /// s
     /// 获取该屏幕的根窗口。
     /// </summary>
     public X11Window RootWindow => XLib.XRootWindowOfScreen(Ptr);
+
+    /// <summary>
+    /// 获取默认颜色映射表。
+    /// </summary>
+    public X11Colormap DefaultColormap => XLib.XDefaultColormapOfScreen(Ptr);
 
     #region 运算符重载
 

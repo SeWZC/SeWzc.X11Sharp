@@ -1,10 +1,20 @@
-﻿namespace SeWzc.X11Sharp;
+﻿using SeWzc.X11Sharp.Internal;
+
+namespace SeWzc.X11Sharp;
 
 /// <summary>
 /// Display 和 Pixmap 的组合。
 /// </summary>
 public readonly record struct X11DisplayPixmap(X11Display Display, X11Pixmap Pixmap)
 {
+    /// <summary>
+    /// 释放像素图。
+    /// </summary>
+    public void Free()
+    {
+        _ = XLib.XFreePixmap(Display, Pixmap);
+    }
+
     #region 运算符重载
 
     // 强制转换就不用文档了

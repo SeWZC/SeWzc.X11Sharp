@@ -21,9 +21,9 @@ public class X11Visual
     // 强制转换不需要文档
 #pragma warning disable CS1591
 
-    public static explicit operator nint(X11Visual visual)
+    public static explicit operator nint(X11Visual? visual)
     {
-        return visual.XVisual.Value;
+        return visual?.XVisual.Value ?? 0;
     }
 
     public static explicit operator X11Visual?(nint ptr)

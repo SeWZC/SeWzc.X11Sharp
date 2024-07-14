@@ -41,7 +41,7 @@ internal readonly record struct VisualPtr(nint Value) : IIntPtrRole<VisualPtr>
         return (X11Visual?)ptr.Value;
     }
 
-    public static implicit operator VisualPtr(X11Visual visual)
+    public static implicit operator VisualPtr(X11Visual? visual)
     {
         return new VisualPtr((nint)visual);
     }
@@ -67,9 +67,14 @@ internal readonly record struct GCPtr(nint Value) : IIntPtrRole<GCPtr>
         return (X11GC?)ptr.Value;
     }
 
-    public static implicit operator GCPtr(X11GC gc)
+    public static implicit operator GCPtr(X11GC? gc)
     {
         return new GCPtr((nint)gc);
+    }
+
+    public static implicit operator GCPtr(X11DisplayGC gc)
+    {
+        return new GCPtr((nint)gc.GC);
     }
 }
 
