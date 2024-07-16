@@ -10,7 +10,10 @@ namespace SeWzc.X11Sharp;
 /// Display 和 Window 的组合。
 /// </summary>
 public readonly record struct X11DisplayWindow(X11Display Display, X11Window Window)
+    : IDisplayDrawable
 {
+    X11Drawable IDisplayDrawable.Drawable => Window;
+
     /// <summary>
     /// 销毁窗口。
     /// </summary>
@@ -174,6 +177,58 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Win
     }
 
     /// <summary>
+    /// 创建子窗口。
+    /// </summary>
+    /// <param name="location">窗口左上角在父窗口的位置。</param>
+    /// <param name="size">窗口的大小。</param>
+    /// <param name="borderWidth">窗口的边框宽度。</param>
+    /// <param name="depth">窗口深度。</param>
+    /// <param name="windowClass">窗口的类别。</param>
+    /// <param name="visual">窗口的 Visual。如果为 null，则从父窗口继承。</param>
+    /// <param name="attributes">窗口的 Attributes。如果为 null，则使用默认值。</param>
+    /// <returns></returns>
+    public X11DisplayWindow CreateSubWindow(Point location,
+        Size size, uint borderWidth, int depth,
+        WindowClasses windowClass = WindowClasses.CopyFromParent,
+        X11Visual? visual = null,
+        SetWindowAttributes? attributes = null)
+    {
+        var valueMask = attributes?.GetValueMask() ?? 0;
+        var windowAttributes = attributes?.ToXSetWindowAttributes() ?? default;
+        var window = XLib.XCreateWindow(Display, this,
+            location.X, location.Y,
+            size.Width, size.Height,
+            borderWidth,
+            depth,
+            windowClass,
+            visual,
+            valueMask,
+            in windowAttributes);
+        return window.WithDisplay(Display);
+    }
+
+    /// <summary>
+    /// 创建简单子窗口。从父窗口继承属性。
+    /// </summary>
+    /// <param name="location">窗口左上角在父窗口的位置。</param>
+    /// <param name="size">窗口的大小。</param>
+    /// <param name="borderWidth">窗口的边框宽度。</param>
+    /// <param name="border">窗口的边框颜色。</param>
+    /// <param name="background">窗口的背景颜色。</param>
+    /// <returns></returns>
+    public X11DisplayWindow CreateSimpleSubWindow(Point location, Size size, uint borderWidth, Pixel border,
+        Pixel background)
+    {
+        var window = XLib.XCreateSimpleWindow(Display, this,
+            location.X, location.Y,
+            size.Width, size.Height,
+            borderWidth,
+            border,
+            background);
+        return window.WithDisplay(Display);
+    }
+
+    /// <summary>
     /// 获取指定时间内的运动历史记录。
     /// </summary>
     /// <param name="start">开始时间。</param>
@@ -191,6 +246,15 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Win
 
         _ = XLib.XFree(result);
         return timeCoords;
+    }
+
+    /// <summary>
+    /// 作为可绘制对象使用。
+    /// </summary>
+    /// <returns>可绘制对象。</returns>
+    public X11DisplayDrawable AsDrawable()
+    {
+        return new X11DisplayDrawable(Display, Window);
     }
 
     #region 运算符重载

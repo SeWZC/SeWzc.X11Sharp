@@ -5,7 +5,7 @@ namespace SeWzc.X11Sharp;
 /// <summary>
 /// X11 可绘制对象。
 /// </summary>
-public readonly record struct X11Drawable : IXid
+public readonly record struct X11Drawable : IXid, IDrawable
 {
     /// <summary>
     /// 通过 Id 构造 X11Drawable。
@@ -29,6 +29,12 @@ public readonly record struct X11Drawable : IXid
     /// 可绘制对象的 ID。
     /// </summary>
     internal ULong Id { get; }
+
+    /// <inheritdoc />
+    public X11Drawable AsDrawable()
+    {
+        return this;
+    }
 
     /// <inheritdoc />
     public int ToInt32()

@@ -46,12 +46,12 @@ public sealed class X11Screen
     /// <summary>
     /// 获取默认图形上下文。该图形上下文不该被释放。
     /// </summary>
-    public X11GC DefaultGC => (X11GC?)XLib.XDefaultGCOfScreen(Ptr) ?? throw new InvalidOperationException("Default GC is null.");
+    public X11DisplayGC DefaultGC => ((X11GC?)XLib.XDefaultGCOfScreen(Ptr))?.WithDisplay(Display) ?? throw new InvalidOperationException("Default GC is null.");
 
     /// <summary>
     /// 获取默认视觉效果.
     /// </summary>
-    public X11Visual? DefaultVisual => XLib.XDefaultVisualOfScreen(Ptr);
+    public X11Visual? DefaultVisual => (X11Visual?)XLib.XDefaultVisualOfScreen(Ptr) ?? throw new InvalidOperationException("Default visual is null.");
 
     /// <summary>
     /// 获取屏幕关联的与 X 服务的连接。
@@ -96,7 +96,7 @@ public sealed class X11Screen
     /// <summary>
     /// 获取该屏幕的根窗口。
     /// </summary>
-    public X11Window RootWindow => XLib.XRootWindowOfScreen(Ptr);
+    public X11DisplayWindow RootWindow => XLib.XRootWindowOfScreen(Ptr).WithDisplay(Display);
 
     /// <summary>
     /// 获取默认颜色映射表。

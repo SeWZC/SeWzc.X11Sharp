@@ -1,7 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using SeWzc.X11Sharp.Internal;
-
-namespace SeWzc.X11Sharp;
+﻿namespace SeWzc.X11Sharp;
 
 /// <summary>
 /// Display 和 Atom 的组合。
@@ -9,24 +6,14 @@ namespace SeWzc.X11Sharp;
 public readonly record struct X11DisplayAtom(X11Display Display, X11Atom Atom)
 {
     /// <summary>
-    /// 获取 Atom 的名称。
+    /// 名称。
     /// </summary>
-    /// <returns>Atom 的名称。</returns>
-    public unsafe string? GetAtomName()
-    {
-        var atomNamePtr = XLib.XGetAtomName(Display.XDisplay, Atom);
-        if (atomNamePtr == null)
-            return null;
-
-        var atomName = Marshal.PtrToStringUTF8(new nint(atomNamePtr));
-        XLib.XFree(atomNamePtr);
-        return atomName;
-    }
+    public string? Name => this.GetAtomName();
 
     /// <inheritdoc />
     public override string ToString()
     {
-        return GetAtomName() ?? "";
+        return Name ?? "";
     }
 
     #region 运算符重载

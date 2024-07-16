@@ -6,7 +6,10 @@ namespace SeWzc.X11Sharp;
 /// Display 和 Pixmap 的组合。
 /// </summary>
 public readonly record struct X11DisplayPixmap(X11Display Display, X11Pixmap Pixmap)
+    : IDisplayDrawable
 {
+    X11Drawable IDisplayDrawable.Drawable => Pixmap;
+
     /// <summary>
     /// 释放像素图。
     /// </summary>

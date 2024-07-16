@@ -294,6 +294,7 @@ public static partial class X11Lib
     /// <param name="visual">窗口的 Visual。如果为 null，则从父窗口继承。</param>
     /// <param name="attributes">窗口的 Attributes。如果为 null，则使用默认值。</param>
     /// <returns></returns>
+    /// <seealso cref="X11DisplayWindow.CreateSubWindow" />
     public static X11DisplayWindow CreateWindow(this X11Display display, X11Window parent, Point location,
         Size size, uint borderWidth, int depth,
         WindowClasses windowClass = WindowClasses.CopyFromParent,
@@ -325,6 +326,7 @@ public static partial class X11Lib
     /// <param name="border">窗口的边框颜色。</param>
     /// <param name="background">窗口的背景颜色。</param>
     /// <returns></returns>
+    /// <seealso cref="X11DisplayWindow.CreateSimpleSubWindow" />
     public static X11DisplayWindow CreateSimpleWindow(this X11Display display, X11Window parent, Point location, Size size, uint borderWidth, Pixel border,
         Pixel background)
     {

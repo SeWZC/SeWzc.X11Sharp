@@ -5,7 +5,7 @@ namespace SeWzc.X11Sharp;
 /// <summary>
 /// X11 窗口。
 /// </summary>
-public readonly record struct X11Window : IXid
+public readonly record struct X11Window : IXid, IDrawable
 {
     /// <summary>
     /// 通过 Id 构造 X11Window。
@@ -29,6 +29,12 @@ public readonly record struct X11Window : IXid
     /// 窗口的 ID。
     /// </summary>
     internal ULong Id { get; }
+
+    /// <inheritdoc />
+    public X11Drawable AsDrawable()
+    {
+        return new X11Drawable(Id);
+    }
 
     /// <inheritdoc />
     public int ToInt32()
