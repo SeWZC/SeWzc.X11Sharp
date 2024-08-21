@@ -1204,4 +1204,14 @@ internal static partial class XLib
     #endregion
 
     #endregion
+    
+    // 下面是单独实现的一些函数，因为有些函数比较需要用到
+    
+    // XSetInputFocus(Display *display, Window focus, int revert_to, Time time);
+    [LibraryImport(libX11)]
+    public static partial int XSetInputFocus(DisplayPtr display, X11Window focus, FocusRevert revert_to, Time time);
+    
+    // XGetInputFocus(Display *display, Window *focus_return, int *revert_to_return);
+    [LibraryImport(libX11)]
+    public static partial int XGetInputFocus(DisplayPtr display, out X11Window focus_return, out FocusRevert revert_to_return);
 }

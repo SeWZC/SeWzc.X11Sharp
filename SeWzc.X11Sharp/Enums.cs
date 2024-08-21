@@ -1036,3 +1036,27 @@ public enum ImageFormat
     /// </summary>
     ZPixmap = 2,
 }
+
+public enum FocusRevert
+{
+    /*
+        /* Used in SetInputFocus, GetInputFocus * /
+
+        #define RevertToNone		(int)None
+        #define RevertToPointerRoot	(int)PointerRoot
+        #define RevertToParent		2
+     */
+    
+    /// <summary>
+    /// 丢弃焦点。
+    /// </summary>
+    None = 0,
+    /// <summary>
+    /// 回退到 <see cref="PointerRoot"/>。
+    /// </summary>
+    PointerRoot = 1,
+    /// <summary>
+    /// 回退到最近的可见祖先。回退之后值变成 <see cref="None "/>。
+    /// </summary>
+    Parent = 2,
+}

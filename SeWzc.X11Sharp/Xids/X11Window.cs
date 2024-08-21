@@ -8,6 +8,16 @@ namespace SeWzc.X11Sharp;
 public readonly record struct X11Window : IXid, IDrawable
 {
     /// <summary>
+    /// 空窗口。类似于 null。
+    /// </summary>
+    public static X11Window None => new X11Window(0u);
+    
+    /// <summary>
+    /// 用于 <see cref="X11Lib.SetInputFocus" /> 的焦点窗口。表示每个键盘事件中，焦点窗口会动态地设定为指针所在屏幕的 root window
+    /// </summary>
+    public static X11Window PointerRoot => new X11Window(1u);
+    
+    /// <summary>
     /// 通过 Id 构造 X11Window。
     /// </summary>
     /// <param name="Id"></param>

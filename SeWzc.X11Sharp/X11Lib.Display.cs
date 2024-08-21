@@ -571,4 +571,28 @@ public static partial class X11Lib
     {
         XLib.XPutBackEvent(display, xEvent.ToXEvent());
     }
+
+    /// <summary>
+    /// 设置输入焦点。
+    /// </summary>
+    /// <param name="display">与 X 服务的连接。</param>
+    /// <param name="window">要设置焦点的窗口。</param>
+    /// <param name="revertTo">焦点的回退方式。</param>
+    /// <param name="time">事件的时间戳。如果指定时间早于当前的最后焦点更改时间或晚于当前X服务器时间，则此函数无效。可以使用 <see cref="Time.CurrentTime" />。</param>
+    public static void SetInputFocus(this X11Display display, X11Window window, FocusRevert revertTo, Time time)
+    {
+        XLib.XSetInputFocus(display, window, revertTo, time);
+    }
+
+    /// <summary>
+    /// 获取输入焦点。
+    /// </summary>
+    /// <param name="display">与 X 服务的连接。</param>
+    /// <param name="revertTo"></param>
+    /// <returns></returns>
+    public static X11DisplayWindow GetInputFocus(this X11Display display, out FocusRevert revertTo)
+    {
+        XLib.XGetInputFocus(display, out var window, out revertTo);
+        return window.WithDisplay(display);
+    }
 }
