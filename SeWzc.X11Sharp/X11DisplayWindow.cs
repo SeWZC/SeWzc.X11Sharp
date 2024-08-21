@@ -15,6 +15,11 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Win
     X11Drawable IDisplayDrawable.Drawable => Window;
 
     /// <summary>
+    /// 是否是 None 窗口。
+    /// </summary>
+    public bool IsNone => Window == X11Window.None;
+
+    /// <summary>
     /// 销毁窗口。
     /// </summary>
     public void Destroy()

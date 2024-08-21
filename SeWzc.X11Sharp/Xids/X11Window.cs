@@ -36,6 +36,11 @@ public readonly record struct X11Window : IXid, IDrawable
     }
 
     /// <summary>
+    /// 是否是 None 窗口。
+    /// </summary>
+    public bool IsNone => Id == 0u;
+
+    /// <summary>
     /// 窗口的 ID。
     /// </summary>
     internal ULong Id { get; }

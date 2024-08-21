@@ -195,8 +195,7 @@ public static partial class X11Lib
     /// <param name="parent">父窗口。</param>
     /// <param name="children">子窗口。</param>
     /// <returns>是否查询成功。</returns>
-    public static unsafe bool QueryTree(this X11DisplayWindow window, [NotNullWhen(true)] out X11DisplayWindow? root,
-        [NotNullWhen(true)] out X11DisplayWindow? parent, out X11DisplayWindow[] children)
+    public static unsafe bool QueryTree(this X11DisplayWindow window, out X11DisplayWindow root, out X11DisplayWindow parent, out X11DisplayWindow[] children)
     {
         var success = XLib.XQueryTree(window.Display, window, out var rootWindow, out var parentWindow, out var childrenPtr,
             out var childrenCount);
