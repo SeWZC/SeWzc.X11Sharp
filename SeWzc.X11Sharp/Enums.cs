@@ -523,32 +523,28 @@ public enum ArcMode : int
 public enum KeyOrButtonMask : uint
 {
     /*
-       /* GC components: masks used in CreateGC, CopyGC, ChangeGC, OR'ed into
-        GC.stateChanges * /
+       /* Key masks. Used as modifiers to GrabButton and GrabKey, results of QueryPointer,
+          state in various key-, mouse-, and button-related events. * /
 
-       #define GCFunction (1L<<0)
-       #define GCPlaneMask (1L<<1)
-       #define GCForeground (1L<<2)
-       #define GCBackground (1L<<3)
-       #define GCLineWidth (1L<<4)
-       #define GCLineStyle (1L<<5)
-       #define GCCapStyle (1L<<6)
-       #define GCJoinStyle (1L<<7)
-       #define GCFillStyle (1L<<8)
-       #define GCFillRule (1L<<9)
-       #define GCTile (1L<<10)
-       #define GCStipple (1L<<11)
-       #define GCTileStipXOrigin (1L<<12)
-       #define GCTileStipYOrigin (1L<<13)
-       #define GCFont (1L<<14)
-       #define GCSubwindowMode (1L<<15)
-       #define GCGraphicsExposures (1L<<16)
-       #define GCClipXOrigin (1L<<17)
-       #define GCClipYOrigin (1L<<18)
-       #define GCClipMask (1L<<19)
-       #define GCDashOffset (1L<<20)
-       #define GCDashList (1L<<21)
-       #define GCArcMode (1L<<22)
+       #define ShiftMask		(1<<0)
+       #define LockMask		(1<<1)
+       #define ControlMask		(1<<2)
+       #define Mod1Mask		(1<<3)
+       #define Mod2Mask		(1<<4)
+       #define Mod3Mask		(1<<5)
+       #define Mod4Mask		(1<<6)
+       #define Mod5Mask		(1<<7)
+
+       /* button masks.  Used in same manner as Key masks above. Not to be confused
+          with button names below. * /
+
+       #define Button1Mask		(1<<8)
+       #define Button2Mask		(1<<9)
+       #define Button3Mask		(1<<10)
+       #define Button4Mask		(1<<11)
+       #define Button5Mask		(1<<12)
+
+       #define AnyModifier		(1<<15)  /* used in GrabButton, GrabKey * /
      */
 
     ShiftMask = 1 << 0,
@@ -564,6 +560,7 @@ public enum KeyOrButtonMask : uint
     Button3Mask = 1 << 10,
     Button4Mask = 1 << 11,
     Button5Mask = 1 << 12,
+    AnyModifier = 1 << 15,
 }
 
 public enum NotifyMode

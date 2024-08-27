@@ -230,6 +230,42 @@ public static partial class X11Lib
     }
 
     /// <summary>
+    /// 转换源窗口的坐标到目标窗口的坐标。
+    /// </summary>
+    /// <param name="window">源窗口。</param>
+    /// <param name="destWindow">目标窗口。</param>
+    /// <param name="srcPoint">源窗口上的坐标。</param>
+    /// <param name="destPoint">返回的目标窗口上的坐标。如果返回值为 <see langword="false" />，则该值无效。</param>
+    /// <param name="child">如果坐标在目标窗口的某个已经 map 的子窗口上，则返回该窗口，否则为 <see cref="X11Window.None" />。如果返回值为 <see langword="false" />，则该值无效。</param>
+    /// <returns>是否成功转换坐标。如果两个窗口不在同一个屏幕上，则返回 <see langword="false" />，否则为 <see langword="true" />。</returns>
+    /// <seealso cref="X11DisplayWindow.TranslateCoordinate" />
+    /// <seealso cref="X11DisplayWindow.GetPosition" />
+    public static bool TranslateCoordinates(this X11DisplayWindow window, X11Window destWindow, Point srcPoint, out Point destPoint, out X11Window child)
+    {
+        var success = XLib.XTranslateCoordinates(window.Display, window, destWindow, srcPoint.X, srcPoint.Y, out var destX, out var destY, out child);
+        destPoint = new Point(destX, destY);
+        return success;
+    }
+
+    /// <summary>
+    /// 查询指针的坐标和状态。
+    /// </summary>
+    /// <param name="window">源窗口。</param>
+    /// <param name="root">指针所在的根窗口。</param>
+    /// <param name="child">指针所在的子窗口（如果有）。如果返回值为 <see langword="false" />，则该值无效。</param>
+    /// <param name="rootPoint">指针在根窗口上的坐标。</param>
+    /// <param name="winPoint">指针在该窗口上的坐标。如果返回值为 <see langword="false" />，则该值无效。</param>
+    /// <param name="buttonMask">按键状态。</param>
+    /// <returns>如果指针和窗口在同一个屏幕上，则返回 <see langword="true" />，否则返回 <see langword="false" />。</returns>
+    public static bool QueryPointer(this X11DisplayWindow window, out X11Window root, out X11Window child, out Point rootPoint, out Point winPoint, out KeyOrButtonMask buttonMask)
+    {
+        var xQueryPointer = XLib.XQueryPointer(window.Display, window, out root, out child, out var rootX, out var rootY, out var winX, out var winY, out buttonMask);
+        rootPoint = new Point(rootX, rootY);
+        winPoint = new Point(winX, winY);
+        return xQueryPointer;
+    }
+
+    /// <summary>
     /// 清理窗口的矩形区域。
     /// </summary>
     /// <remarks>

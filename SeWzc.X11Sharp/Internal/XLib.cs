@@ -550,17 +550,15 @@ internal static partial class XLib
 
     #region Translating Screen Coordinates
 
-    // TODO 暂未使用
     // Bool XTranslateCoordinates(Display *display, Window src_w, Window dest_w, int src_x, int src_y, int *dest_x_return, int *dest_y_return, Window *child_return);
     [LibraryImport(libX11)]
     public static partial Bool XTranslateCoordinates(DisplayPtr display, X11Window src_w, X11Window dest_w, int src_x, int src_y, out int dest_x_return,
         out int dest_y_return, out X11Window child_return);
 
-    // TODO 暂未使用
     // Bool XQueryPointer(Display *display, Window w, Window *root_return, Window *child_return, int *root_x_return, int *root_y_return, int *win_x_return, int *win_y_return, unsigned int *mask_return);
     [LibraryImport(libX11)]
     public static partial Bool XQueryPointer(DisplayPtr display, X11Window window, out X11Window root_return, out X11Window child_return,
-        out int root_x_return, out int root_y_return, out int win_x_return, out int win_y_return, out uint mask_return);
+        out int root_x_return, out int root_y_return, out int win_x_return, out int win_y_return, out KeyOrButtonMask mask_return);
 
     #endregion
 

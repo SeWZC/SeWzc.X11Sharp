@@ -262,6 +262,28 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Win
         return new X11DisplayDrawable(Display, Window);
     }
 
+    /// <summary>
+    /// 将窗口的坐标转换为另一个窗口的坐标。
+    /// </summary>
+    /// <param name="targetWindow">目标窗口。</param>
+    /// <param name="srcPoint">源窗口上坐标。</param>
+    /// <returns>转换得到的目标窗口上的坐标。如果两个窗口不在同一个屏幕上，则返回 <see langword="null" />。</returns>
+    public Point? TranslateCoordinate(X11Window targetWindow, Point srcPoint)
+    {
+        return XLib.XTranslateCoordinates(Display.XDisplay, Window, targetWindow, srcPoint.X, srcPoint.Y, out var x, out var y, out _) ? new Point(x, y) : null;
+    }
+
+    /// <summary>
+    /// 获取窗口的位置。
+    /// </summary>
+    /// <returns>本质上是获取窗口的左上角坐标点在根窗口上的坐标。</returns>
+    public Point GetPosition()
+    {
+        this.QueryTree(out var root, out _, out _);
+        XLib.XTranslateCoordinates(Display.XDisplay, Window, root, 0, 0, out var x, out var y, out _);
+        return new Point(x, y);
+    }
+
     #region 运算符重载
 
     // 强制转换就不用文档了
