@@ -284,6 +284,16 @@ public readonly record struct X11DisplayWindow(X11Display Display, X11Window Win
         return new Point(x, y);
     }
 
+    /// <summary>
+    /// 更改窗口的父窗口。
+    /// </summary>
+    /// <param name="parent">新的父窗口。</param>
+    /// <param name="location">在父窗口中的位置。</param>
+    public void SetParent(X11Window parent, Point location = default)
+    {
+        _ = XLib.XReparentWindow(Display.XDisplay, Window, parent, location.X, location.Y);
+    }
+
     #region 运算符重载
 
     // 强制转换就不用文档了

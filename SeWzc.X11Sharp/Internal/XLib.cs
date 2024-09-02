@@ -693,17 +693,17 @@ internal static partial class XLib
     // XCopyGC(Display *display, GC src, GC dest, unsigned long valuemask);
     [LibraryImport(libX11)]
     public static partial int XCopyGC(DisplayPtr display, GCPtr src, GCPtr dest, GCValueMarks valuemask);
-    
+
     // TODO 暂未使用
     // XChangeGC(Display *display, GC gc, unsigned long valuemask, XGCValues *values);
     [LibraryImport(libX11)]
     public static partial int XChangeGC(DisplayPtr display, GCPtr gc, GCValueMarks valuemask, in XGCValues values);
-    
+
     // TODO 暂未使用
     // Status XGetGCValues(Display *display, GC gc, unsigned long valuemask, XGCValues *values_return);
     [LibraryImport(libX11)]
     public static partial Bool XGetGCValues(DisplayPtr display, GCPtr gc, GCValueMarks valuemask, out XGCValues values_return);
-    
+
     // TODO 暂未使用
     // XFreeGC(Display *display, GC gc);
     [LibraryImport(libX11)]
@@ -1202,14 +1202,18 @@ internal static partial class XLib
     #endregion
 
     #endregion
-    
+
     // 下面是单独实现的一些函数，因为有些函数比较需要用到
-    
+
     // XSetInputFocus(Display *display, Window focus, int revert_to, Time time);
     [LibraryImport(libX11)]
     public static partial int XSetInputFocus(DisplayPtr display, X11Window focus, FocusRevert revert_to, Time time);
-    
+
     // XGetInputFocus(Display *display, Window *focus_return, int *revert_to_return);
     [LibraryImport(libX11)]
     public static partial int XGetInputFocus(DisplayPtr display, out X11Window focus_return, out FocusRevert revert_to_return);
+
+    // XReparentWindow(Display *display, Window w, Window parent, int x, int y);
+    [LibraryImport(libX11)]
+    public static partial int XReparentWindow(DisplayPtr display, X11Window window, X11Window parent, int x, int y);
 }

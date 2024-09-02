@@ -517,4 +517,16 @@ public static partial class X11Lib
     {
         _ = XLib.XDeleteProperty(window.Display, window, property);
     }
+
+    /// <summary>
+    /// 更改窗口的父窗口。
+    /// </summary>
+    /// <param name="window">要操作的窗口。</param>
+    /// <param name="parent">新的父窗口。</param>
+    /// <param name="location">在父窗口中的位置。</param>
+    /// <see cref="X11DisplayWindow.SetParent" />
+    public static void ReparentWindow(this X11DisplayWindow window, X11Window parent, Point location)
+    {
+        _ = XLib.XReparentWindow(window.Display, window, parent, location.X, location.Y);
+    }
 }
