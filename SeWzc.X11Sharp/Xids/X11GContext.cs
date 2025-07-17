@@ -8,7 +8,7 @@ namespace SeWzc.X11Sharp;
 /// <remarks>
 /// 与 <see cref="X11GC"/> 的区别是，该类是资源 ID 的包装，<see cref="X11GC"/> 用于提供函数调用操作。
 /// </remarks>
-public readonly record struct X11GContext : IXid
+public readonly partial record struct X11GContext : IXid
 {
     /// <summary>
     /// 通过 Id 构造 X11GContext。
@@ -56,28 +56,4 @@ public readonly record struct X11GContext : IXid
     {
         return Id;
     }
-
-    #region 运算符重载
-
-    // 强制转换不需要文档
-#pragma warning disable CS1591
-
-    public static implicit operator ULong(X11GContext value)
-    {
-        return value.Id;
-    }
-
-    public static implicit operator nuint(X11GContext value)
-    {
-        return value.ToUPtrInt();
-    }
-
-    public static implicit operator nint(X11GContext value)
-    {
-        return (nint)value.Id;
-    }
-
-#pragma warning restore CS1591
-
-    #endregion
 }

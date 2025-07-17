@@ -5,7 +5,7 @@ namespace SeWzc.X11Sharp;
 /// <summary>
 /// X11 像素图。
 /// </summary>
-public readonly record struct X11Pixmap : IXid, IDrawable
+public readonly partial record struct X11Pixmap : IXid, IDrawable
 {
     /// <summary>
     /// 通过 Id 构造 X11Pixmap。
@@ -74,21 +74,6 @@ public readonly record struct X11Pixmap : IXid, IDrawable
 
     // 强制转换不需要文档
 #pragma warning disable CS1591
-
-    public static implicit operator ULong(X11Pixmap value)
-    {
-        return value.Id;
-    }
-
-    public static implicit operator nuint(X11Pixmap value)
-    {
-        return value.ToUPtrInt();
-    }
-
-    public static implicit operator nint(X11Pixmap value)
-    {
-        return (nint)value.Id;
-    }
 
     /// <summary>
     /// 强制转换为 X11Drawable。

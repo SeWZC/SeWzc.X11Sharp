@@ -5,7 +5,7 @@ namespace SeWzc.X11Sharp;
 /// <summary>
 /// X11 字体。
 /// </summary>
-public readonly record struct X11Font : IXid
+public readonly partial record struct X11Font : IXid
 {
     /// <summary>
     /// 通过 Id 构造 X11Font。
@@ -53,28 +53,4 @@ public readonly record struct X11Font : IXid
     {
         return Id;
     }
-
-    #region 运算符重载
-
-    // 强制转换不需要文档
-#pragma warning disable CS1591
-
-    public static implicit operator ULong(X11Font value)
-    {
-        return value.Id;
-    }
-
-    public static implicit operator nuint(X11Font value)
-    {
-        return value.ToUPtrInt();
-    }
-
-    public static implicit operator nint(X11Font value)
-    {
-        return (nint)value.Id;
-    }
-
-#pragma warning restore CS1591
-
-    #endregion
 }

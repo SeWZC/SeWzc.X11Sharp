@@ -5,7 +5,7 @@ namespace SeWzc.X11Sharp;
 /// <summary>
 /// X11 窗口。
 /// </summary>
-public readonly record struct X11Window : IXid, IDrawable
+public readonly partial record struct X11Window : IXid, IDrawable
 {
     /// <summary>
     /// 空窗口。类似于 null。
@@ -89,21 +89,6 @@ public readonly record struct X11Window : IXid, IDrawable
 
     // 强制转换不需要文档
 #pragma warning disable CS1591
-
-    public static implicit operator ULong(X11Window value)
-    {
-        return value.Id;
-    }
-
-    public static implicit operator nuint(X11Window value)
-    {
-        return value.Id;
-    }
-
-    public static implicit operator nint(X11Window value)
-    {
-        return (nint)value.Id;
-    }
 
     /// <summary>
     /// 强制转换为 X11Drawable。

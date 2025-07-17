@@ -5,7 +5,7 @@ namespace SeWzc.X11Sharp;
 /// <summary>
 /// X11 光标。
 /// </summary>
-public readonly record struct X11Cursor : IXid
+public readonly partial record struct X11Cursor : IXid
 {
     /// <summary>
     /// 通过 Id 构造 X11Cursor。
@@ -63,28 +63,4 @@ public readonly record struct X11Cursor : IXid
     {
         return new X11DisplayCursor(display, this);
     }
-
-    #region 运算符重载
-
-    // 强制转换不需要文档
-#pragma warning disable CS1591
-
-    public static implicit operator ULong(X11Cursor value)
-    {
-        return value.Id;
-    }
-
-    public static implicit operator nuint(X11Cursor value)
-    {
-        return value.ToUPtrInt();
-    }
-
-    public static implicit operator nint(X11Cursor value)
-    {
-        return (nint)value.Id;
-    }
-
-#pragma warning restore CS1591
-
-    #endregion
 }

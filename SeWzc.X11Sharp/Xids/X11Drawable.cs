@@ -5,7 +5,7 @@ namespace SeWzc.X11Sharp;
 /// <summary>
 /// X11 可绘制对象。
 /// </summary>
-public readonly record struct X11Drawable : IXid, IDrawable
+public readonly partial record struct X11Drawable : IXid, IDrawable
 {
     /// <summary>
     /// 通过 Id 构造 X11Drawable。
@@ -59,28 +59,4 @@ public readonly record struct X11Drawable : IXid, IDrawable
     {
         return Id;
     }
-
-    #region 运算符重载
-
-    // 强制转换不需要文档
-#pragma warning disable CS1591
-
-    public static implicit operator ULong(X11Drawable value)
-    {
-        return value.Id;
-    }
-
-    public static implicit operator nuint(X11Drawable value)
-    {
-        return value.ToUPtrInt();
-    }
-
-    public static implicit operator nint(X11Drawable value)
-    {
-        return (nint)value.Id;
-    }
-
-#pragma warning restore CS1591
-
-    #endregion
 }

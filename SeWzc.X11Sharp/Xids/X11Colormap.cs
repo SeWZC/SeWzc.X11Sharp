@@ -5,7 +5,7 @@ namespace SeWzc.X11Sharp;
 /// <summary>
 /// X11 颜色映射表。
 /// </summary>
-public readonly record struct X11Colormap : IXid
+public readonly partial record struct X11Colormap : IXid
 {
     /// <summary>
     /// 通过 Id 构造 X11Colormap。
@@ -53,28 +53,4 @@ public readonly record struct X11Colormap : IXid
     {
         return Id;
     }
-
-    #region 运算符重载
-
-    // 强制转换不需要文档
-#pragma warning disable CS1591
-
-    public static implicit operator ULong(X11Colormap value)
-    {
-        return value.Id;
-    }
-
-    public static implicit operator nuint(X11Colormap value)
-    {
-        return value.ToUPtrInt();
-    }
-
-    public static implicit operator nint(X11Colormap value)
-    {
-        return (nint)value.Id;
-    }
-
-#pragma warning restore CS1591
-
-    #endregion
 }
