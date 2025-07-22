@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using SeWzc.X11Sharp.Internal;
 using SeWzc.X11Sharp.Structs;
@@ -12,7 +11,7 @@ public static partial class X11Lib
     /// 销毁窗口。
     /// </summary>
     /// <param name="window">要操作的窗口。</param>
-    /// <seealso cref="X11DisplayWindow.Destroy" />
+    /// <seealso cref="X11DisplayWindowExtensions.Destroy" />
     public static void DestroyWindow(X11DisplayWindow window)
     {
         _ = XLib.XDestroyWindow(window.Display, window);
@@ -31,7 +30,7 @@ public static partial class X11Lib
     /// 映射窗口。
     /// </summary>
     /// <param name="window">要操作的窗口。</param>
-    /// <seealso cref="X11DisplayWindow.Map" />
+    /// <seealso cref="X11DisplayWindowExtensions.Map" />
     public static void MapWindow(X11DisplayWindow window)
     {
         _ = XLib.XMapWindow(window.Display, window);
@@ -59,7 +58,7 @@ public static partial class X11Lib
     /// 取消映射窗口。
     /// </summary>
     /// <param name="window">要操作的窗口。</param>
-    /// <seealso cref="X11DisplayWindow.Unmap" />
+    /// <seealso cref="X11DisplayWindowExtensions.Unmap" />
     public static void UnmapWindow(X11DisplayWindow window)
     {
         _ = XLib.XUnmapWindow(window.Display, window);
@@ -79,7 +78,7 @@ public static partial class X11Lib
     /// </summary>
     /// <param name="window">要操作的窗口。</param>
     /// <param name="changes">窗口变化。</param>
-    /// <seealso cref="X11DisplayWindow.Configure" />
+    /// <seealso cref="X11DisplayWindowExtensions.Configure" />
     public static void ConfigureWindow(X11DisplayWindow window, WindowChanges changes)
     {
         var windowConfigureMask = changes.GetValueMask();
@@ -92,7 +91,7 @@ public static partial class X11Lib
     /// </summary>
     /// <param name="window">要操作的窗口。</param>
     /// <param name="location">窗口左上角在父窗口的位置。</param>
-    /// <seealso cref="X11DisplayWindow.Move" />
+    /// <seealso cref="X11DisplayWindowExtensions.Move" />
     public static void MoveWindow(X11DisplayWindow window, Point location)
     {
         _ = XLib.XMoveWindow(window.Display, window, location.X, location.Y);
@@ -103,7 +102,7 @@ public static partial class X11Lib
     /// </summary>
     /// <param name="window">要操作的窗口。</param>
     /// <param name="size">窗口的大小。</param>
-    /// <seealso cref="X11DisplayWindow.Resize" />
+    /// <seealso cref="X11DisplayWindowExtensions.Resize" />
     public static void ResizeWindow(X11DisplayWindow window, Size size)
     {
         _ = XLib.XResizeWindow(window.Display, window, size.Width, size.Height);
@@ -115,7 +114,7 @@ public static partial class X11Lib
     /// <param name="window">要操作的窗口。</param>
     /// <param name="location">窗口左上角在父窗口的位置。</param>
     /// <param name="size">窗口的大小。</param>
-    /// <seealso cref="X11DisplayWindow.MoveResize" />
+    /// <seealso cref="X11DisplayWindowExtensions.MoveResize" />
     public static void MoveResizeWindow(X11DisplayWindow window, Point location, Size size)
     {
         _ = XLib.XMoveResizeWindow(window.Display, window, location.X, location.Y, size.Width, size.Height);
@@ -126,7 +125,7 @@ public static partial class X11Lib
     /// </summary>
     /// <param name="window">要操作的窗口。</param>
     /// <param name="borderWidth">窗口边框宽度。</param>
-    /// <seealso cref="X11DisplayWindow.SetBorderWidth" />
+    /// <seealso cref="X11DisplayWindowExtensions.SetBorderWidth" />
     public static void SetWindowBorderWidth(X11DisplayWindow window, uint borderWidth)
     {
         _ = XLib.XSetWindowBorderWidth(window.Display, window, borderWidth);
@@ -136,7 +135,7 @@ public static partial class X11Lib
     /// 升起窗口到堆栈顶部。
     /// </summary>
     /// <param name="window">要操作的窗口。</param>
-    /// <seealso cref="X11DisplayWindow.Raise" />
+    /// <seealso cref="X11DisplayWindowExtensions.Raise" />
     public static void RaiseWindow(X11DisplayWindow window)
     {
         _ = XLib.XRaiseWindow(window.Display, window);
@@ -146,7 +145,7 @@ public static partial class X11Lib
     /// 降低窗口到堆栈底部。
     /// </summary>
     /// <param name="window">要操作的窗口。</param>
-    /// <seealso cref="X11DisplayWindow.Lower" />
+    /// <seealso cref="X11DisplayWindowExtensions.Lower" />
     public static void LowerWindow(X11DisplayWindow window)
     {
         _ = XLib.XLowerWindow(window.Display, window);
@@ -157,7 +156,7 @@ public static partial class X11Lib
     /// </summary>
     /// <param name="window">要操作的窗口。</param>
     /// <param name="attributes">新的 Attributes。</param>
-    /// <seealso cref="X11DisplayWindow.ChangeAttributes" />
+    /// <seealso cref="X11DisplayWindowExtensions.ChangeAttributes" />
     public static void ChangeWindowAttributes(X11DisplayWindow window, SetWindowAttributes attributes)
     {
         var windowAttributeValueMask = attributes.GetValueMask();
@@ -170,7 +169,7 @@ public static partial class X11Lib
     /// </summary>
     /// <param name="window">要操作的窗口。</param>
     /// <param name="pixel">背景像素。</param>
-    /// <seealso cref="X11DisplayWindow.SetBackground" />
+    /// <seealso cref="X11DisplayWindowExtensions.SetBackground" />
     public static void SetWindowBackground(X11DisplayWindow window, Pixel pixel)
     {
         _ = XLib.XSetWindowBackground(window.Display, window, pixel);
@@ -181,7 +180,7 @@ public static partial class X11Lib
     /// </summary>
     /// <param name="window">要操作的窗口。</param>
     /// <param name="pixel">边框像素。</param>
-    /// <seealso cref="X11DisplayWindow.SetBorder" />
+    /// <seealso cref="X11DisplayWindowExtensions.SetBorder" />
     public static void SetWindowBorder(X11DisplayWindow window, Pixel pixel)
     {
         _ = XLib.XSetWindowBorder(window.Display, window, pixel);
@@ -221,7 +220,7 @@ public static partial class X11Lib
     /// 查询窗口的 Attributes。
     /// </summary>
     /// <returns>如果获取失败，则返回 <see langword="null" />；否则返回窗口的 Attributes。</returns>
-    /// <seealso cref="X11DisplayWindow.GetAttributes" />
+    /// <seealso cref="X11DisplayWindowExtensions.GetAttributes" />
     public static WindowAttributes? GetWindowAttributes(X11DisplayWindow window)
     {
         return XLib.XGetWindowAttributes(window.Display, window, out var windowAttributes)
@@ -238,8 +237,8 @@ public static partial class X11Lib
     /// <param name="destPoint">返回的目标窗口上的坐标。如果返回值为 <see langword="false" />，则该值无效。</param>
     /// <param name="child">如果坐标在目标窗口的某个已经 map 的子窗口上，则返回该窗口，否则为 <see cref="X11Window.None" />。如果返回值为 <see langword="false" />，则该值无效。</param>
     /// <returns>是否成功转换坐标。如果两个窗口不在同一个屏幕上，则返回 <see langword="false" />，否则为 <see langword="true" />。</returns>
-    /// <seealso cref="X11DisplayWindow.TranslateCoordinate" />
-    /// <seealso cref="X11DisplayWindow.GetPosition" />
+    /// <seealso cref="X11DisplayWindowExtensions.TranslateCoordinate" />
+    /// <seealso cref="X11DisplayWindowExtensions.GetPosition" />
     public static bool TranslateCoordinates(this X11DisplayWindow window, X11Window destWindow, Point srcPoint, out Point destPoint, out X11Window child)
     {
         var success = XLib.XTranslateCoordinates(window.Display, window, destWindow, srcPoint.X, srcPoint.Y, out var destX, out var destY, out child);
@@ -292,6 +291,46 @@ public static partial class X11Lib
     }
 
     /// <summary>
+    /// 更改窗口的父窗口。
+    /// </summary>
+    /// <param name="window">要操作的窗口。</param>
+    /// <param name="parent">新的父窗口。</param>
+    /// <param name="location">在父窗口中的位置。</param>
+    /// <see cref="X11DisplayWindowExtensions.SetParent" />
+    public static void ReparentWindow(this X11DisplayWindow window, X11Window parent, Point location)
+    {
+        _ = XLib.XReparentWindow(window.Display, window, parent, location.X, location.Y);
+    }
+
+    /// <summary>
+    /// 更改窗口的保存集。
+    /// </summary>
+    /// <param name="window">要操作的窗口。</param>
+    /// <param name="mode">保存集的模式。</param>
+    public static void ChangeSaveSet(this X11DisplayWindow window, SetMode mode)
+    {
+        _ = XLib.XChangeSaveSet(window.Display, window, mode);
+    }
+
+    /// <summary>
+    /// 将窗口添加到保存集中。
+    /// </summary>
+    /// <param name="window">要操作的窗口。</param>
+    public static void AddToSaveSet(this X11DisplayWindow window)
+    {
+        _ = XLib.XAddToSaveSet(window.Display, window);
+    }
+
+    /// <summary>
+    /// 从保存集中移除窗口。
+    /// </summary>
+    /// <param name="window">要操作的窗口。</param>
+    public static void RemoveFromSaveSet(this X11DisplayWindow window)
+    {
+        _ = XLib.XRemoveFromSaveSet(window.Display, window);
+    }
+
+    /// <summary>
     /// 请求 X 服务报告与指定事件掩码关联的事件。
     /// </summary>
     /// <param name="window">要操作的窗口。</param>
@@ -308,7 +347,7 @@ public static partial class X11Lib
     /// <param name="window">要操作的窗口。</param>
     /// <param name="eventMask">事件掩码。</param>
     /// <returns>与该窗口和指定事件掩码匹配的事件。</returns>
-    /// <seealso cref="X11DisplayWindow.NextEvent" />
+    /// <seealso cref="X11DisplayWindowExtensions.NextEvent" />
     public static X11Event WindowEvent(X11DisplayWindow window, EventMask eventMask)
     {
         XLib.XWindowEvent(window.Display, window, eventMask, out var xEvent);
@@ -322,7 +361,7 @@ public static partial class X11Lib
     /// <param name="window">要操作的窗口。</param>
     /// <param name="eventMask">事件掩码。</param>
     /// <returns>与该窗口和指定事件掩码匹配的事件，如果没有匹配的事件则返回 <see langword="null" />。</returns>
-    /// <seealso cref="X11DisplayWindow.TryGetEvent(EventMask)" />
+    /// <seealso cref="X11DisplayWindowExtensions.TryGetEvent(X11DisplayWindow, EventMask)" />
     public static X11Event? CheckWindowEvent(X11DisplayWindow window, EventMask eventMask)
     {
         return XLib.XCheckWindowEvent(window.Display, window, eventMask, out var xEvent) ? X11Event.FromXEvent(xEvent) : null;
@@ -335,7 +374,7 @@ public static partial class X11Lib
     /// <param name="window">要操作的窗口。</param>
     /// <param name="eventType">事件类型。</param>
     /// <returns>与该窗口和指定事件类型匹配的事件，如果没有匹配的事件则返回 <see langword="null" />。</returns>
-    /// <seealso cref="X11DisplayWindow.TryGetEvent(EventType)" />
+    /// <seealso cref="X11DisplayWindowExtensions.TryGetEvent(X11DisplayWindow, EventType)" />
     public static X11Event? CheckTypedWindowEvent(X11DisplayWindow window, EventType eventType)
     {
         return XLib.XCheckTypedWindowEvent(window.Display, window, eventType, out var xEvent) ? X11Event.FromXEvent(xEvent) : null;
@@ -364,7 +403,7 @@ public static partial class X11Lib
     /// <param name="start">开始时间。</param>
     /// <param name="stop">停止时间。</param>
     /// <returns>指定事件内的运动历史记录。如果服务器不支持运动历史记录，则返回 <see langword="null" />。</returns>
-    /// <seealso cref="X11DisplayWindow.GetMotionHistory" />
+    /// <seealso cref="X11DisplayWindowExtensions.GetMotionHistory" />
     public static unsafe TimeCoord[]? GetMotionEvents(X11DisplayWindow window, Time start, Time stop)
     {
         var result = XLib.XGetMotionEvents(window.Display, window, start, stop, out var count);
@@ -388,7 +427,7 @@ public static partial class X11Lib
     /// 如果不存在该属性，则返回 <see langword="null" />；
     /// 如果获取到属性，则返回 <see cref="PropertyData" />，其中包含属性的类型和值，需要根据类型进行解析。
     /// </returns>
-    /// <seealso cref="X11DisplayWindow.GetProperty" />
+    /// <seealso cref="X11DisplayWindowExtensions.GetProperty" />
     public static unsafe PropertyData? GetWindowProperty(X11DisplayWindow window, X11Atom property)
     {
         XLib.XGetWindowProperty(window.Display, window, property, 0, int.MaxValue, false, new X11Atom(0),
@@ -496,7 +535,7 @@ public static partial class X11Lib
     /// 列出窗口的属性。
     /// </summary>
     /// <returns>指定窗口的属性的原子数组。</returns>
-    /// <seealso cref="X11DisplayWindow.GetProperties" />
+    /// <seealso cref="X11DisplayWindowExtensions.GetProperties" />
     public static unsafe X11DisplayAtom[] ListProperties(X11DisplayWindow window)
     {
         var properties = XLib.XListProperties(window.Display, window, out var count);
@@ -516,17 +555,5 @@ public static partial class X11Lib
     public static void DeleteProperty(this X11DisplayWindow window, X11Atom property)
     {
         _ = XLib.XDeleteProperty(window.Display, window, property);
-    }
-
-    /// <summary>
-    /// 更改窗口的父窗口。
-    /// </summary>
-    /// <param name="window">要操作的窗口。</param>
-    /// <param name="parent">新的父窗口。</param>
-    /// <param name="location">在父窗口中的位置。</param>
-    /// <see cref="X11DisplayWindow.SetParent" />
-    public static void ReparentWindow(this X11DisplayWindow window, X11Window parent, Point location)
-    {
-        _ = XLib.XReparentWindow(window.Display, window, parent, location.X, location.Y);
     }
 }

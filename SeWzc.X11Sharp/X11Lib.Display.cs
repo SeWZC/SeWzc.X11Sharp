@@ -294,7 +294,7 @@ public static partial class X11Lib
     /// <param name="visual">窗口的 Visual。如果为 null，则从父窗口继承。</param>
     /// <param name="attributes">窗口的 Attributes。如果为 null，则使用默认值。</param>
     /// <returns></returns>
-    /// <seealso cref="X11DisplayWindow.CreateSubWindow" />
+    /// <seealso cref="X11DisplayWindowExtensions.CreateSubWindow" />
     public static X11DisplayWindow CreateWindow(this X11Display display, X11Window parent, Point location,
         Size size, uint borderWidth, int depth,
         WindowClasses windowClass = WindowClasses.CopyFromParent,
@@ -326,7 +326,7 @@ public static partial class X11Lib
     /// <param name="border">窗口的边框颜色。</param>
     /// <param name="background">窗口的背景颜色。</param>
     /// <returns></returns>
-    /// <seealso cref="X11DisplayWindow.CreateSimpleSubWindow" />
+    /// <seealso cref="X11DisplayWindowExtensions.CreateSimpleSubWindow" />
     public static X11DisplayWindow CreateSimpleWindow(this X11Display display, X11Window parent, Point location, Size size, uint borderWidth, Pixel border,
         Pixel background)
     {
@@ -393,51 +393,6 @@ public static partial class X11Lib
     public static X11DisplayCursor CreateFontCursor(this X11Display display, CursorShape cursor)
     {
         return XLib.XCreateFontCursor(display, cursor).WithDisplay(display);
-    }
-
-    /// <summary>
-    /// 从像素图创建光标。
-    /// </summary>
-    /// <param name="display">与 X 服务的连接。</param>
-    /// <param name="source">源像素图。</param>
-    /// <param name="mask">掩码像素图。</param>
-    /// <param name="foreground">前景色。</param>
-    /// <param name="background">背景色。</param>
-    /// <param name="x">指定指针在像素图的 x 坐标。</param>
-    /// <param name="y">指定指针在像素图的 y 坐标。</param>
-    /// <returns></returns>
-    public static X11DisplayCursor CreatePixmapCursor(this X11Display display, X11Pixmap source, X11Pixmap mask, XColor foreground, XColor background,
-        uint x, uint y)
-    {
-        return XLib.XCreatePixmapCursor(display, source, mask, foreground, background, x, y).WithDisplay(display);
-    }
-
-    /// <summary>
-    /// 查询最佳光标大小。
-    /// </summary>
-    /// <param name="display">与 X 服务的连接。</param>
-    /// <param name="drawable">可绘制对象。</param>
-    /// <param name="size">希望的大小。</param>
-    /// <returns></returns>
-    public static Size? QueryBestCursor(this X11Display display, X11Drawable drawable, Size size)
-    {
-        return XLib.XQueryBestCursor(display, drawable, size.Width, size.Height, out var bw, out var bh)
-            ? new Size(bw, bh)
-            : null;
-    }
-
-    /// <summary>
-    /// 创建图形上下文。
-    /// </summary>
-    /// <param name="display">与 X 服务的连接。</param>
-    /// <param name="drawable">可绘制对象。</param>
-    /// <param name="values">设置的值。</param>
-    /// <returns>具有指定值的图形上下文。</returns>
-    public static X11GC? CreateGC(this X11Display display, X11Drawable drawable, GCValues values)
-    {
-        var gcValues = values.ToXGCValues();
-        var valueMarks = values.GetMarks();
-        return XLib.XCreateGC(display, drawable, valueMarks, in gcValues);
     }
 
     /// <summary>

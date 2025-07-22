@@ -51,7 +51,7 @@ public sealed class X11Screen
     /// <summary>
     /// 获取默认视觉效果.
     /// </summary>
-    public X11Visual? DefaultVisual => (X11Visual?)XLib.XDefaultVisualOfScreen(Ptr) ?? throw new InvalidOperationException("Default visual is null.");
+    public X11Visual DefaultVisual => (X11Visual?)XLib.XDefaultVisualOfScreen(Ptr) ?? throw new InvalidOperationException("Default visual is null.");
 
     /// <summary>
     /// 获取屏幕关联的与 X 服务的连接。

@@ -12,7 +12,7 @@ public static partial class X11Lib
     /// <returns>Atom 的名称。</returns>
     public static unsafe string? GetAtomName(this X11DisplayAtom atom)
     {
-        var atomNamePtr = XLib.XGetAtomName(atom.Display.XDisplay, atom.Atom);
+        var atomNamePtr = XLib.XGetAtomName(atom.Display, atom);
         if (atomNamePtr == null)
             return null;
 

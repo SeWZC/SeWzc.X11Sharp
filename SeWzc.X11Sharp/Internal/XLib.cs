@@ -7,6 +7,7 @@ using SeWzc.X11Sharp.Structs;
 
 namespace SeWzc.X11Sharp.Internal;
 
+/// <seealso href="https://www.x.org/releases/current/doc/libX11/libX11/libX11.html"/>
 internal static partial class XLib
 {
     private const string libX11 = "libX11.so.6";
@@ -1040,6 +1041,80 @@ internal static partial class XLib
 
     #endregion
 
+    #region Window and Session Manager Functions
+
+    #region Changing the Parent of a Window
+
+    // XReparentWindow(Display *display, Window w, Window parent, int x, int y);
+    [LibraryImport(libX11)]
+    public static partial int XReparentWindow(DisplayPtr display, X11Window window, X11Window parent, int x, int y);
+
+    #endregion
+
+    #region Controlling the Lifetime of a Window
+
+    // XChangeSaveSet(Display *display, Window w, int change_mode);
+    [LibraryImport(libX11)]
+    public static partial int XChangeSaveSet(DisplayPtr display, X11Window window, SetMode change_mode);
+
+    // XAddToSaveSet(Display *display, Window w);
+    [LibraryImport(libX11)]
+    public static partial int XAddToSaveSet(DisplayPtr display, X11Window window);
+
+    // XRemoveFromSaveSet(Display *display, Window w);
+    [LibraryImport(libX11)]
+    public static partial int XRemoveFromSaveSet(DisplayPtr display, X11Window window);
+
+    #endregion
+
+    #region Managing Installed Colormaps
+
+    // XInstallColormap(Display *display, Colormap colormap);
+    [LibraryImport(libX11)]
+    public static partial int XInstallColormap(DisplayPtr display, X11Colormap colormap);
+
+    // TODO 暂未使用
+    // XUninstallColormap(Display *display, Colormap colormap);
+    [LibraryImport(libX11)]
+    public static partial int XUninstallColormap(DisplayPtr display, X11Colormap colormap);
+
+    // TODO 暂未使用
+    // Colormap *XListInstalledColormaps(Display *display, Window w, int *num_return);
+    [LibraryImport(libX11)]
+    public static unsafe partial X11Colormap* XListInstalledColormaps(DisplayPtr display, X11Window window, out int num_return);
+
+    #endregion
+
+    #region Setting and Retrieving the Font Search Path
+
+    // TODO 暂未使用
+    // XSetFontPath(Display *display, char **directories, int ndirs);
+    [LibraryImport(libX11, StringMarshalling = StringMarshalling.Utf8)]
+    public static partial int XSetFontPath(DisplayPtr display, [In] string[] directories, int ndirs);
+
+    // TODO 暂未使用
+    // char **XGetFontPath(Display *display, int *npaths_return);
+    [LibraryImport(libX11)]
+    public static unsafe partial byte** XGetFontPath(DisplayPtr display, out int npaths_return);
+
+    // TODO 暂未使用
+    // XFreeFontPath(char **list);
+    [LibraryImport(libX11)]
+    public static unsafe partial void XFreeFontPath(byte** list);
+
+    #endregion
+
+    #region Grabbing the Server
+
+    // TODO 暂未使用
+    // XGrabServer(Display *display);
+    [LibraryImport(libX11)]
+    public static partial int XGrabServer(DisplayPtr display);
+
+    #endregion
+
+    #endregion
+
     #region Event Handling Functions
 
     #region Selecting Events
@@ -1212,8 +1287,4 @@ internal static partial class XLib
     // XGetInputFocus(Display *display, Window *focus_return, int *revert_to_return);
     [LibraryImport(libX11)]
     public static partial int XGetInputFocus(DisplayPtr display, out X11Window focus_return, out FocusRevert revert_to_return);
-
-    // XReparentWindow(Display *display, Window w, Window parent, int x, int y);
-    [LibraryImport(libX11)]
-    public static partial int XReparentWindow(DisplayPtr display, X11Window window, X11Window parent, int x, int y);
 }

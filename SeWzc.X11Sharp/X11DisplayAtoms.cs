@@ -40,7 +40,7 @@ public class X11DisplayAtoms
         if (atom == default)
         {
             var result = _display.InternAtom(atomName);
-            atom = result.Atom;
+            atom = result.Xid;
             return result;
         }
 

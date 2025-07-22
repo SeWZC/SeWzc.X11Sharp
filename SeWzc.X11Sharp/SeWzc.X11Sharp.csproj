@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SeWzc.X11Sharp.Analyzer\SeWzc.X11Sharp.Analyzer.csproj" OutputItemType="Analyzer" />
     <ProjectReference Include="..\SeWzc.X11Sharp.SourceGenerator\SeWzc.X11Sharp.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 

@@ -1057,3 +1057,22 @@ public enum FocusRevert
     /// </summary>
     Parent = 2,
 }
+
+public enum SetMode
+{
+    /*
+        /* Used in ChangeSaveSet * /
+
+        #define SetModeInsert           0
+        #define SetModeDelete           1
+     */
+
+    /// <summary>
+    /// 将窗口添加到保存集中。
+    /// </summary>
+    Insert,
+    /// <summary>
+    /// 从保存集中删除窗口。
+    /// </summary>
+    Delete,
+}
