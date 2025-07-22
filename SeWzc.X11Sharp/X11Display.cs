@@ -1,4 +1,5 @@
-﻿using SeWzc.X11Sharp.Internal;
+﻿using SeWzc.X11Sharp.Exceptions;
+using SeWzc.X11Sharp.Internal;
 using SeWzc.X11Sharp.Structs;
 
 namespace SeWzc.X11Sharp;
@@ -121,7 +122,7 @@ public sealed class X11Display : IDisposable
         fixed (int* p = result)
             Buffer.MemoryCopy(depths, p, count * sizeof(int), count * sizeof(int));
 
-        _ = XLib.XFree(depths);
+        XLib.XFree(depths).ThrowIfError();
         return result;
     }
 
@@ -139,7 +140,7 @@ public sealed class X11Display : IDisposable
         for (var i = 0; i < count; i++)
             result[i] = pixmapFormats[i];
 
-        _ = XLib.XFree(pixmapFormats);
+        XLib.XFree(pixmapFormats).ThrowIfError();
         return result;
     }
 
@@ -181,7 +182,7 @@ public sealed class X11Display : IDisposable
 
         _disposed = true;
         Cache.Remove(XDisplay.Value);
-        _ = XLib.XCloseDisplay(XDisplay);
+        XLib.XCloseDisplay(XDisplay).ThrowIfError();
     }
 
     /// <summary>

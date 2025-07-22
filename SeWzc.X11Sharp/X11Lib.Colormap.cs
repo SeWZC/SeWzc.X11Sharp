@@ -1,4 +1,5 @@
-﻿using SeWzc.X11Sharp.Internal;
+﻿using SeWzc.X11Sharp.Exceptions;
+using SeWzc.X11Sharp.Internal;
 
 namespace SeWzc.X11Sharp;
 
@@ -13,6 +14,6 @@ public static partial class X11Lib
     /// <exception cref="InvalidOperationException"></exception>
     public static void InstallColormap(this X11DisplayColormap colormap)
     {
-        _ = XLib.XInstallColormap(colormap.Display, colormap);
+        XLib.XInstallColormap(colormap.Display, colormap).ThrowIfError();
     }
 }

@@ -1,4 +1,5 @@
-﻿using SeWzc.X11Sharp.Internal;
+﻿using SeWzc.X11Sharp.Exceptions;
+using SeWzc.X11Sharp.Internal;
 using SeWzc.X11Sharp.Structs;
 
 namespace SeWzc.X11Sharp;
@@ -12,7 +13,7 @@ public static partial class X11Lib
     /// <seealso cref="X11DisplayPixmapExtensions.Free" />
     public static void FreePixmap(X11DisplayPixmap pixmap)
     {
-        _ = XLib.XFreePixmap(pixmap.Display, pixmap);
+        XLib.XFreePixmap(pixmap.Display, pixmap).ThrowIfError();
     }
 
     /// <summary>

@@ -1,4 +1,5 @@
-﻿using SeWzc.X11Sharp.Internal;
+﻿using SeWzc.X11Sharp.Exceptions;
+using SeWzc.X11Sharp.Internal;
 using SeWzc.X11Sharp.Structs;
 
 namespace SeWzc.X11Sharp;
@@ -25,7 +26,7 @@ public static partial class X11Lib
     /// <param name="dstLocation">目标位置。</param>
     public static void CopyArea(this X11DisplayGC gc, X11Drawable src, X11Drawable dst, Point srcLocation, Size areaSize, Point dstLocation)
     {
-        _ = XLib.XCopyArea(gc.Display, src, dst, gc, srcLocation.X, srcLocation.Y, areaSize.Width, areaSize.Height, dstLocation.X, dstLocation.Y);
+        XLib.XCopyArea(gc.Display, src, dst, gc, srcLocation.X, srcLocation.Y, areaSize.Width, areaSize.Height, dstLocation.X, dstLocation.Y).ThrowIfError();
     }
 
     /// <summary>
@@ -41,7 +42,7 @@ public static partial class X11Lib
     public static void CopyPlane(this X11DisplayGC gc, X11Drawable src, X11Drawable dst, Point srcLocation, Size areaSize, Point dstLocation,
         uint bitPlane)
     {
-        _ = XLib.XCopyPlane(gc.Display, src, dst, gc, srcLocation.X, srcLocation.Y, areaSize.Width, areaSize.Height, dstLocation.X, dstLocation.Y, bitPlane);
+        XLib.XCopyPlane(gc.Display, src, dst, gc, srcLocation.X, srcLocation.Y, areaSize.Width, areaSize.Height, dstLocation.X, dstLocation.Y, bitPlane).ThrowIfError();
     }
 
     /// <summary>
@@ -52,7 +53,7 @@ public static partial class X11Lib
     /// <param name="location">点的位置。</param>
     public static void DrawPoint(this X11DisplayGC gc, X11Drawable drawable, X11Point location)
     {
-        _ = XLib.XDrawPoint(gc.Display, drawable, gc, location.X, location.Y);
+        XLib.XDrawPoint(gc.Display, drawable, gc, location.X, location.Y).ThrowIfError();
     }
 
     /// <summary>
@@ -65,7 +66,7 @@ public static partial class X11Lib
     public static unsafe void DrawPoints(this X11DisplayGC gc, X11Drawable drawable, X11Point[] points, CoordMode mode)
     {
         fixed (X11Point* p = points)
-            _ = XLib.XDrawPoints(gc.Display, drawable, gc, p, points.Length, mode);
+            XLib.XDrawPoints(gc.Display, drawable, gc, p, points.Length, mode).ThrowIfError();
     }
 
     /// <summary>
@@ -76,7 +77,7 @@ public static partial class X11Lib
     /// <param name="segment">线段。</param>
     public static void DrawLine(this X11DisplayGC gc, X11Drawable drawable, X11Segment segment)
     {
-        _ = XLib.XDrawLine(gc.Display, drawable, gc, segment.Start.X, segment.Start.Y, segment.End.X, segment.End.Y);
+        XLib.XDrawLine(gc.Display, drawable, gc, segment.Start.X, segment.Start.Y, segment.End.X, segment.End.Y).ThrowIfError();
     }
 
     /// <summary>
@@ -89,7 +90,7 @@ public static partial class X11Lib
     public static unsafe void DrawLines(this X11DisplayGC gc, X11Drawable drawable, X11Point[] segmentPoints, CoordMode mode)
     {
         fixed (X11Point* p = segmentPoints)
-            _ = XLib.XDrawLines(gc.Display, drawable, gc, p, segmentPoints.Length, mode);
+            XLib.XDrawLines(gc.Display, drawable, gc, p, segmentPoints.Length, mode).ThrowIfError();
     }
 
     /// <summary>
@@ -101,7 +102,7 @@ public static partial class X11Lib
     public static unsafe void DrawSegments(this X11DisplayGC gc, X11Drawable drawable, X11Segment[] segments)
     {
         fixed (X11Segment* p = segments)
-            _ = XLib.XDrawSegments(gc.Display, drawable, gc, p, segments.Length);
+            XLib.XDrawSegments(gc.Display, drawable, gc, p, segments.Length).ThrowIfError();
     }
 
     /// <summary>
@@ -112,7 +113,7 @@ public static partial class X11Lib
     /// <param name="rectangle">矩形。</param>
     public static void DrawRectangle(this X11DisplayGC gc, X11Drawable drawable, X11Rectangle rectangle)
     {
-        _ = XLib.XDrawRectangle(gc.Display, drawable, gc, rectangle.Location.X, rectangle.Location.Y, rectangle.Size.Width, rectangle.Size.Height);
+        XLib.XDrawRectangle(gc.Display, drawable, gc, rectangle.Location.X, rectangle.Location.Y, rectangle.Size.Width, rectangle.Size.Height).ThrowIfError();
     }
 
     /// <summary>
@@ -124,7 +125,7 @@ public static partial class X11Lib
     public static unsafe void DrawRectangles(this X11DisplayGC gc, X11Drawable drawable, X11Rectangle[] rectangles)
     {
         fixed (X11Rectangle* p = rectangles)
-            _ = XLib.XDrawRectangles(gc.Display, drawable, gc, p, rectangles.Length);
+            XLib.XDrawRectangles(gc.Display, drawable, gc, p, rectangles.Length).ThrowIfError();
     }
 
     /// <summary>
@@ -135,7 +136,7 @@ public static partial class X11Lib
     /// <param name="arc">弧线。</param>
     public static void DrawArc(this X11DisplayGC gc, X11Drawable drawable, X11Arc arc)
     {
-        _ = XLib.XDrawArc(gc.Display, drawable, gc, arc.Location.X, arc.Location.Y, arc.Size.Width, arc.Size.Height, arc.Angle1, arc.Angle2);
+        XLib.XDrawArc(gc.Display, drawable, gc, arc.Location.X, arc.Location.Y, arc.Size.Width, arc.Size.Height, arc.Angle1, arc.Angle2).ThrowIfError();
     }
 
     /// <summary>
@@ -147,7 +148,7 @@ public static partial class X11Lib
     public static unsafe void DrawArcs(this X11DisplayGC gc, X11Drawable drawable, X11Arc[] arcs)
     {
         fixed (X11Arc* p = arcs)
-            _ = XLib.XDrawArcs(gc.Display, drawable, gc, p, arcs.Length);
+            XLib.XDrawArcs(gc.Display, drawable, gc, p, arcs.Length).ThrowIfError();
     }
 
     /// <summary>
@@ -158,7 +159,7 @@ public static partial class X11Lib
     /// <param name="rectangle">矩形。</param>
     public static void FillRectangle(this X11DisplayGC gc, X11Drawable drawable, X11Rectangle rectangle)
     {
-        _ = XLib.XFillRectangle(gc.Display, drawable, gc, rectangle.Location.X, rectangle.Location.Y, rectangle.Size.Width, rectangle.Size.Height);
+        XLib.XFillRectangle(gc.Display, drawable, gc, rectangle.Location.X, rectangle.Location.Y, rectangle.Size.Width, rectangle.Size.Height).ThrowIfError();
     }
 
     /// <summary>
@@ -170,7 +171,7 @@ public static partial class X11Lib
     public static unsafe void FillRectangles(this X11DisplayGC gc, X11Drawable drawable, X11Rectangle[] rectangles)
     {
         fixed (X11Rectangle* p = rectangles)
-            _ = XLib.XFillRectangles(gc.Display, drawable, gc, p, rectangles.Length);
+            XLib.XFillRectangles(gc.Display, drawable, gc, p, rectangles.Length).ThrowIfError();
     }
 
     /// <summary>
@@ -184,7 +185,7 @@ public static partial class X11Lib
     public static unsafe void FillPolygon(this X11DisplayGC gc, X11Drawable drawable, X11Point[] points, PolygonShape shape, CoordMode mode)
     {
         fixed (X11Point* p = points)
-            _ = XLib.XFillPolygon(gc.Display, drawable, gc, p, points.Length, shape, mode);
+            XLib.XFillPolygon(gc.Display, drawable, gc, p, points.Length, shape, mode).ThrowIfError();
     }
 
     /// <summary>
@@ -198,6 +199,6 @@ public static partial class X11Lib
     /// <param name="size">图像大小。</param>
     public static unsafe void PutImage(this X11DisplayGC gc, X11Drawable drawable, X11Image image, Point srcLocation, Point dstLocation, Size size)
     {
-        _ = XLib.XPutImage(gc.Display, drawable, gc, image.XImage, srcLocation.X, srcLocation.Y, dstLocation.X, dstLocation.Y, size.Width, size.Height);
+        XLib.XPutImage(gc.Display, drawable, gc, image.XImage, srcLocation.X, srcLocation.Y, dstLocation.X, dstLocation.Y, size.Width, size.Height).ThrowIfError();
     }
 }

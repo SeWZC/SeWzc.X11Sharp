@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
+using SeWzc.X11Sharp.Exceptions;
 using SeWzc.X11Sharp.Internal;
 using SeWzc.X11Sharp.Structs;
 
@@ -17,7 +18,7 @@ public static class X11DisplayWindowExtensions
     /// <param name="window">要操作的窗口。</param>
     public static void Destroy(this X11DisplayWindow window)
     {
-        _ = XLib.XDestroyWindow(window.Display, window);
+        XLib.XDestroyWindow(window.Display, window).ThrowIfError();
     }
 
     /// <summary>
@@ -26,7 +27,7 @@ public static class X11DisplayWindowExtensions
     /// <param name="window">要操作的窗口。</param>
     public static void Map(this X11DisplayWindow window)
     {
-        _ = XLib.XMapWindow(window.Display, window);
+        XLib.XMapWindow(window.Display, window).ThrowIfError();
     }
 
     /// <summary>
@@ -35,7 +36,7 @@ public static class X11DisplayWindowExtensions
     /// <param name="window">要操作的窗口。</param>
     public static void Unmap(this X11DisplayWindow window)
     {
-        _ = XLib.XUnmapWindow(window.Display, window);
+        XLib.XUnmapWindow(window.Display, window).ThrowIfError();
     }
 
     /// <summary>
@@ -47,7 +48,7 @@ public static class X11DisplayWindowExtensions
     {
         var windowConfigureMask = changes.GetValueMask();
         var windowChanges = changes.ToXWindowChanges();
-        _ = XLib.XConfigureWindow(window.Display, window, windowConfigureMask, in windowChanges);
+        XLib.XConfigureWindow(window.Display, window, windowConfigureMask, in windowChanges).ThrowIfError();
     }
 
     /// <summary>
@@ -57,7 +58,7 @@ public static class X11DisplayWindowExtensions
     /// <param name="location">窗口左上角在父窗口的位置。</param>
     public static void Move(this X11DisplayWindow window, Point location)
     {
-        _ = XLib.XMoveWindow(window.Display, window, location.X, location.Y);
+        XLib.XMoveWindow(window.Display, window, location.X, location.Y).ThrowIfError();
     }
 
     /// <summary>
@@ -67,7 +68,7 @@ public static class X11DisplayWindowExtensions
     /// <param name="size">窗口的大小。</param>
     public static void Resize(this X11DisplayWindow window, Size size)
     {
-        _ = XLib.XResizeWindow(window.Display, window, size.Width, size.Height);
+        XLib.XResizeWindow(window.Display, window, size.Width, size.Height).ThrowIfError();
     }
 
     /// <summary>
@@ -78,7 +79,7 @@ public static class X11DisplayWindowExtensions
     /// <param name="size">窗口的大小。</param>
     public static void MoveResize(this X11DisplayWindow window, Point location, Size size)
     {
-        _ = XLib.XMoveResizeWindow(window.Display, window, location.X, location.Y, size.Width, size.Height);
+        XLib.XMoveResizeWindow(window.Display, window, location.X, location.Y, size.Width, size.Height).ThrowIfError();
     }
 
     /// <summary>
@@ -88,7 +89,7 @@ public static class X11DisplayWindowExtensions
     /// <param name="borderWidth">窗口边框宽度。</param>
     public static void SetBorderWidth(this X11DisplayWindow window, uint borderWidth)
     {
-        _ = XLib.XSetWindowBorderWidth(window.Display, window, borderWidth);
+        XLib.XSetWindowBorderWidth(window.Display, window, borderWidth).ThrowIfError();
     }
 
     /// <summary>
@@ -97,7 +98,7 @@ public static class X11DisplayWindowExtensions
     /// <param name="window">要操作的窗口。</param>
     public static void Raise(this X11DisplayWindow window)
     {
-        _ = XLib.XRaiseWindow(window.Display, window);
+        XLib.XRaiseWindow(window.Display, window).ThrowIfError();
     }
 
     /// <summary>
@@ -106,7 +107,7 @@ public static class X11DisplayWindowExtensions
     /// <param name="window">要操作的窗口。</param>
     public static void Lower(this X11DisplayWindow window)
     {
-        _ = XLib.XLowerWindow(window.Display, window);
+        XLib.XLowerWindow(window.Display, window).ThrowIfError();
     }
 
     /// <summary>
@@ -118,7 +119,7 @@ public static class X11DisplayWindowExtensions
     {
         var windowAttributeValueMask = attributes.GetValueMask();
         var setWindowAttributes = attributes.ToXSetWindowAttributes();
-        _ = XLib.XChangeWindowAttributes(window.Display, window, windowAttributeValueMask, in setWindowAttributes);
+        XLib.XChangeWindowAttributes(window.Display, window, windowAttributeValueMask, in setWindowAttributes).ThrowIfError();
     }
 
     /// <summary>
@@ -128,7 +129,7 @@ public static class X11DisplayWindowExtensions
     /// <param name="pixel">背景像素。</param>
     public static void SetBackground(this X11DisplayWindow window, Pixel pixel)
     {
-        _ = XLib.XSetWindowBackground(window.Display, window, pixel);
+        XLib.XSetWindowBackground(window.Display, window, pixel).ThrowIfError();
     }
 
     /// <summary>
@@ -138,7 +139,7 @@ public static class X11DisplayWindowExtensions
     /// <param name="pixel">边框像素。</param>
     public static void SetBorder(this X11DisplayWindow window, Pixel pixel)
     {
-        _ = XLib.XSetWindowBorder(window.Display, window, pixel);
+        XLib.XSetWindowBorder(window.Display, window, pixel).ThrowIfError();
     }
 
     /// <summary>
@@ -262,7 +263,7 @@ public static class X11DisplayWindowExtensions
         for (var i = 0; i < count; i++)
             timeCoords[i] = result[i];
 
-        _ = XLib.XFree(result);
+        XLib.XFree(result).ThrowIfError();
         return timeCoords;
     }
 
@@ -298,7 +299,7 @@ public static class X11DisplayWindowExtensions
     /// <param name="location">在父窗口中的位置。</param>
     public static void SetParent(this X11DisplayWindow window, X11Window parent, Point location = default)
     {
-        _ = XLib.XReparentWindow(window.Display, window, parent, location.X, location.Y);
+        XLib.XReparentWindow(window.Display, window, parent, location.X, location.Y).ThrowIfError();
     }
 
     #region Window Property
@@ -358,7 +359,7 @@ public static class X11DisplayWindowExtensions
             }
         }
 
-        _ = XLib.XFree(propReturn);
+        XLib.XFree(propReturn).ThrowIfError();
 
         return result;
     }
@@ -452,7 +453,7 @@ public static class X11DisplayWindowExtensions
         for (var i = 0; i < count; i++)
             atoms[i] = properties[i].WithDisplay(window.Display);
 
-        _ = XLib.XFree(properties);
+        XLib.XFree(properties).ThrowIfError();
         return atoms;
     }
 

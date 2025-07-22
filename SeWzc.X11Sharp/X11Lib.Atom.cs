@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using SeWzc.X11Sharp.Exceptions;
 using SeWzc.X11Sharp.Internal;
 
 namespace SeWzc.X11Sharp;
@@ -17,7 +18,7 @@ public static partial class X11Lib
             return null;
 
         var atomName = Marshal.PtrToStringUTF8(new nint(atomNamePtr));
-        _ = XLib.XFree(atomNamePtr);
+        XLib.XFree(atomNamePtr).ThrowIfError();
         return atomName;
     }
 }

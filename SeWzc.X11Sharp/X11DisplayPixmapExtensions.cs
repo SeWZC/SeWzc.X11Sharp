@@ -1,4 +1,5 @@
-﻿using SeWzc.X11Sharp.Internal;
+﻿using SeWzc.X11Sharp.Exceptions;
+using SeWzc.X11Sharp.Internal;
 
 namespace SeWzc.X11Sharp;
 
@@ -13,6 +14,6 @@ public static class X11DisplayPixmapExtensions
     /// <param name="pixmap">要c操作的像素图。</param>
     public static void Free(this X11DisplayPixmap pixmap)
     {
-        _ = XLib.XFreePixmap(pixmap.Display, pixmap);
+        XLib.XFreePixmap(pixmap.Display, pixmap).ThrowIfError();
     }
 }

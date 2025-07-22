@@ -768,7 +768,7 @@ public enum ErrorCode
     BadColor = 12,
     BadGC = 13,
     BadIDChoice = 14,
-    BadImage = 15,
+    BadName = 15,
     BadLength = 16,
     BadImplementation = 17,
 }
