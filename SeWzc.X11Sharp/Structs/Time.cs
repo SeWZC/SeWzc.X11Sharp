@@ -10,7 +10,7 @@ public readonly record struct Time(ULong Value)
     /// 表示当前时间。注意，这里只是 x11 定义的特殊值，实际里面的值并不是当前时间。
     /// </summary>
     public static Time CurrentTime => new(0u);
-    
+
     /// <summary>
     /// 强制转换为 ULong。
     /// </summary>

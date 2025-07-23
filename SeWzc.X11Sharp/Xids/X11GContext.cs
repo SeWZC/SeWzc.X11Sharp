@@ -6,7 +6,7 @@ namespace SeWzc.X11Sharp;
 /// X11 图形上下文。
 /// </summary>
 /// <remarks>
-/// 与 <see cref="X11GC"/> 的区别是，该类是资源 ID 的包装，<see cref="X11GC"/> 用于提供函数调用操作。
+/// 与 <see cref="X11GC" /> 的区别是，该类是资源 ID 的包装，<see cref="X11GC" /> 用于提供函数调用操作。
 /// </remarks>
 public readonly partial record struct X11GContext : IXid
 {

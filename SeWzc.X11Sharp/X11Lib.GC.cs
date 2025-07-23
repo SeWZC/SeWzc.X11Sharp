@@ -42,7 +42,8 @@ public static partial class X11Lib
     public static void CopyPlane(this X11DisplayGC gc, X11Drawable src, X11Drawable dst, Point srcLocation, Size areaSize, Point dstLocation,
         uint bitPlane)
     {
-        XLib.XCopyPlane(gc.Display, src, dst, gc, srcLocation.X, srcLocation.Y, areaSize.Width, areaSize.Height, dstLocation.X, dstLocation.Y, bitPlane).ThrowIfError();
+        XLib.XCopyPlane(gc.Display, src, dst, gc, srcLocation.X, srcLocation.Y, areaSize.Width, areaSize.Height, dstLocation.X, dstLocation.Y, bitPlane)
+            .ThrowIfError();
     }
 
     /// <summary>
@@ -199,6 +200,7 @@ public static partial class X11Lib
     /// <param name="size">图像大小。</param>
     public static unsafe void PutImage(this X11DisplayGC gc, X11Drawable drawable, X11Image image, Point srcLocation, Point dstLocation, Size size)
     {
-        XLib.XPutImage(gc.Display, drawable, gc, image.XImage, srcLocation.X, srcLocation.Y, dstLocation.X, dstLocation.Y, size.Width, size.Height).ThrowIfError();
+        XLib.XPutImage(gc.Display, drawable, gc, image.XImage, srcLocation.X, srcLocation.Y, dstLocation.X, dstLocation.Y, size.Width, size.Height)
+            .ThrowIfError();
     }
 }

@@ -777,7 +777,7 @@ public enum QueryBestSizeClass
 {
     /*
        /* QueryBestSize Class * /
-       
+
        #define CursorShape 0 /* largest size that can be displayed * /
        #define TileShape 1 /* size tiled fastest * /
        #define StippleShape 2 /* size stippled fastest * /
@@ -792,7 +792,7 @@ public enum RectanglesOrdering
 {
     /*
        /* SetClipRectangles ordering * /
-       
+
        #define Unsorted 0
        #define YSorted 1
        #define YXSorted 2
@@ -981,6 +981,7 @@ public enum CoordMode
     /// 相对于原点。
     /// </summary>
     Origin,
+
     /// <summary>
     /// 相对于上一个点。
     /// </summary>
@@ -1000,10 +1001,12 @@ public enum PolygonShape
     /// 复杂多边形。
     /// </summary>
     Complex = 0,
+
     /// <summary>
     /// 非凸多边形。
     /// </summary>
     Nonconvex = 1,
+
     /// <summary>
     /// 凸多边形。
     /// </summary>
@@ -1024,10 +1027,12 @@ public enum ImageFormat
     /// XY 格式的位图。
     /// </summary>
     XYBitmap = 0,
+
     /// <summary>
     /// XY 格式的像素图。
     /// </summary>
     XYPixmap = 1,
+
     /// <summary>
     /// Z 格式的像素图。
     /// </summary>
@@ -1043,17 +1048,19 @@ public enum FocusRevert
         #define RevertToPointerRoot	(int)PointerRoot
         #define RevertToParent		2
      */
-    
+
     /// <summary>
     /// 丢弃焦点。
     /// </summary>
     None = 0,
+
     /// <summary>
-    /// 回退到 <see cref="PointerRoot"/>。
+    /// 回退到 <see cref="PointerRoot" />。
     /// </summary>
     PointerRoot = 1,
+
     /// <summary>
-    /// 回退到最近的可见祖先。回退之后值变成 <see cref="None "/>。
+    /// 回退到最近的可见祖先。回退之后值变成 <see cref="None " />。
     /// </summary>
     Parent = 2,
 }
@@ -1071,6 +1078,7 @@ public enum SetMode
     /// 将窗口添加到保存集中。
     /// </summary>
     Insert,
+
     /// <summary>
     /// 从保存集中删除窗口。
     /// </summary>

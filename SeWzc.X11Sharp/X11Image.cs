@@ -124,7 +124,7 @@ public sealed unsafe class X11Image
 
         if (XLib.XInitImage(image))
             return new X11Image(image);
-        Marshal.FreeHGlobal((IntPtr)image);
+        Marshal.FreeHGlobal((nint)image);
         return null;
     }
 
