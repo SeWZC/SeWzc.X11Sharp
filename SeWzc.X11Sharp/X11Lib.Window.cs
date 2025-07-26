@@ -195,6 +195,33 @@ public static partial class X11Lib
     /// <param name="parent">父窗口。</param>
     /// <param name="children">子窗口。</param>
     /// <returns>是否查询成功。</returns>
+    public static unsafe bool QueryTree(this X11DisplayWindow window, out X11Window root, out X11Window parent, out X11Window[] children)
+    {
+        var success = XLib.XQueryTree(window.Display, window, out root, out parent, out var childrenPtr, out var childrenCount);
+        if (!success)
+        {
+            root = default;
+            parent = default;
+            children = [];
+            return false;
+        }
+
+        children = new X11Window[childrenCount];
+        for (var i = 0; i < childrenCount; i++)
+            children[i] = childrenPtr[i];
+
+        XLib.XFree(childrenPtr).ThrowIfError();
+        return true;
+    }
+
+    /// <summary>
+    /// 查询窗口的根窗口、父窗口和子窗口。
+    /// </summary>
+    /// <param name="window">要操作的窗口。</param>
+    /// <param name="root">根窗口。</param>
+    /// <param name="parent">父窗口。</param>
+    /// <param name="children">子窗口。</param>
+    /// <returns>是否查询成功。</returns>
     public static unsafe bool QueryTree(this X11DisplayWindow window, out X11DisplayWindow root, out X11DisplayWindow parent, out X11DisplayWindow[] children)
     {
         var success = XLib.XQueryTree(window.Display, window, out var rootWindow, out var parentWindow, out var childrenPtr,

@@ -4,14 +4,24 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace SeWzc.X11Sharp.SourceGenerator;
 
 [Generator(LanguageNames.CSharp)]
-public class IncrementalGenerator : IIncrementalGenerator
+public partial class IncrementalGenerator : IIncrementalGenerator
 {
     /// <inheritdoc />
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
+        GenerateXidCast(context);
+        GenerateX11LibExpand(context);
+    }
+
+    /// <summary>
+    /// 生成 IXid 接口的强制转换运算符重载。
+    /// </summary>
+    /// <param name="context"></param>
+    private static void GenerateXidCast(IncrementalGeneratorInitializationContext context)
+    {
         var xids = context.SyntaxProvider
             .CreateSyntaxProvider(
-                static (node, token) =>
+                static (node, _) =>
                 {
                     if (node is TypeDeclarationSyntax { BaseList.Types: { } types })
                     {
@@ -21,7 +31,7 @@ public class IncrementalGenerator : IIncrementalGenerator
 
                     return false;
                 },
-                static (context, token) =>
+                static (context, _) =>
                 {
                     // 获取类型声明语法节点
                     var typeDeclaration = (TypeDeclarationSyntax)context.Node;
@@ -29,9 +39,6 @@ public class IncrementalGenerator : IIncrementalGenerator
                     // 获取类型声明的命名空间
                     var namespaceDeclarationSyntax = typeDeclaration.Ancestors().OfType<BaseNamespaceDeclarationSyntax>().First();
                     var namespaceName = namespaceDeclarationSyntax.Name;
-
-                    // 获取类型名称
-                    var typeName = typeDeclaration.Identifier.ValueText;
 
                     // 返回类型名称和类型声明语法节点
                     return (typeDeclaration, namespaceName);

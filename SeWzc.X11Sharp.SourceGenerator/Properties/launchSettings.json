@@ -1,0 +1,9 @@
+﻿{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "SeWzc.X11Sharp.SourceGenerator": {
+      "commandName": "DebugRoslynComponent",
+      "targetProject": "..\\SeWzc.X11Sharp\\SeWzc.X11Sharp.csproj"
+    }
+  }
+}

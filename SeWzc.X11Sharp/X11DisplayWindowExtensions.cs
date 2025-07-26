@@ -286,7 +286,7 @@ public static class X11DisplayWindowExtensions
     /// <returns>本质上是获取窗口的左上角坐标点在根窗口上的坐标。</returns>
     public static Point GetPosition(this X11DisplayWindow window)
     {
-        window.QueryTree(out var root, out _, out _);
+        window.QueryTree(out X11Window root, out _, out _);
         XLib.XTranslateCoordinates(window.Display, window, root, 0, 0, out var x, out var y, out _);
         return new Point(x, y);
     }
