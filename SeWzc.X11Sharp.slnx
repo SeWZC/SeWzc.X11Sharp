@@ -4,7 +4,9 @@
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
   </Folder>
-  <Project Path="SeWzc.X11Sharp.Analyzer\SeWzc.X11Sharp.Analyzer.csproj" Type="Classic C#" />
-  <Project Path="SeWzc.X11Sharp.SourceGenerator\SeWzc.X11Sharp.SourceGenerator.csproj" Type="Classic C#" />
-  <Project Path="SeWzc.X11Sharp\SeWzc.X11Sharp.csproj" Type="Classic C#" />
+  <Folder Name="/1.MainProject/">
+    <Project Path="src\SeWzc.X11Sharp.Analyzer\SeWzc.X11Sharp.Analyzer.csproj" Type="Classic C#" />
+    <Project Path="src\SeWzc.X11Sharp.SourceGenerator\SeWzc.X11Sharp.SourceGenerator.csproj" Type="Classic C#" />
+    <Project Path="src\SeWzc.X11Sharp\SeWzc.X11Sharp.csproj" Type="Classic C#" />
+  </Folder>
 </Solution>
