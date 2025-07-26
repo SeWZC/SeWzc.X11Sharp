@@ -1,0 +1,10 @@
+﻿<Solution>
+  <Folder Name="/0.Solution/">
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Project Path="SeWzc.X11Sharp.Analyzer\SeWzc.X11Sharp.Analyzer.csproj" Type="Classic C#" />
+  <Project Path="SeWzc.X11Sharp.SourceGenerator\SeWzc.X11Sharp.SourceGenerator.csproj" Type="Classic C#" />
+  <Project Path="SeWzc.X11Sharp\SeWzc.X11Sharp.csproj" Type="Classic C#" />
+</Solution>
