@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace SeWzc.X11Sharp.Structs;
@@ -8,7 +9,7 @@ namespace SeWzc.X11Sharp.Structs;
 /// </summary>
 /// <param name="Value">内部的 CULong 类型。</param>
 [EditorBrowsable(EditorBrowsableState.Advanced)]
-public readonly record struct ULong(CULong Value)
+public readonly record struct ULong(CULong Value) : IComparable<ULong>
 {
     /// <summary>
     /// 使用 nuint 构造 ULong。
@@ -24,6 +25,13 @@ public readonly record struct ULong(CULong Value)
     /// <param name="value"></param>
     public ULong(uint value) : this(new CULong(value))
     {
+    }
+
+    /// <inheritdoc />
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public int CompareTo(ULong other)
+    {
+        return Value.Value.CompareTo(other.Value.Value);
     }
 
     #region 运算符重载
