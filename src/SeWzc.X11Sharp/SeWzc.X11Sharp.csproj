@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <TargetFramework>net8.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <IsAotCompatible>True</IsAotCompatible>
@@ -12,8 +12,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SeWzc.X11Sharp.Analyzer\SeWzc.X11Sharp.Analyzer.csproj" OutputItemType="Analyzer" />
-    <ProjectReference Include="..\SeWzc.X11Sharp.SourceGenerator\SeWzc.X11Sharp.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\SeWzc.X11Sharp.Analyzer\SeWzc.X11Sharp.Analyzer.csproj" OutputItemType="Analyzer">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </ProjectReference>
+    <ProjectReference Include="..\SeWzc.X11Sharp.SourceGenerator\SeWzc.X11Sharp.SourceGenerator.csproj" OutputItemType="Analyzer">
+      <PrivateAssets>all</PrivateAssets>
+    </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="$(OutputPath)\SeWzc.X11Sharp.Analyzer.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
   </ItemGroup>
 
 </Project>
