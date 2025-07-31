@@ -9,4 +9,7 @@
     <Project Path="src\SeWzc.X11Sharp.SourceGenerator\SeWzc.X11Sharp.SourceGenerator.csproj" Type="Classic C#" />
     <Project Path="src\SeWzc.X11Sharp\SeWzc.X11Sharp.csproj" Type="Classic C#" />
   </Folder>
+  <Folder Name="/2.Samples/">
+    <Project Path="samples\X11EventCapturer\X11EventCapturer.csproj" Type="Classic C#" />
+  </Folder>
 </Solution>
