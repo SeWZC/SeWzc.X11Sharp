@@ -26,7 +26,7 @@ public readonly record struct X11DisplayGC(X11Display Display, X11GC GC)
     /// <param name="planeMask">平面掩码。</param>
     public void SetState(Pixel foreground, Pixel background, GraphicsFunctions function, nuint planeMask)
     {
-        XLib.XSetState(Display, GC, foreground, background, function, (ULong)planeMask).ThrowIfError();
+        XLib.XSetState(Display, GC, foreground, background, function, (ULong)planeMask);
     }
 
     /// <summary>
@@ -35,7 +35,7 @@ public readonly record struct X11DisplayGC(X11Display Display, X11GC GC)
     /// <param name="foreground">前景色。</param>
     public void SetForeground(Pixel foreground)
     {
-        XLib.XSetForeground(Display, GC, foreground).ThrowIfError();
+        XLib.XSetForeground(Display, GC, foreground);
     }
 
     /// <summary>
@@ -44,7 +44,7 @@ public readonly record struct X11DisplayGC(X11Display Display, X11GC GC)
     /// <param name="background">背景色。</param>
     public void SetBackground(Pixel background)
     {
-        XLib.XSetBackground(Display, GC, background).ThrowIfError();
+        XLib.XSetBackground(Display, GC, background);
     }
 
     /// <summary>
@@ -53,7 +53,7 @@ public readonly record struct X11DisplayGC(X11Display Display, X11GC GC)
     /// <param name="function">绘图函数。</param>
     public void SetFunction(GraphicsFunctions function)
     {
-        XLib.XSetFunction(Display, GC, function).ThrowIfError();
+        XLib.XSetFunction(Display, GC, function);
     }
 
     /// <summary>
@@ -62,7 +62,7 @@ public readonly record struct X11DisplayGC(X11Display Display, X11GC GC)
     /// <param name="planeMask">平面掩码。</param>
     public void SetPlaneMask(nuint planeMask)
     {
-        XLib.XSetPlaneMask(Display, GC, (ULong)planeMask).ThrowIfError();
+        XLib.XSetPlaneMask(Display, GC, (ULong)planeMask);
     }
 
     /// <summary>
@@ -74,7 +74,7 @@ public readonly record struct X11DisplayGC(X11Display Display, X11GC GC)
     /// <param name="joinStyle">连接样式。</param>
     public void SetLineAttributes(uint lineWidth, LineStyle lineStyle, CapStyle capStyle, JoinStyle joinStyle)
     {
-        XLib.XSetLineAttributes(Display, GC, lineWidth, lineStyle, capStyle, joinStyle).ThrowIfError();
+        XLib.XSetLineAttributes(Display, GC, lineWidth, lineStyle, capStyle, joinStyle);
     }
 
     /// <summary>
@@ -85,7 +85,7 @@ public readonly record struct X11DisplayGC(X11Display Display, X11GC GC)
     public unsafe void SetDashes(int dashOffset, ReadOnlySpan<byte> dashes)
     {
         fixed (byte* ptr = dashes)
-            XLib.XSetDashes(Display, GC, dashOffset, ptr, dashes.Length).ThrowIfError();
+            XLib.XSetDashes(Display, GC, dashOffset, ptr, dashes.Length);
     }
 
     /// <summary>
@@ -94,7 +94,7 @@ public readonly record struct X11DisplayGC(X11Display Display, X11GC GC)
     /// <param name="fillStyle">填充样式。</param>
     public void SetFillStyle(FillStyle fillStyle)
     {
-        XLib.XSetFillStyle(Display, GC, fillStyle).ThrowIfError();
+        XLib.XSetFillStyle(Display, GC, fillStyle);
     }
 
     /// <summary>
@@ -103,7 +103,7 @@ public readonly record struct X11DisplayGC(X11Display Display, X11GC GC)
     /// <param name="fillRule">填充规则。</param>
     public void SetFillRule(FillRule fillRule)
     {
-        XLib.XSetFillRule(Display, GC, fillRule).ThrowIfError();
+        XLib.XSetFillRule(Display, GC, fillRule);
     }
 
     /// <summary>
@@ -159,7 +159,7 @@ public readonly record struct X11DisplayGC(X11Display Display, X11GC GC)
     /// <param name="tile">用于平铺的像素图。深度必须与 GC 的深度相同。</param>
     public void SetTile(X11Pixmap tile)
     {
-        XLib.XSetTile(Display, GC, tile).ThrowIfError();
+        XLib.XSetTile(Display, GC, tile);
     }
 
     /// <summary>
@@ -168,7 +168,7 @@ public readonly record struct X11DisplayGC(X11Display Display, X11GC GC)
     /// <param name="stipple">用于点画的像素图。深度必须为 1。</param>
     public void SetStipple(X11Pixmap stipple)
     {
-        XLib.XSetStipple(Display, GC, stipple).ThrowIfError();
+        XLib.XSetStipple(Display, GC, stipple);
     }
 
     /// <summary>
@@ -178,7 +178,7 @@ public readonly record struct X11DisplayGC(X11Display Display, X11GC GC)
     // ReSharper disable once InconsistentNaming
     public void SetTSOrigin(Point origin)
     {
-        XLib.XSetTSOrigin(Display, GC, origin.X, origin.Y).ThrowIfError();
+        XLib.XSetTSOrigin(Display, GC, origin.X, origin.Y);
     }
 
     /// <summary>
@@ -187,7 +187,7 @@ public readonly record struct X11DisplayGC(X11Display Display, X11GC GC)
     /// <param name="font">字体。</param>
     public void SetFont(X11Font font)
     {
-        XLib.XSetFont(Display, GC, font).ThrowIfError();
+        XLib.XSetFont(Display, GC, font);
     }
 
     /// <summary>
@@ -196,7 +196,7 @@ public readonly record struct X11DisplayGC(X11Display Display, X11GC GC)
     /// <param name="origin"></param>
     public void SetClipOrigin(Point origin)
     {
-        XLib.XSetClipOrigin(Display, GC, origin.X, origin.Y).ThrowIfError();
+        XLib.XSetClipOrigin(Display, GC, origin.X, origin.Y);
     }
 
     /// <summary>
@@ -205,7 +205,7 @@ public readonly record struct X11DisplayGC(X11Display Display, X11GC GC)
     /// <param name="mask">剪裁掩码。</param>
     public void SetClipMask(X11Pixmap mask)
     {
-        XLib.XSetClipMask(Display, GC, mask).ThrowIfError();
+        XLib.XSetClipMask(Display, GC, mask);
     }
 
     /// <summary>
@@ -214,7 +214,7 @@ public readonly record struct X11DisplayGC(X11Display Display, X11GC GC)
     public unsafe void SetClipRectangles(Point origin, RectanglesOrdering ordering, ReadOnlySpan<Rectangle> rectangles)
     {
         fixed (Rectangle* ptr = rectangles)
-            XLib.XSetClipRectangles(Display, GC, origin.X, origin.Y, ptr, rectangles.Length, ordering).ThrowIfError();
+            XLib.XSetClipRectangles(Display, GC, origin.X, origin.Y, ptr, rectangles.Length, ordering);
     }
 
     /// <summary>
@@ -223,7 +223,7 @@ public readonly record struct X11DisplayGC(X11Display Display, X11GC GC)
     /// <param name="arcMode">弧线模式。</param>
     public void SetArcMode(ArcMode arcMode)
     {
-        XLib.XSetArcMode(Display, GC, arcMode).ThrowIfError();
+        XLib.XSetArcMode(Display, GC, arcMode);
     }
 
     /// <summary>
@@ -232,7 +232,7 @@ public readonly record struct X11DisplayGC(X11Display Display, X11GC GC)
     /// <param name="mode">子窗口模式。</param>
     public void SetSubwindowMode(SubwindowMode mode)
     {
-        XLib.XSetSubwindowMode(Display, GC, mode).ThrowIfError();
+        XLib.XSetSubwindowMode(Display, GC, mode);
     }
 
     /// <summary>
@@ -241,7 +241,7 @@ public readonly record struct X11DisplayGC(X11Display Display, X11GC GC)
     /// <param name="graphicsExposures">该 GC 是否产生图形曝光事件。</param>
     public void SetGraphicsExposures(bool graphicsExposures)
     {
-        XLib.XSetGraphicsExposures(Display, GC, graphicsExposures).ThrowIfError();
+        XLib.XSetGraphicsExposures(Display, GC, graphicsExposures);
     }
 
     #region 运算符重载

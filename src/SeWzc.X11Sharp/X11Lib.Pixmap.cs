@@ -13,7 +13,7 @@ public static partial class X11Lib
     /// <seealso cref="X11DisplayPixmapExtensions.Free" />
     public static void FreePixmap(X11DisplayPixmap pixmap)
     {
-        XLib.XFreePixmap(pixmap.Display, pixmap).ThrowIfError();
+        XLib.XFreePixmap(pixmap.Display, pixmap);
     }
 
     /// <summary>

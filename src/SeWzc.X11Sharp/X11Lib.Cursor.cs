@@ -14,7 +14,7 @@ public static partial class X11Lib
     /// <param name="background">背景色。</param>
     public static void RecolorCursor(this X11DisplayCursor cursor, XColor foreground, XColor background)
     {
-        XLib.XRecolorCursor(cursor.Display, cursor, foreground, background).ThrowIfError();
+        XLib.XRecolorCursor(cursor.Display, cursor, foreground, background);
     }
 
     /// <summary>
@@ -23,6 +23,6 @@ public static partial class X11Lib
     /// <param name="cursor">要操作的光标。</param>
     public static void FreeCursor(this X11DisplayCursor cursor)
     {
-        XLib.XFreeCursor(cursor.Display, cursor).ThrowIfError();
+        XLib.XFreeCursor(cursor.Display, cursor);
     }
 }

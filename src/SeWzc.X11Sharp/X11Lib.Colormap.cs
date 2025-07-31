@@ -14,6 +14,6 @@ public static partial class X11Lib
     /// <exception cref="InvalidOperationException"></exception>
     public static void InstallColormap(this X11DisplayColormap colormap)
     {
-        XLib.XInstallColormap(colormap.Display, colormap).ThrowIfError();
+        XLib.XInstallColormap(colormap.Display, colormap);
     }
 }

@@ -15,7 +15,7 @@ public static partial class X11Lib
     /// <seealso cref="X11DisplayWindowExtensions.Destroy" />
     public static void DestroyWindow(X11DisplayWindow window)
     {
-        XLib.XDestroyWindow(window.Display, window).ThrowIfError();
+        XLib.XDestroyWindow(window.Display, window);
     }
 
     /// <summary>
@@ -24,7 +24,7 @@ public static partial class X11Lib
     /// <param name="window">要操作的窗口。</param>
     public static void DestroySubwindows(this X11DisplayWindow window)
     {
-        XLib.XDestroySubwindows(window.Display, window).ThrowIfError();
+        XLib.XDestroySubwindows(window.Display, window);
     }
 
     /// <summary>
@@ -34,7 +34,7 @@ public static partial class X11Lib
     /// <seealso cref="X11DisplayWindowExtensions.Map" />
     public static void MapWindow(X11DisplayWindow window)
     {
-        XLib.XMapWindow(window.Display, window).ThrowIfError();
+        XLib.XMapWindow(window.Display, window);
     }
 
     /// <summary>
@@ -43,7 +43,7 @@ public static partial class X11Lib
     /// <param name="window">要操作的窗口。</param>
     public static void MapRaised(this X11DisplayWindow window)
     {
-        XLib.XMapRaised(window.Display, window).ThrowIfError();
+        XLib.XMapRaised(window.Display, window);
     }
 
     /// <summary>
@@ -52,7 +52,7 @@ public static partial class X11Lib
     /// <param name="window">要操作的窗口。</param>
     public static void MapSubwindows(this X11DisplayWindow window)
     {
-        XLib.XMapSubwindows(window.Display, window).ThrowIfError();
+        XLib.XMapSubwindows(window.Display, window);
     }
 
     /// <summary>
@@ -62,7 +62,7 @@ public static partial class X11Lib
     /// <seealso cref="X11DisplayWindowExtensions.Unmap" />
     public static void UnmapWindow(X11DisplayWindow window)
     {
-        XLib.XUnmapWindow(window.Display, window).ThrowIfError();
+        XLib.XUnmapWindow(window.Display, window);
     }
 
     /// <summary>
@@ -71,7 +71,7 @@ public static partial class X11Lib
     /// <param name="window">要操作的窗口。</param>
     public static void UnmapSubwindows(this X11DisplayWindow window)
     {
-        XLib.XUnmapSubwindows(window.Display, window).ThrowIfError();
+        XLib.XUnmapSubwindows(window.Display, window);
     }
 
     /// <summary>
@@ -84,7 +84,7 @@ public static partial class X11Lib
     {
         var windowConfigureMask = changes.GetValueMask();
         var windowChanges = changes.ToXWindowChanges();
-        XLib.XConfigureWindow(window.Display, window, windowConfigureMask, in windowChanges).ThrowIfError();
+        XLib.XConfigureWindow(window.Display, window, windowConfigureMask, in windowChanges);
     }
 
     /// <summary>
@@ -95,7 +95,7 @@ public static partial class X11Lib
     /// <seealso cref="X11DisplayWindowExtensions.Move" />
     public static void MoveWindow(X11DisplayWindow window, Point location)
     {
-        XLib.XMoveWindow(window.Display, window, location.X, location.Y).ThrowIfError();
+        XLib.XMoveWindow(window.Display, window, location.X, location.Y);
     }
 
     /// <summary>
@@ -106,7 +106,7 @@ public static partial class X11Lib
     /// <seealso cref="X11DisplayWindowExtensions.Resize" />
     public static void ResizeWindow(X11DisplayWindow window, Size size)
     {
-        XLib.XResizeWindow(window.Display, window, size.Width, size.Height).ThrowIfError();
+        XLib.XResizeWindow(window.Display, window, size.Width, size.Height);
     }
 
     /// <summary>
@@ -118,7 +118,7 @@ public static partial class X11Lib
     /// <seealso cref="X11DisplayWindowExtensions.MoveResize" />
     public static void MoveResizeWindow(X11DisplayWindow window, Point location, Size size)
     {
-        XLib.XMoveResizeWindow(window.Display, window, location.X, location.Y, size.Width, size.Height).ThrowIfError();
+        XLib.XMoveResizeWindow(window.Display, window, location.X, location.Y, size.Width, size.Height);
     }
 
     /// <summary>
@@ -129,7 +129,7 @@ public static partial class X11Lib
     /// <seealso cref="X11DisplayWindowExtensions.SetBorderWidth" />
     public static void SetWindowBorderWidth(X11DisplayWindow window, uint borderWidth)
     {
-        XLib.XSetWindowBorderWidth(window.Display, window, borderWidth).ThrowIfError();
+        XLib.XSetWindowBorderWidth(window.Display, window, borderWidth);
     }
 
     /// <summary>
@@ -139,7 +139,7 @@ public static partial class X11Lib
     /// <seealso cref="X11DisplayWindowExtensions.Raise" />
     public static void RaiseWindow(X11DisplayWindow window)
     {
-        XLib.XRaiseWindow(window.Display, window).ThrowIfError();
+        XLib.XRaiseWindow(window.Display, window);
     }
 
     /// <summary>
@@ -149,7 +149,7 @@ public static partial class X11Lib
     /// <seealso cref="X11DisplayWindowExtensions.Lower" />
     public static void LowerWindow(X11DisplayWindow window)
     {
-        XLib.XLowerWindow(window.Display, window).ThrowIfError();
+        XLib.XLowerWindow(window.Display, window);
     }
 
     /// <summary>
@@ -162,7 +162,7 @@ public static partial class X11Lib
     {
         var windowAttributeValueMask = attributes.GetValueMask();
         var setWindowAttributes = attributes.ToXSetWindowAttributes();
-        XLib.XChangeWindowAttributes(window.Display, window, windowAttributeValueMask, in setWindowAttributes).ThrowIfError();
+        XLib.XChangeWindowAttributes(window.Display, window, windowAttributeValueMask, in setWindowAttributes);
     }
 
     /// <summary>
@@ -173,7 +173,7 @@ public static partial class X11Lib
     /// <seealso cref="X11DisplayWindowExtensions.SetBackground" />
     public static void SetWindowBackground(X11DisplayWindow window, Pixel pixel)
     {
-        XLib.XSetWindowBackground(window.Display, window, pixel).ThrowIfError();
+        XLib.XSetWindowBackground(window.Display, window, pixel);
     }
 
     /// <summary>
@@ -184,7 +184,7 @@ public static partial class X11Lib
     /// <seealso cref="X11DisplayWindowExtensions.SetBorder" />
     public static void SetWindowBorder(X11DisplayWindow window, Pixel pixel)
     {
-        XLib.XSetWindowBorder(window.Display, window, pixel).ThrowIfError();
+        XLib.XSetWindowBorder(window.Display, window, pixel);
     }
 
     /// <summary>
@@ -210,7 +210,7 @@ public static partial class X11Lib
         for (var i = 0; i < childrenCount; i++)
             children[i] = childrenPtr[i];
 
-        XLib.XFree(childrenPtr).ThrowIfError();
+        XLib.XFree(childrenPtr);
         return true;
     }
 
@@ -240,7 +240,7 @@ public static partial class X11Lib
         for (var i = 0; i < childrenCount; i++)
             children[i] = childrenPtr[i].WithDisplay(window.Display);
 
-        XLib.XFree(childrenPtr).ThrowIfError();
+        XLib.XFree(childrenPtr);
         return true;
     }
 
@@ -308,7 +308,7 @@ public static partial class X11Lib
     /// <param name="exposures">是否发送曝光事件。</param>
     public static void ClearArea(this X11DisplayWindow window, Rectangle rectangle, bool exposures)
     {
-        XLib.XClearArea(window.Display, window, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height, exposures).ThrowIfError();
+        XLib.XClearArea(window.Display, window, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height, exposures);
     }
 
     /// <summary>
@@ -320,7 +320,7 @@ public static partial class X11Lib
     /// <param name="window">要操作的窗口。</param>
     public static void ClearWindow(this X11DisplayWindow window)
     {
-        XLib.XClearWindow(window.Display, window).ThrowIfError();
+        XLib.XClearWindow(window.Display, window);
     }
 
     /// <summary>
@@ -332,7 +332,7 @@ public static partial class X11Lib
     /// <see cref="X11DisplayWindowExtensions.SetParent" />
     public static void ReparentWindow(this X11DisplayWindow window, X11Window parent, Point location)
     {
-        XLib.XReparentWindow(window.Display, window, parent, location.X, location.Y).ThrowIfError();
+        XLib.XReparentWindow(window.Display, window, parent, location.X, location.Y);
     }
 
     /// <summary>
@@ -342,7 +342,7 @@ public static partial class X11Lib
     /// <param name="mode">保存集的模式。</param>
     public static void ChangeSaveSet(this X11DisplayWindow window, SetMode mode)
     {
-        XLib.XChangeSaveSet(window.Display, window, mode).ThrowIfError();
+        XLib.XChangeSaveSet(window.Display, window, mode);
     }
 
     /// <summary>
@@ -351,7 +351,7 @@ public static partial class X11Lib
     /// <param name="window">要操作的窗口。</param>
     public static void AddToSaveSet(this X11DisplayWindow window)
     {
-        XLib.XAddToSaveSet(window.Display, window).ThrowIfError();
+        XLib.XAddToSaveSet(window.Display, window);
     }
 
     /// <summary>
@@ -360,7 +360,7 @@ public static partial class X11Lib
     /// <param name="window">要操作的窗口。</param>
     public static void RemoveFromSaveSet(this X11DisplayWindow window)
     {
-        XLib.XRemoveFromSaveSet(window.Display, window).ThrowIfError();
+        XLib.XRemoveFromSaveSet(window.Display, window);
     }
 
     /// <summary>
@@ -370,7 +370,7 @@ public static partial class X11Lib
     /// <param name="eventMask">事件掩码。</param>
     public static void SelectInput(this X11DisplayWindow window, EventMask eventMask)
     {
-        XLib.XSelectInput(window.Display, window, eventMask).ThrowIfError();
+        XLib.XSelectInput(window.Display, window, eventMask);
     }
 
     /// <summary>
@@ -447,7 +447,7 @@ public static partial class X11Lib
         for (var i = 0; i < count; i++)
             timeCoords[i] = result[i];
 
-        XLib.XFree(result).ThrowIfError();
+        XLib.XFree(result);
         return timeCoords;
     }
 
@@ -507,7 +507,7 @@ public static partial class X11Lib
             }
         }
 
-        XLib.XFree(propReturn).ThrowIfError();
+        XLib.XFree(propReturn);
 
         return result;
     }
@@ -530,7 +530,7 @@ public static partial class X11Lib
                 fixed (byte* pValue = value)
                 {
                     XLib.XChangeProperty(window.Display, window, property, format8ArrayData.PropertyType, 8, mode, pValue,
-                        value.Length).ThrowIfError();
+                        value.Length);
                 }
 
                 break;
@@ -541,7 +541,7 @@ public static partial class X11Lib
                 fixed (short* pValue = value)
                 {
                     XLib.XChangeProperty(window.Display, window, property, format16ArrayData.PropertyType, 16, mode, pValue,
-                        value.Length).ThrowIfError();
+                        value.Length);
                 }
 
                 break;
@@ -552,7 +552,7 @@ public static partial class X11Lib
                 fixed (Long* pValue = value)
                 {
                     XLib.XChangeProperty(window.Display, window, property, format32ArrayData.PropertyType, 32, mode, pValue,
-                        value.Length).ThrowIfError();
+                        value.Length);
                 }
 
                 break;
@@ -576,7 +576,7 @@ public static partial class X11Lib
         for (var i = 0; i < count; i++)
             atoms[i] = properties[i].WithDisplay(window.Display);
 
-        XLib.XFree(properties).ThrowIfError();
+        XLib.XFree(properties);
         return atoms;
     }
 
@@ -587,6 +587,6 @@ public static partial class X11Lib
     /// <param name="property">要删除的属性的原子。</param>
     public static void DeleteProperty(this X11DisplayWindow window, X11Atom property)
     {
-        XLib.XDeleteProperty(window.Display, window, property).ThrowIfError();
+        XLib.XDeleteProperty(window.Display, window, property);
     }
 }

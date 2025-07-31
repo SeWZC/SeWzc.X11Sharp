@@ -189,7 +189,7 @@ public static partial class X11Lib
         fixed (int* p = result)
             Buffer.MemoryCopy(depths, p, count * sizeof(int), count * sizeof(int));
 
-        XLib.XFree(depths).ThrowIfError();
+        XLib.XFree(depths);
         return result;
     }
 
@@ -268,7 +268,7 @@ public static partial class X11Lib
         for (var i = 0; i < count; i++)
             result[i] = pixmapFormats[i];
 
-        XLib.XFree(pixmapFormats).ThrowIfError();
+        XLib.XFree(pixmapFormats);
         return result;
     }
 
@@ -279,7 +279,7 @@ public static partial class X11Lib
     /// <param name="mode">关闭模式。</param>
     public static void SetCloseDownMode(this X11Display display, CloseDownMode mode)
     {
-        XLib.XSetCloseDownMode(display, mode).ThrowIfError();
+        XLib.XSetCloseDownMode(display, mode);
     }
 
     /// <summary>
@@ -402,7 +402,7 @@ public static partial class X11Lib
     /// <param name="display">与 X 服务的连接。</param>
     public static void Flush(this X11Display display)
     {
-        XLib.XFlush(display).ThrowIfError();
+        XLib.XFlush(display);
     }
 
     /// <summary>
@@ -412,7 +412,7 @@ public static partial class X11Lib
     /// <param name="discard">是否丢弃事件队列上的所有事件。</param>
     public static void Sync(this X11Display display, bool discard)
     {
-        XLib.XSync(display, discard).ThrowIfError();
+        XLib.XSync(display, discard);
     }
 
     /// <summary>
@@ -525,7 +525,7 @@ public static partial class X11Lib
     /// <param name="xEvent">要放回的事件。</param>
     public static void PutBackEvent(this X11Display display, X11Event xEvent)
     {
-        XLib.XPutBackEvent(display, xEvent.ToXEvent()).ThrowIfError();
+        XLib.XPutBackEvent(display, xEvent.ToXEvent());
     }
 
     /// <summary>
@@ -537,7 +537,7 @@ public static partial class X11Lib
     /// <param name="time">事件的时间戳。如果指定时间早于当前的最后焦点更改时间或晚于当前X服务器时间，则此函数无效。可以使用 <see cref="Time.CurrentTime" />。</param>
     public static void SetInputFocus(this X11Display display, X11Window window, FocusRevert revertTo, Time time)
     {
-        XLib.XSetInputFocus(display, window, revertTo, time).ThrowIfError();
+        XLib.XSetInputFocus(display, window, revertTo, time);
     }
 
     /// <summary>

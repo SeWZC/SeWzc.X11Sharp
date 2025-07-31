@@ -18,7 +18,7 @@ public static partial class X11Lib
             return null;
 
         var atomName = Marshal.PtrToStringUTF8(new nint(atomNamePtr));
-        XLib.XFree(atomNamePtr).ThrowIfError();
+        XLib.XFree(atomNamePtr);
         return atomName;
     }
 }

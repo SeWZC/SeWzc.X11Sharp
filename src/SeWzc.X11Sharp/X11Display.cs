@@ -122,7 +122,7 @@ public sealed class X11Display : IDisposable
         fixed (int* p = result)
             Buffer.MemoryCopy(depths, p, count * sizeof(int), count * sizeof(int));
 
-        XLib.XFree(depths).ThrowIfError();
+        XLib.XFree(depths);
         return result;
     }
 
@@ -140,7 +140,7 @@ public sealed class X11Display : IDisposable
         for (var i = 0; i < count; i++)
             result[i] = pixmapFormats[i];
 
-        XLib.XFree(pixmapFormats).ThrowIfError();
+        XLib.XFree(pixmapFormats);
         return result;
     }
 
@@ -182,7 +182,7 @@ public sealed class X11Display : IDisposable
 
         _disposed = true;
         Cache.Remove(XDisplay.Value);
-        XLib.XCloseDisplay(XDisplay).ThrowIfError();
+        XLib.XCloseDisplay(XDisplay);
     }
 
     /// <summary>

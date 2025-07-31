@@ -14,6 +14,6 @@ public static class X11DisplayPixmapExtensions
     /// <param name="pixmap">要c操作的像素图。</param>
     public static void Free(this X11DisplayPixmap pixmap)
     {
-        XLib.XFreePixmap(pixmap.Display, pixmap).ThrowIfError();
+        XLib.XFreePixmap(pixmap.Display, pixmap);
     }
 }
