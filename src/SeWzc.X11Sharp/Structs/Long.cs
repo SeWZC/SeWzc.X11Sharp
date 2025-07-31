@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -9,7 +10,7 @@ namespace SeWzc.X11Sharp.Structs;
 /// </summary>
 /// <param name="Value">内部的 CLong 类型。</param>
 [EditorBrowsable(EditorBrowsableState.Advanced)]
-public readonly record struct Long(CLong Value) : IComparable<Long>
+public readonly record struct Long(CLong Value) : IComparable<Long>, IFormattable
 {
     /// <summary>
     /// 使用 nint 构造 Long。
@@ -32,6 +33,18 @@ public readonly record struct Long(CLong Value) : IComparable<Long>
     public int CompareTo(Long other)
     {
         return Value.Value.CompareTo(other.Value.Value);
+    }
+
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return Value.Value.ToString();
+    }
+
+    /// <inheritdoc />
+    public string ToString([StringSyntax("NumericFormat")] string? format, IFormatProvider? provider = null)
+    {
+        return Value.Value.ToString(format, provider);
     }
 
     #region 运算符重载

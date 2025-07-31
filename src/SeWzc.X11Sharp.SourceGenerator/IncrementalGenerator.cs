@@ -70,6 +70,12 @@ public partial class IncrementalGenerator : IIncrementalGenerator
                     partial {{keyword}} {{typeDeclaration.Identifier}} : IComparable<{{typeDeclaration.Identifier}}>
                     {
                         /// <inheritdoc />
+                        public override string ToString()
+                        {
+                            return $"0x{Id:X}";
+                        }
+
+                        /// <inheritdoc />
                         [MethodImpl(MethodImplOptions.AggressiveInlining)]
                         public int CompareTo({{typeDeclaration.Identifier}} other)
                         {
