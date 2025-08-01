@@ -715,7 +715,7 @@ public enum EventsQueuedMode
     AfterFlush = 2,
 }
 
-public enum ErrorCode
+public enum ErrorCode : byte
 {
     /*
        /*****************************************************************
