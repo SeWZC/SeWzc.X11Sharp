@@ -1,6 +1,5 @@
 ﻿using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
-using JetBrains.Annotations;
 using SeWzc.X11Sharp.Structs;
 
 // ReSharper disable UnusedMember.Local
@@ -292,7 +291,6 @@ internal static partial class XLib
 
     // XFree(void *data);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static unsafe partial int XFree(void* data);
 
     #endregion
@@ -301,7 +299,6 @@ internal static partial class XLib
 
     // XCloseDisplay(Display *display);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XCloseDisplay(DisplayPtr display);
 
     // XSetCloseDownMode(Display *display, int close_mode);
@@ -395,12 +392,10 @@ internal static partial class XLib
 
     // XDestroyWindow(Display *display, Window w);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XDestroyWindow(DisplayPtr display, X11Window window);
 
     // XDestroySubwindows(Display *display, Window w);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XDestroySubwindows(DisplayPtr display, X11Window window);
 
     #endregion
@@ -409,17 +404,14 @@ internal static partial class XLib
 
     // XMapWindow(Display *display, Window w);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XMapWindow(DisplayPtr display, X11Window window);
 
     // XMapRaised(Display *display, Window w);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XMapRaised(DisplayPtr display, X11Window window);
 
     // XMapSubwindows(Display *display, Window w);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XMapSubwindows(DisplayPtr display, X11Window window);
 
     #endregion
@@ -428,12 +420,10 @@ internal static partial class XLib
 
     // XUnmapWindow(Display *display, Window w);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XUnmapWindow(DisplayPtr display, X11Window window);
 
     // XUnmapSubwindows(Display *display, Window w);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XUnmapSubwindows(DisplayPtr display, X11Window window);
 
     #endregion
@@ -442,27 +432,22 @@ internal static partial class XLib
 
     // XConfigureWindow(Display *display, Window w, unsigned int value_mask, XWindowChanges *values);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XConfigureWindow(DisplayPtr display, X11Window window, WindowChangeMask value_mask, in XWindowChanges values);
 
     // XMoveWindow(Display *display, Window w, int x, int y);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XMoveWindow(DisplayPtr display, X11Window window, int x, int y);
 
     // XResizeWindow(Display *display, Window w, unsigned int width, unsigned int height);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XResizeWindow(DisplayPtr display, X11Window window, uint width, uint height);
 
     // XMoveResizeWindow(Display *display, Window w, int x, int y, unsigned int width, unsigned int height);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XMoveResizeWindow(DisplayPtr display, X11Window window, int x, int y, uint width, uint height);
 
     // XSetWindowBorderWidth(Display *display, Window w, unsigned int width);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XSetWindowBorderWidth(DisplayPtr display, X11Window window, uint width);
 
     #endregion
@@ -471,36 +456,30 @@ internal static partial class XLib
 
     // XRaiseWindow(Display *display, Window w);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XRaiseWindow(DisplayPtr display, X11Window window);
 
     // XLowerWindow(Display *display, Window w);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XLowerWindow(DisplayPtr display, X11Window window);
 
     // TODO 暂未使用
     // XCirculateSubwindows(Display *display, Window w, int direction);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XCirculateSubwindows(DisplayPtr display, X11Window window, CirculationDirection direction);
 
     // TODO 暂未使用
     // XCirculateSubwindowsUp(Display *display, Window w);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XCirculateSubwindowsUp(DisplayPtr display, X11Window window);
 
     // TODO 暂未使用
     // XCirculateSubwindowsDown(Display *display, Window w);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XCirculateSubwindowsDown(DisplayPtr display, X11Window window);
 
     // TODO 暂未使用
     // XRestackWindows(Display *display, Window windows[], int nwindows);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XRestackWindows(DisplayPtr display, [In] X11Window[] windows, int nwindows);
 
     #endregion
@@ -509,48 +488,40 @@ internal static partial class XLib
 
     // XChangeWindowAttributes(Display *display, Window w, unsigned long valuemask, XSetWindowAttributes *attributes);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XChangeWindowAttributes(DisplayPtr display, X11Window window, WindowAttributeValueMask valuemask,
         in XSetWindowAttributes attributes);
 
     // XSetWindowBackground(Display *display, Window w, unsigned long background_pixel);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XSetWindowBackground(DisplayPtr display, X11Window window, Pixel background_pixel);
 
     // TODO 暂未使用
     // XSetWindowBackgroundPixmap(Display *display, Window w, Pixmap background_pixmap);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XSetWindowBackgroundPixmap(DisplayPtr display, X11Window window, X11Pixmap background_pixmap);
 
     // XSetWindowBorder(Display *display, Window w, unsigned long border_pixel);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XSetWindowBorder(DisplayPtr display, X11Window window, Pixel border_pixel);
 
     // TODO 暂未使用
     // XSetWindowBorderPixmap(Display *display, Window w, Pixmap border_pixmap);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XSetWindowBorderPixmap(DisplayPtr display, X11Window window, X11Pixmap border_pixmap);
 
     // TODO 暂未使用
     // XSetWindowColormap(Display *display, Window w, Colormap colormap);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XSetWindowColormap(DisplayPtr display, X11Window window, X11Colormap colormap);
 
     // TODO 暂未使用
     // XDefineCursor(Display *display, Window w, Cursor cursor);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XDefineCursor(DisplayPtr display, X11Window window, X11Cursor cursor);
 
     // TODO 暂未使用
     // XUndefineCursor(Display *display, Window w);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XUndefineCursor(DisplayPtr display, X11Window window);
 
     #endregion
@@ -618,7 +589,6 @@ internal static partial class XLib
 
     // int XGetWindowProperty(Display *display, Window w, Atom property, long long_offset, long long_length, Bool delete, Atom req_type, Atom *actual_type_return, int *actual_format_return, unsigned long *nitems_return, unsigned long *bytes_after_return, unsigned char **prop_return);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static unsafe partial int XGetWindowProperty(DisplayPtr display, X11Window window, X11Atom property, Long long_offset, Long long_length,
         Bool delete, X11Atom req_type, out X11Atom actual_type_return, out int actual_format_return, out ULong nitems_return, out ULong bytes_after_return,
         out void* prop_return);
@@ -629,19 +599,16 @@ internal static partial class XLib
 
     // XChangeProperty(Display *display, Window w, Atom property, Atom type, int format, int mode, unsignedchar *data, int nelements);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static unsafe partial int XChangeProperty(DisplayPtr display, X11Window window, X11Atom property, X11Atom type, int format, PropertyMode mode,
         void* data, int nelements);
 
     // TODO 暂未使用
     // XRotateWindowProperties(Display *display, Window w, Atom properties[], int num_prop, int npositions);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static unsafe partial int XRotateWindowProperties(DisplayPtr display, X11Window window, [In] X11Atom[] properties, int num_prop, int npositions);
 
     // XDeleteProperty(Display *display, Window w, Atom property);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XDeleteProperty(DisplayPtr display, X11Window window, X11Atom property);
 
     #endregion
@@ -651,7 +618,6 @@ internal static partial class XLib
     // TODO 暂未使用
     // XSetSelectionOwner(Display *display, Atom selection, Window owner, Time time);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XSetSelectionOwner(DisplayPtr display, X11Atom selection, X11Window owner, Time time);
 
     // TODO 暂未使用
@@ -662,7 +628,6 @@ internal static partial class XLib
     // TODO 暂未使用
     // XConvertSelection(Display *display, Atom selection, Atom target, Atom property, Window requestor, Time time);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XConvertSelection(DisplayPtr display, X11Atom selection, X11Atom target, X11Atom property, X11Window requestor, Time time);
 
     #endregion
@@ -681,7 +646,6 @@ internal static partial class XLib
 
     // XFreePixmap(Display *display, Pixmap pixmap);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XFreePixmap(DisplayPtr display, X11Pixmap pixmap);
 
     #endregion
@@ -708,12 +672,10 @@ internal static partial class XLib
 
     // XRecolorCursor(Display *display, Cursor cursor, XColor *foreground_color, XColor *background_color);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XRecolorCursor(DisplayPtr display, X11Cursor cursor, in XColor foreground_color, in XColor background_color);
 
     // XFreeCursor(Display *display, Cursor cursor);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XFreeCursor(DisplayPtr display, X11Cursor cursor);
 
     #endregion
@@ -731,13 +693,11 @@ internal static partial class XLib
     // TODO 暂未使用
     // XCopyGC(Display *display, GC src, GC dest, unsigned long valuemask);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XCopyGC(DisplayPtr display, GCPtr src, GCPtr dest, GCValueMarks valuemask);
 
     // TODO 暂未使用
     // XChangeGC(Display *display, GC gc, unsigned long valuemask, XGCValues *values);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XChangeGC(DisplayPtr display, GCPtr gc, GCValueMarks valuemask, in XGCValues values);
 
     // TODO 暂未使用
@@ -748,7 +708,6 @@ internal static partial class XLib
     // TODO 暂未使用
     // XFreeGC(Display *display, GC gc);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XFreeGC(DisplayPtr display, GCPtr gc);
 
     // GContext XGContextFromGC(GC gc);
@@ -767,27 +726,22 @@ internal static partial class XLib
 
     // XSetState(Display *display, GC gc, unsigned long foreground, unsigned long background, int function, unsigned long plane_mask);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XSetState(DisplayPtr display, GCPtr gc, Pixel foreground, Pixel background, GraphicsFunctions function, ULong plane_mask);
 
     // XSetForeground(Display *display, GC gc, unsigned long foreground);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XSetForeground(DisplayPtr display, GCPtr gc, Pixel foreground);
 
     // XSetBackground(Display *display, GC gc, unsigned long background);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XSetBackground(DisplayPtr display, GCPtr gc, Pixel background);
 
     // XSetFunction(Display *display, GC gc, int function);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XSetFunction(DisplayPtr display, GCPtr gc, GraphicsFunctions function);
 
     // XSetPlaneMask(Display *display, GC gc, unsigned long plane_mask);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XSetPlaneMask(DisplayPtr display, GCPtr gc, ULong plane_mask);
 
     #endregion
@@ -796,12 +750,10 @@ internal static partial class XLib
 
     // XSetLineAttributes(Display *display, GC gc, unsigned int line_width, int line_style, int cap_style, int join_style);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XSetLineAttributes(DisplayPtr display, GCPtr gc, uint line_width, LineStyle line_style, CapStyle cap_style, JoinStyle join_style);
 
     // XSetDashes(Display *display, GC gc, int dash_offset, char dash_list[], int n);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static unsafe partial int XSetDashes(DisplayPtr display, GCPtr gc, int dash_offset, byte* dash_list, int n);
 
     #endregion
@@ -810,12 +762,10 @@ internal static partial class XLib
 
     // XSetFillStyle(Display *display, GC gc, int fill_style);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XSetFillStyle(DisplayPtr display, GCPtr gc, FillStyle fill_style);
 
     // XSetFillRule(Display *display, GC gc, int fill_rule);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XSetFillRule(DisplayPtr display, GCPtr gc, FillRule fill_rule);
 
     #endregion
@@ -836,17 +786,14 @@ internal static partial class XLib
 
     // XSetTile(Display *display, GC gc, Pixmap tile);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XSetTile(DisplayPtr display, GCPtr gc, X11Pixmap tile);
 
     // XSetStipple(Display *display, GC gc, Pixmap stipple);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XSetStipple(DisplayPtr display, GCPtr gc, X11Pixmap stipple);
 
     // XSetTSOrigin(Display *display, GC gc, int ts_x_origin, int ts_y_origin);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XSetTSOrigin(DisplayPtr display, GCPtr gc, int ts_x_origin, int ts_y_origin);
 
     #endregion
@@ -855,7 +802,6 @@ internal static partial class XLib
 
     // XSetFont(Display *display, GC gc, Font font);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XSetFont(DisplayPtr display, GCPtr gc, X11Font font);
 
     #endregion
@@ -864,17 +810,14 @@ internal static partial class XLib
 
     // XSetClipOrigin(Display *display, GC gc, int clip_x_origin, int clip_y_origin);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XSetClipOrigin(DisplayPtr display, GCPtr gc, int clip_x_origin, int clip_y_origin);
 
     // XSetClipMask(Display *display, GC gc, Pixmap pixmap);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XSetClipMask(DisplayPtr display, GCPtr gc, X11Pixmap pixmap);
 
     // XSetClipRectangles(Display *display, GC gc, int clip_x_origin, int clip_y_origin, XRectangle rectangles[], int n, int ordering);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static unsafe partial int XSetClipRectangles(DisplayPtr display, GCPtr gc, int clip_x_origin, int clip_y_origin, Rectangle* rectangles, int n, RectanglesOrdering ordering);
 
     #endregion
@@ -883,17 +826,14 @@ internal static partial class XLib
 
     // XSetArcMode(Display *display, GC gc, int arc_mode);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XSetArcMode(DisplayPtr display, GCPtr gc, ArcMode arc_mode);
 
     // XSetSubwindowMode(Display *display, GC gc, int subwindow_mode);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XSetSubwindowMode(DisplayPtr display, GCPtr gc, SubwindowMode subwindow_mode);
 
     // XSetGraphicsExposures(Display *display, GC gc, Bool graphics_exposures);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XSetGraphicsExposures(DisplayPtr display, GCPtr gc, Bool graphics_exposures);
 
     #endregion
@@ -908,12 +848,10 @@ internal static partial class XLib
 
     // XClearArea(Display *display, Window w, int x, int y, unsigned int width, unsigned int height, Bool exposures);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XClearArea(DisplayPtr display, X11Window window, int x, int y, uint width, uint height, Bool exposures);
 
     // XClearWindow(Display *display, Window w);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XClearWindow(DisplayPtr display, X11Window window);
 
     #endregion
@@ -922,12 +860,10 @@ internal static partial class XLib
 
     // XCopyArea(Display *display, Drawable src, Drawable dest, GC gc, int src_x, int src_y, unsigned int width, unsigned int height, int dest_x, int dest_y);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XCopyArea(DisplayPtr display, X11Drawable src, X11Drawable dest, GCPtr gc, int src_x, int src_y, uint width, uint height, int dest_x, int dest_y);
 
     // XCopyPlane(Display *display, Drawable src, Drawable dest, GC gc, int src_x, int src_y, unsigned int width, unsigned int height, int dest_x, int dest_y, unsigned long plane);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XCopyPlane(DisplayPtr display, X11Drawable src, X11Drawable dest, GCPtr gc, int src_x, int src_y, uint width, uint height, int dest_x, int dest_y, ULong plane);
 
     #endregion
@@ -938,12 +874,10 @@ internal static partial class XLib
 
     // XDrawPoint(Display *display, Drawable d, GC gc, int x, int y);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XDrawPoint(DisplayPtr display, X11Drawable drawable, GCPtr gc, int x, int y);
 
     // XDrawPoints(Display *display, Drawable d, GC gc, XPoint *points, int npoints, int mode);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static unsafe partial int XDrawPoints(DisplayPtr display, X11Drawable drawable, GCPtr gc, X11Point* points, int npoints, CoordMode mode);
 
     #endregion
@@ -952,17 +886,14 @@ internal static partial class XLib
 
     // XDrawLine(Display *display, Drawable d, GC gc, int x1, int y1, int x2, int y2);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XDrawLine(DisplayPtr display, X11Drawable drawable, GCPtr gc, int x1, int y1, int x2, int y2);
 
     // XDrawLines(Display *display, Drawable d, GC gc, XPoint *points, int npoints, int mode);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static unsafe partial int XDrawLines(DisplayPtr display, X11Drawable drawable, GCPtr gc, X11Point* points, int npoints, CoordMode mode);
 
     // XDrawSegments(Display *display, Drawable d, GC gc, XSegment *segments, int nsegments);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static unsafe partial int XDrawSegments(DisplayPtr display, X11Drawable drawable, GCPtr gc, X11Segment* segments, int nsegments);
 
     #endregion
@@ -971,12 +902,10 @@ internal static partial class XLib
 
     // XDrawRectangle(Display *display, Drawable d, GC gc, int x, int y, unsigned int width, unsigned int height);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XDrawRectangle(DisplayPtr display, X11Drawable drawable, GCPtr gc, int x, int y, uint width, uint height);
 
     // XDrawRectangles(Display *display, Drawable d, GC gc, XRectangle rectangles[], int nrectangles);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static unsafe partial int XDrawRectangles(DisplayPtr display, X11Drawable drawable, GCPtr gc, X11Rectangle* rectangles, int nrectangles);
 
     #endregion
@@ -985,12 +914,10 @@ internal static partial class XLib
 
     // XDrawArc(Display *display, Drawable d, GC gc, int x, int y, unsigned int width, unsigned int height, int angle1, int angle2);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XDrawArc(DisplayPtr display, X11Drawable drawable, GCPtr gc, int x, int y, uint width, uint height, int angle1, int angle2);
 
     // XDrawArcs(Display *display, Drawable d, GC gc, XArc *arcs, int narcs);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static unsafe partial int XDrawArcs(DisplayPtr display, X11Drawable drawable, GCPtr gc, X11Arc* arcs, int narcs);
 
     #endregion
@@ -1003,12 +930,10 @@ internal static partial class XLib
 
     // XFillRectangle(Display *display, Drawable d, GC gc, int x, int y, unsigned int width, unsigned int height);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int  XFillRectangle(DisplayPtr display, X11Drawable drawable, GCPtr gc, int x, int y, uint width, uint height);
 
     // XFillRectangles(Display *display, Drawable d, GC gc, XRectangle *rectangles, int nrectangles);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static unsafe partial int XFillRectangles(DisplayPtr display, X11Drawable drawable, GCPtr gc, X11Rectangle* rectangles, int nrectangles);
 
     #endregion
@@ -1017,7 +942,6 @@ internal static partial class XLib
 
     // XFillPolygon(Display *display, Drawable d, GC gc, XPoint *points, int npoints, int shape, int mode);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static unsafe partial int XFillPolygon(DisplayPtr display, X11Drawable drawable, GCPtr gc, X11Point* points, int npoints, PolygonShape shape, CoordMode mode);
 
     #endregion
@@ -1027,13 +951,11 @@ internal static partial class XLib
     // TODO 暂未使用
     // XFillArc(Display *display, Drawable d, GC gc, int x, int y, unsigned int width, unsigned int height, int angle1, int angle2);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XFillArc(DisplayPtr display, X11Drawable drawable, GCPtr gc, int x, int y, uint width, uint height, int angle1, int angle2);
 
     // TODO 暂未使用
     // XFillArcs(Display *display, Drawable d, GC gc, XArc *arcs, int narcs);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static unsafe partial int XFillArcs(DisplayPtr display, X11Drawable drawable, GCPtr gc, X11Arc* arcs, int narcs);
 
     #endregion
@@ -1104,7 +1026,6 @@ internal static partial class XLib
 
     // XPutImage(Display *display, Drawable d, GC gc, XImage *image, int src_x, int src_y, int dest_x, int dest_y, unsigned int width, unsigned int height);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static unsafe partial int XPutImage(DisplayPtr display, X11Drawable drawable, GCPtr gc, XImage* image, int src_x, int src_y, int dest_x, int dest_y, uint width, uint height);
 
     // XImage *XGetImage(Display *display, Drawable d, int x, int y, unsigned int width, unsigned int height, unsigned long plane_mask, int format);
@@ -1126,7 +1047,6 @@ internal static partial class XLib
 
     // XReparentWindow(Display *display, Window w, Window parent, int x, int y);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XReparentWindow(DisplayPtr display, X11Window window, X11Window parent, int x, int y);
 
     #endregion
@@ -1135,17 +1055,14 @@ internal static partial class XLib
 
     // XChangeSaveSet(Display *display, Window w, int change_mode);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XChangeSaveSet(DisplayPtr display, X11Window window, SetMode change_mode);
 
     // XAddToSaveSet(Display *display, Window w);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XAddToSaveSet(DisplayPtr display, X11Window window);
 
     // XRemoveFromSaveSet(Display *display, Window w);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XRemoveFromSaveSet(DisplayPtr display, X11Window window);
 
     #endregion
@@ -1154,13 +1071,11 @@ internal static partial class XLib
 
     // XInstallColormap(Display *display, Colormap colormap);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XInstallColormap(DisplayPtr display, X11Colormap colormap);
 
     // TODO 暂未使用
     // XUninstallColormap(Display *display, Colormap colormap);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XUninstallColormap(DisplayPtr display, X11Colormap colormap);
 
     // TODO 暂未使用
@@ -1175,7 +1090,6 @@ internal static partial class XLib
     // TODO 暂未使用
     // XSetFontPath(Display *display, char **directories, int ndirs);
     [LibraryImport(libX11, StringMarshalling = StringMarshalling.Utf8)]
-    [MustUseReturnValue]
     public static partial int XSetFontPath(DisplayPtr display, [In] string[] directories, int ndirs);
 
     // TODO 暂未使用
@@ -1195,7 +1109,6 @@ internal static partial class XLib
     // TODO 暂未使用
     // XGrabServer(Display *display);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XGrabServer(DisplayPtr display);
 
     #endregion
@@ -1208,7 +1121,6 @@ internal static partial class XLib
 
     // XSelectInput(Display *display, Window w, long event_mask);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XSelectInput(DisplayPtr display, X11Window window, EventMask event_mask);
 
     #endregion
@@ -1217,12 +1129,10 @@ internal static partial class XLib
 
     // XFlush(Display *display);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XFlush(DisplayPtr display);
 
     // XSync(Display *display, Bool discard);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XSync(DisplayPtr display, Bool discard);
 
     #endregion
@@ -1243,12 +1153,10 @@ internal static partial class XLib
 
     // XNextEvent(Display *display, XEvent *event_return);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XNextEvent(DisplayPtr display, out XEvent event_return);
 
     // XPeekEvent(Display *display, XEvent *event_return);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XPeekEvent(DisplayPtr display, out XEvent event_return);
 
     #endregion
@@ -1258,7 +1166,6 @@ internal static partial class XLib
     // TODO 暂未使用
     // XIfEvent(Display *display, XEvent *event_return, Bool (*predicate)(), XPointer arg);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static unsafe partial int XIfEvent(DisplayPtr display, out XEvent event_return, XEventPredicate predicate, void* arg);
 
     // TODO 暂未使用
@@ -1269,7 +1176,6 @@ internal static partial class XLib
     // TODO 暂未使用
     // XPeekIfEvent(Display *display, XEvent *event_return, Bool (*predicate)(), XPointer arg);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static unsafe partial int XPeekIfEvent(DisplayPtr display, out XEvent event_return, XEventPredicate predicate, void* arg);
 
     #endregion
@@ -1278,7 +1184,6 @@ internal static partial class XLib
 
     // XWindowEvent(Display *display, Window w, long event_mask, XEvent *event_return);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XWindowEvent(DisplayPtr display, X11Window window, EventMask event_mask, out XEvent event_return);
 
     // Bool XCheckWindowEvent(Display *display, Window w, long event_mask, XEvent *event_return);
@@ -1287,7 +1192,6 @@ internal static partial class XLib
 
     // XMaskEvent(Display *display, long event_mask, XEvent *event_return);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XMaskEvent(DisplayPtr display, EventMask event_mask, out XEvent event_return);
 
     // Bool XCheckMaskEvent(Display *display, long event_mask, XEvent *event_return);
@@ -1308,7 +1212,6 @@ internal static partial class XLib
 
     // XPutBackEvent(Display *display, XEvent *event);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XPutBackEvent(DisplayPtr display, in XEvent @event);
 
     #endregion
@@ -1353,13 +1256,11 @@ internal static partial class XLib
     // TODO 暂未使用
     // XGetErrorText(Display *display, int code, char *buffer_return, int length);
     [LibraryImport(libX11, StringMarshalling = StringMarshalling.Utf8)]
-    [MustUseReturnValue]
     public static unsafe partial int XGetErrorText(DisplayPtr display, int code, byte* buffer_return, int length);
 
     // TODO 暂未使用
     // XGetErrorDatabaseText(Display *display, char *name, char *message, char *default_string, char *buffer_return, int length);
     [LibraryImport(libX11, StringMarshalling = StringMarshalling.Utf8)]
-    [MustUseReturnValue]
     public static unsafe partial int XGetErrorDatabaseText(DisplayPtr display, string name, string message, string default_string, byte* buffer_return,
         int length);
 
@@ -1381,11 +1282,9 @@ internal static partial class XLib
 
     // XSetInputFocus(Display *display, Window focus, int revert_to, Time time);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XSetInputFocus(DisplayPtr display, X11Window focus, FocusRevert revert_to, Time time);
 
     // XGetInputFocus(Display *display, Window *focus_return, int *revert_to_return);
     [LibraryImport(libX11)]
-    [MustUseReturnValue]
     public static partial int XGetInputFocus(DisplayPtr display, out X11Window focus_return, out FocusRevert revert_to_return);
 }
