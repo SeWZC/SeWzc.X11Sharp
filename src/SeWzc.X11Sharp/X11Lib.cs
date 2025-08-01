@@ -21,4 +21,24 @@ public static partial class X11Lib
             throw new InvalidOperationException("连接到 X 服务器失败。");
         return new X11Display(display, true);
     }
+
+    /// <summary>
+    /// 设置错误处理函数。
+    /// </summary>
+    /// <param name="errorHandler">错误处理函数。</param>
+    /// <remarks>
+    /// 这里设置的错误处理函数会覆盖默认的错误处理函数。因为 C# 无法直接获取 C 的函数，所以这里不返回上一个错误处理函数。
+    /// </remarks>
+    public static unsafe void SetErrorHandler(Func<X11Display?, X11Event.ErrorEvent, int> errorHandler)
+    {
+        _errorHandler = errorHandler;
+        XLib.XSetErrorHandler(&ErrorHandler);
+    }
+
+    private static Func<X11Display?, X11Event.ErrorEvent, int> _errorHandler = static (_, _) => 0;
+
+    private static unsafe int ErrorHandler(DisplayPtr displayPtr, XErrorEvent* xEvent)
+    {
+        return _errorHandler.Invoke(displayPtr, X11Event.ErrorEvent.FromXEventCore(*xEvent));
+    }
 }

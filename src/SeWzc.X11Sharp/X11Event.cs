@@ -50,6 +50,7 @@ public abstract record X11Event
     {
         return xEvent.type switch
         {
+            EventType.Error => ErrorEvent.FromXEventCore(xEvent.xerror),
             EventType.KeyPress => KeyPressedEvent.FromXEventCore(xEvent.xkey),
             EventType.KeyRelease => KeyReleasedEvent.FromXEventCore(xEvent.xkey),
             EventType.ButtonPress => ButtonPressedEvent.FromXEventCore(xEvent.xbutton),
@@ -85,6 +86,57 @@ public abstract record X11Event
             EventType.SelectionNotify => SelectionNotifyEvent.FromXEventCore(xEvent.xselection),
             _ => new UnknownEvent(),
         };
+    }
+
+    public record ErrorEvent : X11Event
+    {
+        public uint ResourceId { get; set; }
+
+        /// <summary>
+        /// 错误代码。
+        /// </summary>
+        public ErrorCode ErrorCode { get; set; }
+
+        /// <summary>
+        /// 失败请求的主要操作码。
+        /// </summary>
+        public byte RequestCode { get; set; }
+
+        /// <summary>
+        /// 失败请求的次要操作码。
+        /// </summary>
+        public byte MinorCode { get; set; }
+
+        /// <inheritdoc />
+        internal override XEvent ToXEvent()
+        {
+            return new XEvent
+            {
+                xerror = new XErrorEvent
+                {
+                    type = EventType.Error,
+                    display = Display?.XDisplay ?? default,
+                    resourceid = ResourceId,
+                    serial = Serial,
+                    error_code = ErrorCode,
+                    request_code = RequestCode,
+                    minor_code = MinorCode,
+                },
+            };
+        }
+
+        internal static ErrorEvent FromXEventCore(XErrorEvent xerror)
+        {
+            return new ErrorEvent
+            {
+                Serial = (uint)xerror.serial,
+                Display = xerror.display,
+                ResourceId = (uint)xerror.resourceid,
+                ErrorCode = xerror.error_code,
+                RequestCode = xerror.request_code,
+                MinorCode = xerror.minor_code,
+            };
+        }
     }
 
     /// <summary>
@@ -774,6 +826,7 @@ public abstract record X11Event
                 Serial = (uint)xkeymap.serial,
                 SendEvent = xkeymap.send_event,
                 Display = xkeymap.display,
+                Window = xkeymap.window,
             };
 
             for (var i = 0; i < 32; i++)

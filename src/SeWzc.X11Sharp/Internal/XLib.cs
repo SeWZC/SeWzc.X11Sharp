@@ -1248,7 +1248,6 @@ internal static partial class XLib
 
     #region Using the Default Error Handlers
 
-    // TODO 暂未使用
     // int *XSetErrorHandler(int *handler);
     [LibraryImport(libX11)]
     public static unsafe partial delegate*<DisplayPtr, XErrorEvent*, int> XSetErrorHandler(delegate*<DisplayPtr, XErrorEvent*, int> handler);

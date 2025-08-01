@@ -1,5 +1,4 @@
-﻿using SeWzc.X11Sharp.Exceptions;
-using SeWzc.X11Sharp.Internal;
+﻿using SeWzc.X11Sharp.Internal;
 using SeWzc.X11Sharp.Structs;
 
 namespace SeWzc.X11Sharp;

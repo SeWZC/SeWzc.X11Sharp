@@ -97,6 +97,8 @@ public enum EventMask : ulong
 /// </summary>
 public enum EventType
 {
+    Error = 0,
+    Reply = 1,
     KeyPress = 2,
     KeyRelease = 3,
     ButtonPress = 4,
