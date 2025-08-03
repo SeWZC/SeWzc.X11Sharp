@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\SeWzc.X11Sharp.Analyzer\SeWzc.X11Sharp.Analyzer.csproj">
+    <ProjectReference Include="..\..\src\SeWzc.X11Sharp.Analyzer\SeWzc.X11Sharp.Analyzer.csproj" OutputItemType="Analyzer">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </ProjectReference>
