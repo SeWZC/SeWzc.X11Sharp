@@ -1106,10 +1106,13 @@ internal static partial class XLib
 
     #region Grabbing the Server
 
-    // TODO 暂未使用
     // XGrabServer(Display *display);
     [LibraryImport(libX11)]
     public static partial int XGrabServer(DisplayPtr display);
+
+    // XUngrabServer(Display *display);
+    [LibraryImport(libX11)]
+    public static partial int XUngrabServer(DisplayPtr display);
 
     #endregion
 

@@ -396,6 +396,25 @@ public static partial class X11Lib
     }
 
     /// <summary>
+    /// 抓取服务器。抓取服务器后，所有对服务器的请求都会被阻塞，直到取消抓取。
+    /// </summary>
+    /// <param name="display"></param>
+    public static IDisposable GrabServer(this X11Display display)
+    {
+        _ = XLib.XGrabServer(display);
+        return new DisposableAction(() => UngrabServer(display));
+    }
+
+    /// <summary>
+    /// 取消抓取服务器。
+    /// </summary>
+    /// <param name="display"></param>
+    public static void UngrabServer(this X11Display display)
+    {
+        _ = XLib.XUngrabServer(display);
+    }
+
+    /// <summary>
     /// 清空输出缓冲区。
     /// </summary>
     /// <param name="display">与 X 服务的连接。</param>
@@ -549,5 +568,21 @@ public static partial class X11Lib
     {
         XLib.XGetInputFocus(display, out var window, out revertTo);
         return window.WithDisplay(display);
+    }
+
+    private class DisposableAction(Action action) : IDisposable
+    {
+        private bool _disposed;
+
+        public void Dispose()
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            _disposed = true;
+            action();
+        }
     }
 }
