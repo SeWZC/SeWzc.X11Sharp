@@ -8,23 +8,94 @@ using SeWzc.X11Sharp.Structs;
 Console.WriteLine("Hello, World!");
 
 var display = X11Lib.OpenDisplay();
+
+var screenCount = display.ScreenCount;
+Console.WriteLine($"Display has {screenCount} screen(s).");
+for (var i = 0; i < screenCount; i++)
+{
+    var screen = display.GetScreen(i);
+    if (screen is not null)
+    {
+        Console.WriteLine($"Screen {i}:");
+        Console.WriteLine($"  Width: {screen.Width}, Height: {screen.Height}");
+        Console.WriteLine($"  Root Window: {screen.RootWindow.WindowToString()}");
+        Console.WriteLine($"  Default Colormap: {screen.DefaultColormap}");
+        Console.WriteLine($"  White Pixel: {screen.WhitePixel}");
+        Console.WriteLine($"  Black Pixel: {screen.BlackPixel}");
+    }
+    else
+    {
+        Console.WriteLine($"Screen {i} is null.");
+    }
+}
+
 X11Lib.SetErrorHandler(static (display, errorEvent) =>
 {
+    if (errorEvent is { RequestCode: 20 or 3 })
+    {
+        // 忽略
+        return 0;
+    }
+
     Console.WriteLine(
         $"X11 Error: {errorEvent.ErrorCode.ToErrorText()} (Serial: {errorEvent.Serial}, RequestCode: {errorEvent.RequestCode}, MinorCode: {errorEvent.MinorCode})");
-    return 0; // 返回 0 表示继续处理事件
+    return 0;
 });
 var rootWindow = display.DefaultRootWindow;
-Console.WriteLine($"Display: {display.DisplayString}, Root Window: {rootWindow.WindowToString()}");
+Console.WriteLine($"Display: {display.DisplayString}, Root Window: {rootWindow.WindowToString()}, Root Window Bounds: {rootWindow.GetAttributes()?.Bounds}");
 
-var allEventMasks = rootWindow.GetAttributes()!.AllEventMasks;
-allEventMasks &= ~(EventMask.ButtonPress | EventMask.SubstructureRedirect);
-rootWindow.SelectInput(allEventMasks);
+using (display.GrabServer())
+{
+    Stack<X11Window> windows = new();
+    windows.Push(rootWindow);
+    int count = 0;
+
+    while (windows.Count > 0)
+    {
+        var window = windows.Pop().WithDisplay(display);
+        var allEventMasks = window.GetAttributes()!.AllEventMasks;
+        allEventMasks &= ~(EventMask.ButtonPress | EventMask.SubstructureRedirect);
+        window.SelectInput(allEventMasks);
+
+        if (window.QueryTree(out _, out _, out X11Window[] children))
+        {
+            count += children.Length;
+            foreach (var child in children)
+            {
+                windows.Push(child);
+            }
+        }
+    }
+
+    Console.WriteLine($"Window {count}");
+}
+
+Console.WriteLine();
 
 while (true)
 {
     var @event = display.NextEvent();
-    Console.WriteLine($"{@event.GetType().Name[..^5]} Serial={@event.Serial}, SendEvent={@event.SendEvent}");
+    Console.WriteLine($"[{DateTimeOffset.Now:HH:mm:ss.fff}] {@event.GetType().Name} Serial={@event.Serial}, SendEvent={@event.SendEvent}");
+
+    if (@event is X11Event.CreateWindowEvent createWindow)
+    {
+        var window = createWindow.Window.WithDisplay(display);
+
+        using (display.GrabServer())
+        {
+            var windowAttributes = window.GetAttributes();
+            if (windowAttributes is null)
+            {
+                Console.WriteLine($"Failed to get attributes for window {createWindow.Window.WindowToString(display)}");
+            }
+            else
+            {
+                var allEventMasks = windowAttributes.AllEventMasks;
+                allEventMasks &= ~(EventMask.ButtonPress | EventMask.SubstructureRedirect);
+                window.SelectInput(allEventMasks);
+            }
+        }
+    }
 
     IReadOnlyList<string> output = @event switch
     {
@@ -43,30 +114,18 @@ while (true)
         [
             $"Window={clientMessageEvent.Window.WindowToString(display)}",
             $"MessageType={clientMessageEvent.MessageType.WithDisplay(display).GetAtomName()}",
-            $"\n[2mData={clientMessageEvent.Data switch
-            {
-                ClientMessageData.DataFormat32 dataFormat32 when clientMessageEvent.MessageType == display.Atoms.NetWmState =>
-                    $"_NET_WM_STATE: Action={dataFormat32.GetNetWmStateAction()}, Atoms=[{string.Join("", dataFormat32.GetNetWmStateAtoms(display))}]",
-                ClientMessageData.DataFormat32 dataFormat32 =>
-                    $"DataFormat32: {string.Join("", dataFormat32.Data)}",
-                ClientMessageData.DataFormat16 dataFormat16 =>
-                    $"DataFormat16: {string.Join("", dataFormat16.Data)}",
-                ClientMessageData.DataFormat8 dataFormat8 =>
-                    $"DataFormat8: {string.Join("", dataFormat8.Data)}",
-                null => "No ClientMessageData",
-                _ => "Unknown ClientMessageData format",
-            }}",
+            $"\nData={clientMessageEvent.ToMessage(display)}",
         ],
         X11Event.CreateWindowEvent createWindowEvent =>
         [
-            $"Window={createWindowEvent.Window.WindowToString(display)}",
+            $"Window={createWindowEvent.Window}",
             $"Parent={createWindowEvent.Parent.WindowToString(display)}",
             $"X={createWindowEvent.Bounds.X}, Y={createWindowEvent.Bounds.Y}",
             $"Width={createWindowEvent.Bounds.Width}, Height={createWindowEvent.Bounds.Height}",
         ],
         X11Event.DestroyWindowEvent destroyWindowEvent =>
         [
-            $"Window={destroyWindowEvent.Window.WindowToString(display)}",
+            $"Window={destroyWindowEvent.Window}",
         ],
         X11Event.ExposeEvent exposeEvent =>
         [
@@ -141,7 +200,7 @@ while (true)
             $"Atom={propertyEvent.Atom.WithDisplay(display).GetAtomName()}",
             $"State={propertyEvent.State}",
             $"Time={propertyEvent.Time}",
-            $"\e[2m{propertyEvent.Window.WithDisplay(display).GetProperty(propertyEvent.Atom) switch
+            $"\n\e[2m{propertyEvent.Window.WithDisplay(display).GetProperty(propertyEvent.Atom) switch
             {
                 PropertyData.Format32Array dataFormat32 when dataFormat32.PropertyType == display.Atoms.Atom =>
                     $"Property Type Atom: {string.Join(", ", dataFormat32.Value.Select(x => new X11Atom(x).WithDisplay(display).GetAtomName()))}",
@@ -159,6 +218,7 @@ while (true)
         ],
         X11Event.ReparentEvent reparentEvent =>
         [
+            // $"Event={reparentEvent.Event.WindowToString(display)}",
             $"Window={reparentEvent.Window.WindowToString(display)}",
             $"Parent={reparentEvent.Parent.WindowToString(display)}",
             $"X={reparentEvent.Position.X}, Y={reparentEvent.Position.Y}",
@@ -181,14 +241,14 @@ file static class Extensions
 {
     public static string WindowToString(this X11DisplayWindow window)
     {
-        return $"Window(Id={window.Xid}, " +
-               $"Name={window.GetUtf8Property(window.Display.Atoms.NetWmName)}, " +
-               $"Geometry={(window.GetAttributes()?.Bounds is { } bounds ? BoundsToString(bounds) : "null")})";
-
-        string BoundsToString(SRectangle attributesBounds)
+        if (window.Xid == window.Display.DefaultRootWindow)
         {
-            return $"{attributesBounds.X},{attributesBounds.Y},{attributesBounds.Width}x{attributesBounds.Height}";
+            return "Root Window";
         }
+
+        return $"(Id={window.Xid}, " +
+               $"Name={window.GetUtf8Property(window.Display.Atoms.NetWmName)}, " +
+               $"Geometry={window.GetAttributes()?.Bounds.ToString() ?? "null"})";
     }
 
     public static string WindowToString(this X11Window window, X11Display display)
@@ -216,6 +276,25 @@ file static class Extensions
         return messages;
     }
 
+    public static string ToMessage(this X11Event.ClientMessageEvent @event, X11Display display)
+    {
+        return @event.Data switch
+        {
+            ClientMessageData.DataFormat32 dataFormat32 when @event.MessageType == display.Atoms.NetWmState =>
+                $"_NET_WM_STATE: Action={dataFormat32.GetNetWmStateAction()}, Atoms=[{string.Join(", ", dataFormat32.GetNetWmStateAtoms(display))}], SourceIndication={dataFormat32.Data[3].SourceIndicationToMessage()}",
+            ClientMessageData.DataFormat32 dataFormat32 when @event.MessageType == display.Atoms.NetWmFullscreenMonitors =>
+                $"_NET_WM_FULLSCREEN_MONITORS: Top: {dataFormat32.Data[0]:D}, Bottom: {dataFormat32.Data[1]:D}, Left: {dataFormat32.Data[2]:D}, Right: {dataFormat32.Data[3]:D}, SourceIndication={dataFormat32.Data[4].SourceIndicationToMessage()}",
+            ClientMessageData.DataFormat32 dataFormat32 =>
+                $"DataFormat32: {string.Join(", ", dataFormat32.Data)}",
+            ClientMessageData.DataFormat16 dataFormat16 =>
+                $"DataFormat16: {string.Join(", ", dataFormat16.Data)}",
+            ClientMessageData.DataFormat8 dataFormat8 =>
+                $"DataFormat8: {string.Join(", ", dataFormat8.Data)}",
+            null => "No ClientMessageData",
+            _ => "Unknown ClientMessageData format",
+        };
+    }
+
     public static string GetNetWmStateAction(this ClientMessageData.DataFormat32 dataFormat32)
     {
         return (int)dataFormat32.Data[0] switch
@@ -232,5 +311,16 @@ file static class Extensions
         return ((IEnumerable<nint>) [dataFormat32.Data[1], dataFormat32.Data[2]])
             .Where(static x => x != 0)
             .Select(x => new X11Atom(x).WithDisplay(display).GetAtomName());
+    }
+
+    public static string SourceIndicationToMessage(this Long data)
+    {
+        return data.Value.Value switch
+        {
+            0 => "older",
+            1 => "normal applications",
+            2 => "user actions",
+            _ => $"unknown ({data.Value.Value})",
+        };
     }
 }
