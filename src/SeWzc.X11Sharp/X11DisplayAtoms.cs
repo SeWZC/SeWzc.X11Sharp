@@ -556,6 +556,36 @@ public class X11DisplayAtoms
 
     #endregion
 
+    #region Window Manager Protocols
+
+    /// <summary>
+    /// _NET_WM_PING 原子。
+    /// </summary>
+    public X11DisplayAtom NetWmPing => GetAtom("_NET_WM_PING");
+
+    /// <summary>
+    /// _NET_WM_SYNC_REQUEST 原子。
+    /// </summary>
+    public X11DisplayAtom NetWmSyncRequest => GetAtom("_NET_WM_SYNC_REQUEST");
+
+    /// <summary>
+    /// _NET_WM_SYNC_REQUEST_COUNTER 原子。
+    /// </summary>
+    /// <remarks>
+    /// _NET_WM_SYNC_REQUEST_COUNTER, CARDINAL[2]/32
+    /// </remarks>
+    public X11DisplayAtom NetWmSyncRequestCounter => GetAtom("_NET_WM_SYNC_REQUEST_COUNTER");
+
+    /// <summary>
+    /// _NET_WM_FULLSCREEN_MONITORS 原子。
+    /// </summary>
+    /// <remarks>
+    /// _NET_WM_FULLSCREEN_MONITORS, top, bottom, left, right, CARDINAL[4]/32
+    /// </remarks>
+    public X11DisplayAtom NetWmFullscreenMonitors => GetAtom("_NET_WM_FULLSCREEN_MONITORS");
+
+    #endregion
+
     #endregion
 
     private X11DisplayAtom GetAtom(string atomName)
