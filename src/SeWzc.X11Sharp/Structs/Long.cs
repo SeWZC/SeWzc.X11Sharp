@@ -38,7 +38,7 @@ public readonly record struct Long(CLong Value) : IComparable<Long>, IFormattabl
     /// <inheritdoc />
     public override string ToString()
     {
-        return Value.Value.ToString();
+        return Value.Value.ToString("X8");
     }
 
     /// <inheritdoc />

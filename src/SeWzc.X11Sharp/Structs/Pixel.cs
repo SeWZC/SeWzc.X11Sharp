@@ -3,7 +3,7 @@ namespace SeWzc.X11Sharp.Structs;
 /// <summary>
 /// 像素。
 /// </summary>
-public readonly record struct Pixel
+public readonly record struct Pixel : IFormattable
 {
     internal Pixel(ULong PixelValue)
     {
@@ -19,7 +19,22 @@ public readonly record struct Pixel
         this.PixelValue = PixelValue;
     }
 
-    internal ULong PixelValue { get; init; }
+    /// <summary>
+    /// 像素值。
+    /// </summary>
+    public ULong PixelValue { get; init; }
+
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return $"{PixelValue:X8}";
+    }
+
+    /// <inheritdoc />
+    public string ToString(string? format, IFormatProvider? formatProvider)
+    {
+        return PixelValue.ToString(format, formatProvider);
+    }
 
     #region 运算符重载
 

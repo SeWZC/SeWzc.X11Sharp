@@ -53,6 +53,12 @@ public readonly record struct Rectangle(Point Location, Size Size)
         get => Size.Height;
         init => Size = new Size(Width, value);
     }
+
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return $"({X},{Y},{Width}x{Height})";
+    }
 }
 
 /// <summary>
@@ -107,5 +113,11 @@ public readonly record struct SRectangle(Point Location, SSize Size)
     {
         get => Size.Height;
         init => Size = new SSize(Width, value);
+    }
+
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return $"({X},{Y},{Width}x{Height})";
     }
 }

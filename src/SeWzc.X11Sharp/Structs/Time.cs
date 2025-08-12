@@ -11,6 +11,12 @@ public readonly record struct Time(ULong Value)
     /// </summary>
     public static Time CurrentTime => new(0u);
 
+    /// <inheritdoc />
+    public override string ToString()
+    {
+        return Value.Value.Value == 0 ? "Current Time" : Value.Value.ToString();
+    }
+
     /// <summary>
     /// 强制转换为 ULong。
     /// </summary>
