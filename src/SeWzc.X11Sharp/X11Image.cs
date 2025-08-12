@@ -85,6 +85,11 @@ public sealed unsafe class X11Image
     public uint BlueMask => (uint)XImage->blue_mask;
 
     /// <summary>
+    /// 图像数据的内存区域。
+    /// </summary>
+    public Span<byte> Data => new(XImage->data, XImage->bytes_per_line * XImage->height);
+
+    /// <summary>
     /// 创建一个 X11Image 对象。
     /// </summary>
     /// <param name="size">图像大小。</param>
