@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
-using SeWzc.X11Sharp.Exceptions;
 using SeWzc.X11Sharp.Internal;
 using SeWzc.X11Sharp.Structs;
 
@@ -411,7 +410,7 @@ public static class X11DisplayWindowExtensions
     /// <param name="window">要操作的窗口。</param>
     /// <param name="property">属性的原子。</param>
     /// <returns>如果不存在该属性或者属性不是原子数组类型，则返回空数组；否则返回属性的值。</returns>
-    public static X11DisplayAtom[] GetAtomProperty(this X11DisplayWindow window, X11Atom property)
+    public static X11DisplayAtom[]? GetAtomProperty(this X11DisplayWindow window, X11Atom property)
     {
         var propertyData = window.GetProperty(property);
         switch (propertyData)
@@ -422,7 +421,7 @@ public static class X11DisplayWindowExtensions
                     result[i] = new X11Atom(value[i]).WithDisplay(window.Display);
                 return result;
             default:
-                return [];
+                return null;
         }
     }
 
